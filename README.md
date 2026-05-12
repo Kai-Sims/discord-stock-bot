@@ -15,6 +15,7 @@ This project is for educational research and market monitoring only. It does not
 - Runs a background alert loop every 5 minutes
 - Saves persistent settings in `data/bot_settings.json`
 - Uses JSON caches in `data/` to reduce repeated data-provider requests
+- Automatically posts beginner guide messages in the Stock Bot Guide channels
 - Posts weekday morning briefings and post-market recaps
 - Adds signal scores, risk flags, quiet mode, and alert severity settings
 - Includes a simulated paper trade journal
@@ -614,12 +615,25 @@ Find stocks up at least the selected percentage over the past 5 trading days.
 Show Paul's Tracker settings and ticker universe source.
 
 ```text
+!paulsauto on
+!paulsauto off
+```
+
+Turn the automatic hourly Paul's Trackers loop on or off. It is off by default to reduce startup traffic and avoid data-provider rate limits.
+
+```text
+!setpaulslimit 50
+```
+
+Set the maximum number of tickers Paul's Trackers scans. The minimum is `10`, the maximum is `500`, and the default is `50`.
+
+```text
 !setpaulsdividend 5
 !setpaulsath 5
 !setpauls5day 10
 ```
 
-Adjust thresholds for the current bot session.
+Adjust thresholds and save them to `data/bot_settings.json`.
 
 Results are tracker results and research candidates only, not financial advice. yfinance data may be delayed, incomplete, or rate-limited.
 
@@ -827,7 +841,27 @@ Stock Bot — Paper Trading
 - paper-trades
 - paper-portfolio
 - paper-pnl
+
+Stock Bot — Guide
+- how-to-read-alerts
+- emoji-legend
+- scanner-guide
+- risk-and-score-guide
+- paper-trading-guide
 ```
+
+## Automatic Guide Messages
+
+Run `!setup` to create the Stock Bot Guide section. The bot posts one marked and pinned guide message in each guide channel, then updates that same message later instead of duplicating it.
+
+```text
+!guide
+!postguides
+```
+
+`!guide` lists the guide channels. `!postguides` manually reposts or updates the automatic guide messages.
+
+Guide channels explain how to read alerts, emoji, scanner results, signal scores, risk flags, and paper trading. These guides do not include secrets and do not place trades.
 
 ## Persistent Settings
 
@@ -881,6 +915,76 @@ Signal scores are research-only 0-10 ratings for possible setups. They consider 
 Risk flags highlight caution items such as earnings today or tomorrow, overbought/oversold RSI, large 5-day moves, below the 200-day moving average, low relative volume, very high Reddit attention, unusual moves, near 52-week lows, or incomplete data.
 
 These are not buy signals, sell signals, or trading recommendations.
+
+## Best Setups, Risk Watches, And Levels
+
+```text
+!bestsetups
+!bestsetupsstatus
+!setbestsetupstime 7 0
+!setbestsetupscore 7
+!setbestsetuplimit 10
+!donotchase
+!donotchasestatus
+!setchaseRSI 75
+!setchase5day 15
+!setchase20ma 7
+!levels AAPL
+!watchlevels
+!setleveldistance 1
+```
+
+Best setups are daily research candidates ranked by signal score, trend, volume, momentum, risk flags, and support/resistance context. Do-not-chase warnings flag stocks that may be extended by RSI, 5-day move, distance above the 20MA, or unusual activity. Support/resistance levels are simple technical levels from recent daily candles.
+
+These tools are research only and are not financial advice.
+
+## Signal Performance
+
+```text
+!signals
+!signalperformance
+!signalperformance 30
+!signalreview AAPL
+!clearsignals CONFIRM
+```
+
+The bot logs important alerts, scanner results, best setups, WSB alerts, Paul's Tracker results, and earnings candidates in `data/signal_log.json`, then tracks later 1-day, 5-day, and 10-day performance when price data is available.
+
+Signal performance is historical tracking only and is not financial advice.
+
+## Options Research
+
+```text
+!options AAPL
+!options AAPL 2026-06-19
+!unusualoptions AAPL
+!optionshelp
+!optionssettings
+!setoptionsvolume 10
+!setoptionsoi 100
+!setoptionsspread 20
+!setoptionsdte 14 60
+```
+
+Options checks show liquid calls and puts, bid/ask spread, open interest, volume, implied volatility, days to expiration, and approximate break-even. Unusual options scans look for elevated volume/open-interest ratios.
+
+Options data may be delayed, incomplete, or rate-limited. Options can lose 100% of premium. Options data is for research only and is not financial advice.
+
+## Watchlist Groups
+
+```text
+!groups
+!groupcreate ai
+!groupadd ai NVDA
+!groupshow ai
+!groupcheck ai
+!groupscan ai momentum
+!groupalerts ai on
+!groupremove ai NVDA
+!groupdelete ai CONFIRM
+```
+
+Groups let you maintain multiple watchlists. The existing `watchlist.json` maps to the `default` group, so `!add`, `!remove`, and `!watchlist` continue to work as before.
 
 ## Paper Trading
 

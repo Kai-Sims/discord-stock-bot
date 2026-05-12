@@ -1,8 +1,11 @@
 import asyncio
+import contextlib
+import io
 import json
 import os
 import re
 import time
+import uuid
 from datetime import datetime, time as datetime_time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -111,12 +114,62 @@ CHANNEL_CATEGORIES["Stock Bot — Paper Trading"] = [
     "paper-portfolio",
     "paper-pnl",
 ]
+CHANNEL_CATEGORIES["Stock Bot — Guide"] = [
+    "how-to-read-alerts",
+    "emoji-legend",
+    "scanner-guide",
+    "risk-and-score-guide",
+    "paper-trading-guide",
+]
+GUIDE_CATEGORY_NAME = "Stock Bot \u2014 Guide"
+for category_name in list(CHANNEL_CATEGORIES):
+    if "Guide" in category_name and category_name != GUIDE_CATEGORY_NAME:
+        CHANNEL_CATEGORIES.pop(category_name)
+CHANNEL_CATEGORIES[GUIDE_CATEGORY_NAME] = [
+    "how-to-read-alerts",
+    "emoji-legend",
+    "scanner-guide",
+    "risk-and-score-guide",
+    "paper-trading-guide",
+]
+CHANNEL_CATEGORIES["Stock Bot — Best Setups"] = [
+    "best-setups",
+    "do-not-chase",
+    "setup-watch",
+]
+CHANNEL_CATEGORIES["Stock Bot — Signal Performance"] = [
+    "signal-performance",
+    "signal-log",
+    "signal-review",
+]
+CHANNEL_CATEGORIES["Stock Bot — Levels"] = [
+    "support-resistance",
+    "levels-alerts",
+]
+CHANNEL_CATEGORIES["Stock Bot — Options"] = [
+    "options-watch",
+    "unusual-options",
+    "options-risk",
+    "options-checks",
+]
+CHANNEL_CATEGORIES["Stock Bot — Watchlist Groups"] = [
+    "watchlist-groups",
+    "group-alerts",
+]
 for channel_list in CHANNEL_CATEGORIES.values():
     if "earnings-alerts" in channel_list and channel_list != CHANNEL_CATEGORIES.get("Stock Bot â€” Quarterly Reports"):
         channel_list[:] = [channel for channel in channel_list if channel != "earnings-alerts"]
 for category_name, channel_list in CHANNEL_CATEGORIES.items():
     if "Quarterly Reports" in category_name and "earnings-alerts" not in channel_list:
         channel_list.append("earnings-alerts")
+GUIDE_CHANNELS = {
+    "how-to-read-alerts": "How to Read Stock Bot Alerts",
+    "emoji-legend": "Emoji Legend",
+    "scanner-guide": "How to Read Scanner Results",
+    "risk-and-score-guide": "Signal Score and Risk Flags Guide",
+    "paper-trading-guide": "Paper Trading Guide",
+}
+GUIDE_MESSAGE_MARKER = "[STOCK_BOT_GUIDE_MESSAGE]"
 WATCHLIST_FILE = data_path("watchlist.json")
 SCANNER_UNIVERSE_FILE = data_path("scanner_universe.json")
 US_STOCK_UNIVERSE_FILE = data_path("us_stock_universe.json")
@@ -181,7 +234,25 @@ PAULS_TRACKER_RESULT_LIMIT = 20
 DIVIDEND_YIELD_MIN_PERCENT = float(BOT_SETTINGS.get("pauls_dividend_min_percent", 5.0))
 NEAR_ALL_TIME_HIGH_PERCENT = float(BOT_SETTINGS.get("pauls_ath_threshold_percent", 5.0))
 FIVE_DAY_GAIN_MIN_PERCENT = float(BOT_SETTINGS.get("pauls_5day_gain_percent", 10.0))
+PAULS_TRACKERS_AUTO_ENABLED = bool(BOT_SETTINGS.get("pauls_trackers_auto_enabled", False))
+PAULS_TRACKER_SCAN_LIMIT = int(BOT_SETTINGS.get("pauls_tracker_scan_limit", 50))
 PAULS_TRACKER_FILE = data_path("pauls_tracker_results.json")
+SIGNAL_LOG_FILE = data_path("signal_log.json")
+WATCHLIST_GROUPS_FILE = data_path("watchlist_groups.json")
+BEST_SETUPS_HOUR, BEST_SETUPS_MINUTE = [
+    int(part) for part in BOT_SETTINGS.get("best_setups_time", "07:00").split(":")
+]
+BEST_SETUPS_RESULT_LIMIT = int(BOT_SETTINGS.get("best_setups_result_limit", 10))
+BEST_SETUPS_MIN_SCORE = float(BOT_SETTINGS.get("best_setups_min_score", 7.0))
+DO_NOT_CHASE_RSI = float(BOT_SETTINGS.get("do_not_chase_rsi", 75))
+DO_NOT_CHASE_5D_GAIN = float(BOT_SETTINGS.get("do_not_chase_5d_gain", 15.0))
+DO_NOT_CHASE_DISTANCE_ABOVE_20MA = float(BOT_SETTINGS.get("do_not_chase_distance_above_20ma", 7.0))
+LEVELS_ALERT_DISTANCE_PERCENT = float(BOT_SETTINGS.get("levels_alert_distance_percent", 1.0))
+OPTIONS_MIN_VOLUME = int(BOT_SETTINGS.get("options_min_volume", 10))
+OPTIONS_MIN_OPEN_INTEREST = int(BOT_SETTINGS.get("options_min_open_interest", 100))
+OPTIONS_MAX_SPREAD_PERCENT = float(BOT_SETTINGS.get("options_max_spread_percent", 20))
+OPTIONS_MIN_DTE = int(BOT_SETTINGS.get("options_min_dte", 14))
+OPTIONS_MAX_DTE = int(BOT_SETTINGS.get("options_max_dte", 60))
 ENABLE_DAILY_SCANNER = False
 ALERT_INTERVAL_MINUTES = int(BOT_SETTINGS.get("alert_frequency_minutes", 5))
 QUIET_MODE = bool(BOT_SETTINGS.get("quiet_mode", False))
@@ -206,10 +277,19 @@ broad_scan_times = {}
 current_universe_scan_limit = MAX_UNIVERSE_SCAN_TICKERS
 last_eod_summary_date = None
 last_morning_briefing_date = None
+last_best_setups_date = None
+last_do_not_chase_date = None
+last_signal_performance_summary_date = None
 last_earnings_weekly_summary_date = None
 last_earnings_alert_dates = {}
 earnings_calendar_failures = {}
 pauls_tracker_scan_times = {}
+guide_pin_permission_warning_printed = False
+logged_no_fundamentals_tickers = set()
+KNOWN_ETF_OR_FUND_TICKERS = {
+    "SPY", "QQQ", "IWM", "DIA", "VOO", "VTI", "XLK", "XLF", "XLE", "XLY",
+    "XLP", "XLU", "XLV", "XLI", "XLB", "SMH", "SOXX", "ARKK", "TQQQ", "SQQQ",
+}
 VALID_SCAN_TYPES = {"balanced", "momentum", "breakouts", "oversold", "pullbacks", "volume"}
 CUSTOM_FILTER_KEYS = {
     "rsi",
@@ -294,14 +374,70 @@ def normalize_ticker(ticker):
     return ticker.strip().upper().removeprefix("$")
 
 
+def is_probable_etf_or_fund(ticker: str) -> bool:
+    """Return True for common ETFs/funds where stock fundamentals are often unavailable."""
+    ticker = normalize_ticker(ticker)
+    if ticker in KNOWN_ETF_OR_FUND_TICKERS:
+        return True
+
+    return False
+
+
+def safe_get_ticker_info(ticker: str) -> dict:
+    """Quietly fetch yfinance fundamentals, caching no-fundamentals failures."""
+    ticker = normalize_ticker(ticker)
+    if not ticker:
+        return {}
+
+    cached = get_cached_value("analyst", f"{ticker}:info", max_age_minutes=1440)
+    if cached is not None:
+        return cached if isinstance(cached, dict) else {}
+
+    if is_recently_rate_limited("analyst", f"{ticker}:info", retry_after_minutes=1440):
+        return {}
+
+    if is_probable_etf_or_fund(ticker):
+        set_cached_value("analyst", f"{ticker}:info", {}, status="no_fundamentals")
+        return {}
+
+    try:
+        # yfinance sometimes writes raw HTTP errors to stdout/stderr before raising.
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            info = yf.Ticker(ticker).info or {}
+    except Exception as error:
+        error_text = str(error)
+        if "No fundamentals data found" in error_text or "404" in error_text:
+            if ticker not in logged_no_fundamentals_tickers:
+                print(f"No fundamentals data available for {ticker}; skipping fundamentals.")
+                logged_no_fundamentals_tickers.add(ticker)
+            set_cached_value("analyst", f"{ticker}:info", {}, status="no_fundamentals")
+            return {}
+
+        status = "rate_limited" if "Too Many Requests" in error_text or "rate limit" in error_text.lower() else "error"
+        if ticker not in logged_no_fundamentals_tickers:
+            print(f"Could not read fundamentals for {ticker}: {status}.")
+            logged_no_fundamentals_tickers.add(ticker)
+        set_cached_value("analyst", f"{ticker}:info", {}, status=status)
+        return {}
+
+    if not isinstance(info, dict):
+        info = {}
+
+    if str(info.get("quoteType", "")).upper() in {"ETF", "MUTUALFUND", "FUND"}:
+        set_cached_value("analyst", f"{ticker}:info", {}, status="no_fundamentals")
+        return {}
+
+    set_cached_value("analyst", f"{ticker}:info", info)
+    return info
+
+
 def save_watchlist(tickers):
     """Save uppercase, sorted, unique tickers to watchlist.json."""
     clean_tickers = sorted(
         {normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)}
     )
 
-    with open(WATCHLIST_FILE, "w", encoding="utf-8") as file:
-        json.dump({"tickers": clean_tickers}, file, indent=2)
+    write_json(WATCHLIST_FILE, {"tickers": clean_tickers})
 
     return clean_tickers
 
@@ -309,25 +445,26 @@ def save_watchlist(tickers):
 def load_watchlist():
     """Load watchlist.json, creating or repairing it when needed."""
     if not os.path.exists(WATCHLIST_FILE):
-        print("watchlist.json not found. Creating it with the default watchlist.")
+        print("Recreated watchlist.json with default watchlist.")
         return save_watchlist(DEFAULT_WATCHLIST)
 
     try:
-        with open(WATCHLIST_FILE, "r", encoding="utf-8") as file:
-            data = json.load(file)
-    except json.JSONDecodeError:
-        print("watchlist.json has invalid JSON. Falling back to the default watchlist.")
-        return save_watchlist(DEFAULT_WATCHLIST)
-    except OSError as error:
+        data = read_json(WATCHLIST_FILE, {"tickers": DEFAULT_WATCHLIST}, recreate_on_error=True)
+    except Exception as error:
         print(f"Could not read watchlist.json: {error}")
-        return [normalize_ticker(ticker) for ticker in DEFAULT_WATCHLIST]
+        print("Recreated watchlist.json with default watchlist.")
+        return save_watchlist(DEFAULT_WATCHLIST)
 
     tickers = data.get("tickers", [])
     if not isinstance(tickers, list):
-        print("watchlist.json must contain a tickers list. Resetting to default.")
+        print("Recreated watchlist.json with default watchlist.")
         return save_watchlist(DEFAULT_WATCHLIST)
 
-    return save_watchlist(tickers)
+    clean_tickers = sorted({normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)})
+    if not clean_tickers:
+        print("Recreated watchlist.json with default watchlist.")
+        return save_watchlist(DEFAULT_WATCHLIST)
+    return clean_tickers
 
 
 def save_scanner_universe(tickers):
@@ -336,8 +473,7 @@ def save_scanner_universe(tickers):
         {normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)}
     )
 
-    with open(SCANNER_UNIVERSE_FILE, "w", encoding="utf-8") as file:
-        json.dump({"tickers": clean_tickers}, file, indent=2)
+    write_json(SCANNER_UNIVERSE_FILE, {"tickers": clean_tickers})
 
     return clean_tickers
 
@@ -349,8 +485,7 @@ def load_scanner_universe():
         return save_scanner_universe(DEFAULT_SCANNER_UNIVERSE)
 
     try:
-        with open(SCANNER_UNIVERSE_FILE, "r", encoding="utf-8") as file:
-            data = json.load(file)
+        data = read_json(SCANNER_UNIVERSE_FILE, {"tickers": DEFAULT_SCANNER_UNIVERSE}, recreate_on_error=True)
     except json.JSONDecodeError:
         print("scanner_universe.json has invalid JSON. Falling back to default universe.")
         return save_scanner_universe(DEFAULT_SCANNER_UNIVERSE)
@@ -377,8 +512,7 @@ def save_us_stock_universe(tickers, last_updated=None):
         "source": "nasdaqtrader",
     }
 
-    with open(US_STOCK_UNIVERSE_FILE, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=2)
+    write_json(US_STOCK_UNIVERSE_FILE, data)
 
     return clean_tickers
 
@@ -390,8 +524,7 @@ def load_us_stock_universe_data():
         return {"tickers": [], "last_updated": None, "source": "nasdaqtrader"}
 
     try:
-        with open(US_STOCK_UNIVERSE_FILE, "r", encoding="utf-8") as file:
-            data = json.load(file)
+        data = read_json(US_STOCK_UNIVERSE_FILE, {"tickers": [], "last_updated": None, "source": "nasdaqtrader"}, recreate_on_error=True)
     except json.JSONDecodeError:
         print("us_stock_universe.json has invalid JSON. Run !refreshuniverse.")
         return {"tickers": [], "last_updated": None, "source": "nasdaqtrader"}
@@ -511,8 +644,8 @@ def _latest_trading_day(data):
     return data[data.index.date == latest_date]
 
 
-def analyze_stock(ticker):
-    """Fetch market data and return a clean stock analysis dictionary."""
+def analyze_stock_price_only(ticker):
+    """Fetch price/history data only. This function never calls fundamentals endpoints."""
     ticker = normalize_ticker(ticker)
     if not ticker:
         return None
@@ -524,11 +657,29 @@ def analyze_stock(ticker):
     if is_recently_rate_limited("stock_data", ticker, retry_after_minutes=360):
         print(f"Skipping {ticker}; yfinance recently rate-limited this ticker.")
         return None
+    if is_recently_rate_limited("stock_data", f"{ticker}:no_data", retry_after_minutes=1440):
+        return None
 
     try:
-        stock = yf.Ticker(ticker)
-        intraday = stock.history(period="5d", interval="5m", auto_adjust=False)
-        daily = stock.history(period="1y", interval="1d", auto_adjust=False)
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            intraday_download = yf.download(
+                ticker,
+                period="5d",
+                interval="5m",
+                auto_adjust=False,
+                progress=False,
+                threads=False,
+            )
+            daily_download = yf.download(
+                ticker,
+                period="1y",
+                interval="1d",
+                auto_adjust=False,
+                progress=False,
+                threads=False,
+            )
+        intraday = get_download_frame(intraday_download, ticker)
+        daily = get_download_frame(daily_download, ticker)
     except Exception as error:
         print(f"Could not fetch data for {ticker}: {error}")
         status = "rate_limited" if "Too Many Requests" in str(error) or "rate limit" in str(error).lower() else "error"
@@ -536,7 +687,7 @@ def analyze_stock(ticker):
         return None
 
     if intraday.empty or daily.empty:
-        print(f"No usable market data found for {ticker}.")
+        set_cached_value("stock_data", f"{ticker}:no_data", True, status="rate_limited")
         return None
 
     current_day = _latest_trading_day(intraday)
@@ -650,6 +801,21 @@ def analyze_stock(ticker):
     }
     set_cached_value("stock_data", ticker, result)
     return result
+
+
+def analyze_stock(ticker, include_fundamentals=False, include_earnings=False):
+    """Return stock analysis. Fundamentals/earnings are opt-in and disabled by default."""
+    data = analyze_stock_price_only(ticker)
+    if data is None:
+        return None
+
+    if include_fundamentals:
+        data["analyst_snapshot"] = get_analyst_snapshot(ticker)
+
+    if include_earnings:
+        data["earnings_date"] = get_earnings_date(ticker)
+
+    return data
 
 
 def is_near(value, target, percent=0.03):
@@ -861,6 +1027,7 @@ def format_stock_check(analysis):
     direction = get_price_direction_emoji(analysis.get("day_change"))
     risk_flags = calculate_risk_flags(analysis)
     signal_score = calculate_signal_score(analysis)
+    levels = calculate_support_resistance(ticker, analysis)
     return (
         f"{direction} {ticker} Stock Check\n"
         f"Price: {format_money(analysis['price'])}\n"
@@ -874,6 +1041,8 @@ def format_stock_check(analysis):
         f"50MA: {format_money(analysis['moving_average_50'])}\n"
         f"200MA: {format_money(analysis['moving_average_200'])}\n"
         f"Trend: {get_trend_emoji(analysis['trend'])} {analysis['trend']}\n"
+        f"Nearest Support: {format_money(levels.get('nearest_support'))}\n"
+        f"Nearest Resistance: {format_money(levels.get('nearest_resistance'))}\n"
         f"{format_signal_score(signal_score)}\n"
         f"{format_risk_flags(risk_flags)}\n\n"
         "Stock checks are for research only and are not financial advice."
@@ -960,7 +1129,7 @@ def build_scanner_results(scan_type="balanced", broad=False):
         batch = tickers[start:start + batch_size]
 
         for ticker in batch:
-            stock_data = analyze_stock(ticker)
+            stock_data = analyze_stock_price_only(ticker)
             if stock_data is None:
                 continue
 
@@ -972,6 +1141,7 @@ def build_scanner_results(scan_type="balanced", broad=False):
             stock_data["scanner_signal"] = scanner_signal(stock_data, scan_type)
             stock_data["signal_score"] = calculate_signal_score(stock_data)
             stock_data["risk_flags"] = calculate_risk_flags(stock_data)
+            log_signal(ticker, scan_type, "scanner", stock_data, stock_data["signal_score"], "low", stock_data["risk_flags"], [stock_data["scanner_signal"]])
             results.append(stock_data)
 
         if broad:
@@ -1262,7 +1432,7 @@ def build_custom_scanner_results(filters, broad=False):
         batch = tickers[start:start + batch_size]
 
         for ticker in batch:
-            stock_data = analyze_stock(ticker)
+            stock_data = analyze_stock_price_only(ticker)
             if stock_data is None:
                 continue
 
@@ -1274,6 +1444,7 @@ def build_custom_scanner_results(filters, broad=False):
             stock_data["match_reasons"] = reasons
             stock_data["signal_score"] = calculate_signal_score(stock_data)
             stock_data["risk_flags"] = calculate_risk_flags(stock_data)
+            log_signal(ticker, "custom", "scanner", stock_data, stock_data["signal_score"], "low", stock_data["risk_flags"], reasons)
             results.append(stock_data)
 
         if broad:
@@ -1332,6 +1503,10 @@ PAULS_TRACKER_DISCLAIMER = "Paul's Tracker results are for research only and are
 def get_dividend_yield_percent(ticker):
     """Read dividend yield from yfinance and normalize to percent."""
     ticker = normalize_ticker(ticker)
+    if is_probable_etf_or_fund(ticker):
+        set_cached_value("dividend", f"{ticker}:yield", None, status="etf")
+        return None
+
     cached = get_cached_value("dividend", f"{ticker}:yield", max_age_minutes=1440)
     if cached is not None:
         return cached
@@ -1339,15 +1514,12 @@ def get_dividend_yield_percent(ticker):
         print(f"Skipping dividend yield for {ticker}; recently rate limited.")
         return None
 
-    try:
-        info = yf.Ticker(ticker).info or {}
-    except Exception as error:
-        print(f"Could not read dividend yield for {ticker}: {error}")
-        status = "rate_limited" if "Too Many Requests" in str(error) or "rate limit" in str(error).lower() else "error"
-        set_cached_value("dividend", f"{ticker}:yield", None, status=status)
+    info = safe_get_ticker_info(ticker)
+    if not info:
+        set_cached_value("dividend", f"{ticker}:yield", None, status="missing")
         return None
 
-    if str(info.get("quoteType", "")).upper() == "ETF":
+    if str(info.get("quoteType", "")).upper() in {"ETF", "MUTUALFUND", "FUND"}:
         set_cached_value("dividend", f"{ticker}:yield", None, status="etf")
         return None
 
@@ -1416,7 +1588,19 @@ def get_pauls_tracker_universe():
         print("Paul's Trackers could not find a ticker universe.")
         return [], source
 
-    return tickers[:current_universe_scan_limit], source
+    common_one_letter_tickers = {"A", "F", "T", "V"}
+    clean_tickers = []
+    for ticker in tickers:
+        ticker = normalize_ticker(ticker)
+        if not ticker:
+            continue
+        if len(ticker) == 1 and ticker not in common_one_letter_tickers:
+            continue
+        if any(character in ticker for character in ["^", "/", " "]):
+            continue
+        clean_tickers.append(ticker)
+
+    return clean_tickers[:PAULS_TRACKER_SCAN_LIMIT], source
 
 
 def scan_dividend_highs(tickers):
@@ -1425,7 +1609,10 @@ def scan_dividend_highs(tickers):
         print(f"Paul's dividend tracker {index}/{len(tickers)}: {ticker}")
         time.sleep(0.35)
         try:
-            analysis = analyze_stock(ticker)
+            if is_probable_etf_or_fund(ticker):
+                continue
+
+            analysis = analyze_stock_price_only(ticker)
             if analysis is None:
                 continue
 
@@ -1460,6 +1647,7 @@ def scan_dividend_highs(tickers):
                     "risk_flags": calculate_risk_flags(analysis),
                 }
             )
+            log_signal(ticker, "dividend_high", "pauls_tracker", analysis, calculate_signal_score(analysis), "medium", calculate_risk_flags(analysis), ["Dividend yield near all-time high criteria"])
         except Exception as error:
             print(f"Paul's dividend tracker skipped {ticker}: {error}")
             continue
@@ -1474,7 +1662,7 @@ def scan_five_day_runners(tickers):
         print(f"Paul's 5-day tracker {index}/{len(tickers)}: {ticker}")
         time.sleep(0.25)
         try:
-            analysis = analyze_stock(ticker)
+            analysis = analyze_stock_price_only(ticker)
             if analysis is None:
                 continue
 
@@ -1499,6 +1687,7 @@ def scan_five_day_runners(tickers):
                     "risk_flags": calculate_risk_flags(analysis),
                 }
             )
+            log_signal(ticker, "five_day_runner", "pauls_tracker", analysis, calculate_signal_score(analysis), "medium", calculate_risk_flags(analysis), ["5-day runner criteria"])
         except Exception as error:
             print(f"Paul's 5-day tracker skipped {ticker}: {error}")
             continue
@@ -1631,6 +1820,24 @@ def should_run_morning_briefing():
     return last_morning_briefing_date != now.date().isoformat()
 
 
+def should_run_best_setups():
+    if QUIET_MODE or not is_weekday_market_day_now():
+        return False
+    now = market_now()
+    if now.time() < datetime_time(BEST_SETUPS_HOUR, BEST_SETUPS_MINUTE):
+        return False
+    return last_best_setups_date != now.date().isoformat()
+
+
+def should_run_do_not_chase():
+    if QUIET_MODE or not is_weekday_market_day_now():
+        return False
+    now = market_now()
+    if now.time() < datetime_time(7, 5):
+        return False
+    return last_do_not_chase_date != now.date().isoformat()
+
+
 def eod_flags(analysis):
     flags = []
     price = analysis.get("latest_price")
@@ -1666,12 +1873,17 @@ def day_range_percent(analysis):
 
 def build_eod_summary():
     """Build the post-market watchlist recap text."""
-    tickers = load_watchlist()
+    tickers = set(load_watchlist())
+    groups = load_watchlist_groups()
+    for group_name, enabled in groups.get("alerts_enabled", {}).items():
+        if enabled:
+            tickers.update(groups.get("groups", {}).get(group_name, []))
+    tickers = sorted({normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)})
     today = market_now().date().isoformat()
     analyses = []
 
     for ticker in tickers:
-        analysis = analyze_stock(ticker)
+        analysis = analyze_stock_price_only(ticker)
         if analysis is None:
             analyses.append({"ticker": ticker, "error": True})
             continue
@@ -1731,6 +1943,18 @@ def build_eod_summary():
     lines.extend(["", "Near 52-Week Low:"])
     lines.extend([f"- {item['ticker']}: {format_percent(item['percent_above_52w_low'])} above low" for item in near_low[:5]] or ["- None"])
 
+    chase_items = []
+    for item in valid:
+        flags = calculate_do_not_chase_flags(item)
+        if flags:
+            chase_items.append((item, flags))
+    lines.extend(["", "Do Not Chase Watch:"])
+    if chase_items:
+        for item, flags in chase_items[:5]:
+            lines.append(f"- {item['ticker']}: {', '.join(flag['message'] for flag in flags)}")
+    else:
+        lines.append("- None")
+
     lines.extend(["", "Individual Watchlist Summary:"])
 
     for item in analyses:
@@ -1741,6 +1965,7 @@ def build_eod_summary():
 
         flags = calculate_risk_flags(item)
         score_data = calculate_signal_score(item)
+        levels = calculate_support_resistance(ticker, item)
         lines.extend(
             [
                 "",
@@ -1754,6 +1979,8 @@ def build_eod_summary():
                 f"Rel Volume: {format_relative_volume(item['relative_volume'])}",
                 f"5D Change: {format_percent(item['change_5d_percent'])}",
                 f"Trend: {get_trend_emoji(item['trend'])} {item['trend']}",
+                f"Support: {format_money(levels.get('nearest_support'))}",
+                f"Resistance: {format_money(levels.get('nearest_resistance'))}",
                 format_risk_flags(flags),
                 format_signal_score(score_data),
             ]
@@ -1781,7 +2008,7 @@ def build_morning_briefing():
     tickers = load_watchlist()
     analyses = []
     for ticker in tickers:
-        analysis = analyze_stock(ticker)
+        analysis = analyze_stock_price_only(ticker)
         if analysis:
             analyses.append(analysis)
 
@@ -2061,6 +2288,10 @@ def clear_earnings_cache():
 def get_earnings_date(ticker):
     """Try to retrieve the next quarterly report date through yfinance."""
     ticker = normalize_ticker(ticker)
+    if is_probable_etf_or_fund(ticker):
+        set_cached_earnings_date(ticker, None, status="etf")
+        return None
+
     cached = get_cached_earnings_date(ticker)
     if cached is not None:
         return cached
@@ -2147,21 +2378,7 @@ def get_earnings_date(ticker):
 def get_analyst_snapshot(ticker):
     """Return analyst snapshot values from yfinance when available."""
     ticker = normalize_ticker(ticker)
-    cached = get_cached_value("analyst", ticker, max_age_minutes=1440)
-    if cached:
-        return cached
-    if is_recently_rate_limited("analyst", ticker, retry_after_minutes=360):
-        print(f"Skipping analyst snapshot for {ticker}; recently rate limited.")
-        return {
-            "recommendation_mean": None,
-            "recommendation_key": None,
-            "analyst_count": None,
-            "target_mean_price": None,
-            "current_price": None,
-            "target_upside_percent": None,
-        }
-
-    snapshot = {
+    empty_snapshot = {
         "recommendation_mean": None,
         "recommendation_key": None,
         "analyst_count": None,
@@ -2170,12 +2387,21 @@ def get_analyst_snapshot(ticker):
         "target_upside_percent": None,
     }
 
-    try:
-        info = yf.Ticker(ticker).info or {}
-    except Exception as error:
-        print(f"Could not read analyst info for {ticker}: {error}")
-        status = "rate_limited" if "Too Many Requests" in str(error) or "rate limit" in str(error).lower() else "error"
-        set_cached_value("analyst", ticker, snapshot, status=status)
+    if is_probable_etf_or_fund(ticker):
+        set_cached_value("analyst", ticker, empty_snapshot, status="etf")
+        return empty_snapshot
+
+    cached = get_cached_value("analyst", ticker, max_age_minutes=1440)
+    if cached:
+        return cached
+    if is_recently_rate_limited("analyst", ticker, retry_after_minutes=360):
+        print(f"Skipping analyst snapshot for {ticker}; recently rate limited.")
+        return empty_snapshot
+
+    snapshot = dict(empty_snapshot)
+    info = safe_get_ticker_info(ticker)
+    if not info:
+        set_cached_value("analyst", ticker, snapshot, status="missing")
         return snapshot
 
     snapshot["recommendation_mean"] = _to_float(info.get("recommendationMean"))
@@ -2201,7 +2427,7 @@ def build_watchlist_earnings_summary():
         if not date_within_lookahead(earnings_date):
             continue
 
-        analysis = analyze_stock(ticker)
+        analysis = analyze_stock_price_only(ticker)
         rows.append(
             {
                 "ticker": ticker,
@@ -2290,7 +2516,10 @@ def earnings_candidate_universe():
     tickers = list(load_scanner_universe())
     if not tickers:
         tickers = load_us_stock_universe()[:MAX_PROMISING_EARNINGS_SCAN_TICKERS]
-    return tickers[:MAX_PROMISING_EARNINGS_SCAN_TICKERS]
+    return [
+        ticker for ticker in tickers
+        if not is_probable_etf_or_fund(ticker)
+    ][:MAX_PROMISING_EARNINGS_SCAN_TICKERS]
 
 
 def find_promising_earnings_candidates():
@@ -2301,12 +2530,14 @@ def find_promising_earnings_candidates():
     for index, ticker in enumerate(tickers, start=1):
         print(f"Checking earnings candidate {index}/{total}: {ticker}")
         time.sleep(0.5)
+        if is_probable_etf_or_fund(ticker):
+            continue
         earnings_date = get_earnings_date(ticker)
         if not date_within_lookahead(earnings_date):
             continue
 
         analyst_data = get_analyst_snapshot(ticker)
-        stock_data = analyze_stock(ticker)
+        stock_data = analyze_stock_price_only(ticker)
         if stock_data is None:
             continue
 
@@ -2354,6 +2585,7 @@ def find_promising_earnings_candidates():
                 "why_flagged": promising_candidate_reasons(stock_data, analyst_data),
             }
         )
+        log_signal(ticker, "earnings_candidate", "earnings", stock_data, calculate_signal_score(stock_data, analyst_data=analyst_data), "medium", calculate_risk_flags(stock_data), ["Analyst-supported earnings candidate"])
 
     candidates.sort(key=lambda item: (item["score"], item["earnings_date"]), reverse=True)
     write_json_file(
@@ -2468,6 +2700,579 @@ def read_json_file(path, default_data):
 
 def write_json_file(path, data):
     write_json(path, data)
+
+
+def load_signal_log():
+    data = read_json_file(SIGNAL_LOG_FILE, {"signals": []})
+    if not isinstance(data, dict) or not isinstance(data.get("signals"), list):
+        data = {"signals": []}
+        write_json_file(SIGNAL_LOG_FILE, data)
+    return data
+
+
+def save_signal_log(data):
+    write_json_file(SIGNAL_LOG_FILE, data if isinstance(data, dict) else {"signals": []})
+
+
+def risk_flag_messages(flags):
+    messages = []
+    for flag in flags or []:
+        if isinstance(flag, dict):
+            messages.append(flag.get("message", ""))
+        else:
+            messages.append(str(flag))
+    return [message for message in messages if message]
+
+
+def log_signal(ticker, signal_type, source, stock_data, signal_score=None, severity=None, risk_flags=None, notes=None):
+    ticker = normalize_ticker(ticker)
+    if not ticker or not stock_data:
+        return None
+
+    data = load_signal_log()
+    today = market_now().date().isoformat()
+    severity = severity or "low"
+    for signal in data["signals"]:
+        if (
+            signal.get("ticker") == ticker
+            and signal.get("source") == source
+            and signal.get("signal_type") == signal_type
+            and str(signal.get("timestamp", "")).startswith(today)
+            and severity not in {"high", "critical"}
+        ):
+            return signal
+
+    score_value = signal_score.get("score") if isinstance(signal_score, dict) else signal_score
+    signal = {
+        "id": str(uuid.uuid4()),
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "ticker": ticker,
+        "signal_type": signal_type,
+        "source": source,
+        "price_at_signal": stock_data.get("latest_price") or stock_data.get("price"),
+        "signal_score": score_value,
+        "severity": severity,
+        "risk_flags": risk_flag_messages(risk_flags),
+        "notes": notes or [],
+        "performance": {"1d": None, "5d": None, "10d": None},
+    }
+    data["signals"].append(signal)
+    save_signal_log(data)
+    return signal
+
+
+def update_signal_performance():
+    data = load_signal_log()
+    changed = False
+    now = datetime.now()
+    for signal in data.get("signals", []):
+        entry_price = signal.get("price_at_signal")
+        if not entry_price:
+            continue
+        try:
+            signal_time = datetime.fromisoformat(str(signal.get("timestamp")).replace("Z", ""))
+        except (TypeError, ValueError):
+            continue
+
+        age_days = (now - signal_time).days
+        for key, needed_days in [("1d", 1), ("5d", 5), ("10d", 10)]:
+            if signal.get("performance", {}).get(key) is not None or age_days < needed_days:
+                continue
+            analysis = analyze_stock_price_only(signal.get("ticker"))
+            latest_price = (analysis or {}).get("latest_price")
+            if latest_price is None:
+                continue
+            signal.setdefault("performance", {})[key] = ((latest_price - entry_price) / entry_price) * 100
+            changed = True
+
+    if changed:
+        save_signal_log(data)
+    return data
+
+
+def calculate_signal_performance_summary(days=30):
+    cutoff = datetime.now() - timedelta(days=days)
+    signals = []
+    for signal in load_signal_log().get("signals", []):
+        try:
+            if datetime.fromisoformat(str(signal.get("timestamp")).replace("Z", "")) >= cutoff:
+                signals.append(signal)
+        except (TypeError, ValueError):
+            continue
+
+    by_type = {}
+    for signal in signals:
+        by_type.setdefault(signal.get("signal_type", "unknown"), []).append(signal)
+    return {"days": days, "signals": signals, "by_type": by_type}
+
+
+def average(values):
+    values = [value for value in values if value is not None]
+    return sum(values) / len(values) if values else None
+
+
+def format_signal_performance_summary(days=30):
+    update_signal_performance()
+    summary = calculate_signal_performance_summary(days)
+    lines = [f"Signal Performance — Last {days} Days"]
+    if not summary["signals"]:
+        lines.append("No logged signals found for this period.")
+    for signal_type, items in sorted(summary["by_type"].items()):
+        one_day = average([item.get("performance", {}).get("1d") for item in items])
+        five_day_values = [item.get("performance", {}).get("5d") for item in items if item.get("performance", {}).get("5d") is not None]
+        five_day = average(five_day_values)
+        win_rate = (sum(1 for value in five_day_values if value > 0) / len(five_day_values) * 100) if five_day_values else None
+        lines.extend([
+            "",
+            f"{signal_type.title()} Signals:",
+            f"- Count: {len(items)}",
+            f"- Avg 1D Return: {format_percent(one_day)}",
+            f"- Avg 5D Return: {format_percent(five_day)}",
+            f"- Win Rate 5D: {format_percent(win_rate)}",
+        ])
+
+    ranked = [item for item in summary["signals"] if item.get("performance", {}).get("5d") is not None]
+    ranked.sort(key=lambda item: item["performance"]["5d"], reverse=True)
+    lines.extend(["", "Highest Performing Signals:"])
+    lines.extend([f"{idx}. {item['ticker']} — {item['signal_type']} — {format_percent(item['performance']['5d'])}" for idx, item in enumerate(ranked[:5], start=1)] or ["None yet."])
+    lines.extend(["", "Worst Performing Signals:"])
+    lines.extend([f"{idx}. {item['ticker']} — {item['signal_type']} — {format_percent(item['performance']['5d'])}" for idx, item in enumerate(reversed(ranked[-5:]), start=1)] or ["None yet."])
+    lines.extend(["", "Signal performance is historical tracking only and is not financial advice."])
+    return "\n".join(lines)
+
+
+def calculate_support_resistance(ticker, stock_data=None):
+    ticker = normalize_ticker(ticker)
+    stock_data = stock_data or analyze_stock_price_only(ticker) or {}
+    price = stock_data.get("latest_price")
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            history = yf.download(ticker, period="3mo", interval="1d", auto_adjust=False, progress=False, threads=False)
+        data = get_download_frame(history, ticker)
+    except Exception as error:
+        print(f"Could not calculate levels for {ticker}: {error}")
+        data = pd.DataFrame()
+
+    support_levels = []
+    resistance_levels = []
+    if not data.empty and "Low" in data and "High" in data:
+        lows = data["Low"].dropna()
+        highs = data["High"].dropna()
+        if len(lows) >= 2:
+            support_levels.append(("Previous Day Low", _to_float(lows.iloc[-2])))
+        if len(lows) >= 20:
+            support_levels.append(("20-Day Low", _to_float(lows.tail(20).min())))
+        if len(lows) >= 50:
+            support_levels.append(("50-Day Low", _to_float(lows.tail(50).min())))
+        if len(highs) >= 2:
+            resistance_levels.append(("Previous Day High", _to_float(highs.iloc[-2])))
+        if len(highs) >= 20:
+            resistance_levels.append(("20-Day High", _to_float(highs.tail(20).max())))
+        if len(highs) >= 50:
+            resistance_levels.append(("50-Day High", _to_float(highs.tail(50).max())))
+    if stock_data.get("fifty_two_week_high") is not None:
+        resistance_levels.append(("52-Week High", stock_data.get("fifty_two_week_high")))
+
+    support_values = [value for _label, value in support_levels if value is not None and (price is None or value <= price)]
+    resistance_values = [value for _label, value in resistance_levels if value is not None and (price is None or value >= price)]
+    nearest_support = max(support_values) if support_values else None
+    nearest_resistance = min(resistance_values) if resistance_values else None
+    return {
+        "nearest_support": nearest_support,
+        "nearest_resistance": nearest_resistance,
+        "support_levels": support_levels,
+        "resistance_levels": resistance_levels,
+        "distance_to_support_percent": ((price - nearest_support) / price * 100) if price and nearest_support else None,
+        "distance_to_resistance_percent": ((nearest_resistance - price) / price * 100) if price and nearest_resistance else None,
+    }
+
+
+def format_levels_message(ticker):
+    stock_data = analyze_stock_price_only(ticker)
+    if not stock_data:
+        return f"Could not find price data for {normalize_ticker(ticker)}.\n\nResearch only — not financial advice."
+    levels = calculate_support_resistance(ticker, stock_data)
+    lines = [
+        f"{stock_data['ticker']} Support / Resistance",
+        "",
+        f"Price: {format_money(stock_data.get('latest_price'))}",
+        "",
+        f"Nearest Support: {format_money(levels['nearest_support'])}",
+        f"Distance to Support: {format_percent(levels['distance_to_support_percent'])}",
+        "",
+        f"Nearest Resistance: {format_money(levels['nearest_resistance'])}",
+        f"Distance to Resistance: {format_percent(levels['distance_to_resistance_percent'])}",
+        "",
+        "Support Levels:",
+    ]
+    lines.extend([f"- {label}: {format_money(value)}" for label, value in levels["support_levels"]] or ["- N/A"])
+    lines.append("")
+    lines.append("Resistance Levels:")
+    lines.extend([f"- {label}: {format_money(value)}" for label, value in levels["resistance_levels"]] or ["- N/A"])
+    lines.extend(["", "Research only — not financial advice."])
+    return "\n".join(lines)
+
+
+def calculate_do_not_chase_flags(stock_data, earnings_data=None, reddit_data=None):
+    flags = []
+    rsi = stock_data.get("rsi")
+    change_5d = stock_data.get("change_5d_percent")
+    price = stock_data.get("latest_price")
+    ma20 = stock_data.get("ma20")
+    rel_volume = stock_data.get("relative_volume")
+    if rsi is not None and rsi >= 80:
+        flags.append({"severity": "high", "message": "RSI extremely overbought"})
+    elif rsi is not None and rsi >= DO_NOT_CHASE_RSI:
+        flags.append({"severity": "medium", "message": "RSI overbought"})
+    if change_5d is not None and change_5d >= 20:
+        flags.append({"severity": "high", "message": f"Up {format_percent(change_5d)} in 5 trading days"})
+    elif change_5d is not None and change_5d >= DO_NOT_CHASE_5D_GAIN:
+        flags.append({"severity": "medium", "message": f"Up {format_percent(change_5d)} in 5 trading days"})
+    distance = ((price - ma20) / ma20 * 100) if price and ma20 else None
+    if distance is not None and distance >= 10:
+        flags.append({"severity": "high", "message": f"Price {format_percent(distance)} above 20MA"})
+    elif distance is not None and distance >= DO_NOT_CHASE_DISTANCE_ABOVE_20MA:
+        flags.append({"severity": "medium", "message": f"Price {format_percent(distance)} above 20MA"})
+    if rel_volume is not None and rel_volume >= 3:
+        flags.append({"severity": "high", "message": f"Relative volume {format_multiple(rel_volume)}"})
+    return flags
+
+
+def is_do_not_chase_candidate(stock_data, earnings_data=None, reddit_data=None):
+    return bool(calculate_do_not_chase_flags(stock_data, earnings_data, reddit_data))
+
+
+def build_do_not_chase_results():
+    tickers = sorted(set(load_watchlist() + load_scanner_universe()))
+    results = []
+    for ticker in tickers[:150]:
+        stock_data = analyze_stock_price_only(ticker)
+        if not stock_data:
+            continue
+        flags = calculate_do_not_chase_flags(stock_data)
+        if flags:
+            stock_data["chase_flags"] = flags
+            results.append(stock_data)
+    results.sort(key=lambda item: (len(item["chase_flags"]), item.get("change_5d_percent") or 0), reverse=True)
+    return results[:25]
+
+
+def format_do_not_chase_message(results):
+    lines = ["Do Not Chase Watch — Research Only"]
+    if not results:
+        lines.append("No extended setups matched the current do-not-chase thresholds.")
+    for index, item in enumerate(results, start=1):
+        distance = ((item["latest_price"] - item["ma20"]) / item["ma20"] * 100) if item.get("latest_price") and item.get("ma20") else None
+        lines.extend([
+            "",
+            f"{index}. {EMOJI_WARNING} {item['ticker']}",
+            f"   Price: {format_money(item.get('latest_price'))}",
+            f"   5D Change: {format_percent(item.get('change_5d_percent'))}",
+            f"   RSI: {format_number(item.get('rsi'))}",
+            f"   Distance Above 20MA: {format_percent(distance)}",
+            f"   Rel Volume: {format_multiple(item.get('relative_volume'))}",
+            "   Why Caution:",
+        ])
+        lines.extend([f"   - {flag['message']}" for flag in item.get("chase_flags", [])])
+        lines.append("   This may still go higher, but the setup is extended.")
+    lines.extend(["", "Do Not Chase warnings are risk reminders only and are not financial advice."])
+    return "\n".join(lines)
+
+
+def build_best_setups_of_day():
+    tickers = set(load_watchlist())
+    tickers.update(load_scanner_universe())
+    tickers.update(item.get("ticker") for item in load_wsb_tracking().get("tracked", []))
+    for item in read_json_file(PAULS_TRACKER_FILE, {}).get("five_day_runners", []):
+        tickers.add(item.get("ticker"))
+    for item in read_json_file(PROMISING_EARNINGS_FILE, {}).get("candidates", []):
+        tickers.add(item.get("ticker"))
+
+    results = []
+    for ticker in sorted({normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)})[:200]:
+        stock_data = analyze_stock_price_only(ticker)
+        if not stock_data:
+            continue
+        score_data = calculate_signal_score(stock_data)
+        risk_flags = calculate_risk_flags(stock_data)
+        if any(flag.get("severity") == "critical" for flag in risk_flags):
+            continue
+        if score_data["score"] < BEST_SETUPS_MIN_SCORE:
+            continue
+        price = stock_data.get("latest_price")
+        if stock_data.get("trend") not in {"Bullish", "Mixed"}:
+            continue
+        if stock_data.get("rsi") is not None and not (40 <= stock_data["rsi"] <= 75):
+            continue
+        levels = calculate_support_resistance(ticker, stock_data)
+        reasons = score_data.get("notes", [])[:4] or ["Matched signal score and trend criteria"]
+        stock_data.update({"signal_score": score_data, "risk_flags": risk_flags, "levels": levels, "why_flagged": reasons})
+        results.append(stock_data)
+    results.sort(key=lambda item: item["signal_score"]["score"], reverse=True)
+    results = results[:BEST_SETUPS_RESULT_LIMIT]
+    for item in results:
+        log_signal(item["ticker"], "best_setup", "best_setups", item, item.get("signal_score"), "medium", item.get("risk_flags"), item.get("why_flagged"))
+    return results
+
+
+def format_best_setups_message(results):
+    lines = ["Best Setups of the Day — Research Only"]
+    if not results:
+        lines.append("No best setup research candidates matched the current filters.")
+    for index, item in enumerate(results, start=1):
+        levels = item.get("levels", {})
+        lines.extend([
+            "",
+            f"{index}. {get_price_direction_emoji(item.get('day_change'))} {item['ticker']} — {format_signal_score(item.get('signal_score')).replace('Signal Score: ', '')}",
+            f"   Price: {format_money(item.get('latest_price'))}",
+            f"   Change: {format_change_percent_only(item)}",
+            f"   RSI: {format_number(item.get('rsi'))}",
+            f"   Trend: {get_trend_emoji(item.get('trend'))} {item.get('trend')}",
+            f"   Rel Volume: {format_multiple(item.get('relative_volume'))}",
+            f"   Support: {format_money(levels.get('nearest_support'))}",
+            f"   Resistance: {format_money(levels.get('nearest_resistance'))}",
+            "   Why Flagged:",
+        ])
+        lines.extend([f"   - {reason}" for reason in item.get("why_flagged", [])])
+        lines.append(f"   {format_risk_flags(item.get('risk_flags'))}")
+    lines.extend(["", "Best Setups are research candidates only and are not financial advice."])
+    return "\n".join(lines)
+
+
+def default_watchlist_groups():
+    return {
+        "groups": {
+            "default": load_watchlist(),
+            "semiconductors": ["NVDA", "AMD", "AVGO", "QCOM", "MU", "SMH"],
+            "big-tech": ["AAPL", "MSFT", "GOOGL", "META", "AMZN", "NVDA"],
+            "etfs": ["SPY", "QQQ", "IWM", "DIA", "SMH"],
+        },
+        "alerts_enabled": {"default": True},
+    }
+
+
+def load_watchlist_groups():
+    data = read_json_file(WATCHLIST_GROUPS_FILE, default_watchlist_groups())
+    if not isinstance(data, dict) or not isinstance(data.get("groups"), dict):
+        data = default_watchlist_groups()
+        write_json_file(WATCHLIST_GROUPS_FILE, data)
+    data.setdefault("alerts_enabled", {"default": True})
+    data["groups"]["default"] = load_watchlist()
+    return data
+
+
+def save_watchlist_groups(data):
+    data.setdefault("groups", {})
+    data.setdefault("alerts_enabled", {})
+    write_json_file(WATCHLIST_GROUPS_FILE, data)
+
+
+def get_group_tickers(group_name):
+    data = load_watchlist_groups()
+    return sorted({normalize_ticker(ticker) for ticker in data.get("groups", {}).get(group_name, []) if normalize_ticker(ticker)})
+
+
+def group_scan_results(tickers, scan_type="momentum", filters=None):
+    results = []
+    for ticker in tickers:
+        stock_data = analyze_stock_price_only(ticker)
+        if not stock_data:
+            continue
+        if filters:
+            matched, reasons = stock_matches_custom_filters(stock_data, filters)
+            if not matched:
+                continue
+            stock_data["custom_score"] = score_custom_match(stock_data, filters)
+            stock_data["match_reasons"] = reasons
+            stock_data["signal_score"] = calculate_signal_score(stock_data)
+            stock_data["risk_flags"] = calculate_risk_flags(stock_data)
+            log_signal(ticker, "custom_group_scan", "group_scanner", stock_data, stock_data["signal_score"], "low", stock_data["risk_flags"], reasons)
+            results.append(stock_data)
+        else:
+            score = calculate_score(stock_data, scan_type)
+            if score <= 0:
+                continue
+            stock_data["scanner_score"] = score
+            stock_data["scanner_signal"] = scanner_signal(stock_data, scan_type)
+            stock_data["signal_score"] = calculate_signal_score(stock_data)
+            stock_data["risk_flags"] = calculate_risk_flags(stock_data)
+            log_signal(ticker, scan_type, "group_scanner", stock_data, stock_data["signal_score"], "low", stock_data["risk_flags"], [stock_data["scanner_signal"]])
+            results.append(stock_data)
+    key = "custom_score" if filters else "scanner_score"
+    results.sort(key=lambda item: item.get(key, 0), reverse=True)
+    return results[:SCAN_RESULT_LIMIT]
+
+
+def get_options_expirations(ticker):
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return list(yf.Ticker(normalize_ticker(ticker)).options or [])
+    except Exception as error:
+        print(f"Could not fetch options expirations for {ticker}: {error}")
+        return []
+
+
+def get_options_chain(ticker, expiration):
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return yf.Ticker(normalize_ticker(ticker)).option_chain(expiration)
+    except Exception as error:
+        print(f"Could not fetch options chain for {ticker} {expiration}: {error}")
+        return None
+
+
+def option_mid_price(row):
+    bid = _to_float(row.get("bid"))
+    ask = _to_float(row.get("ask"))
+    last = _to_float(row.get("lastPrice"))
+    if bid is not None and ask is not None and bid > 0 and ask > 0:
+        return (bid + ask) / 2
+    return last
+
+
+def analyze_options_chain(ticker, expiration=None):
+    ticker = normalize_ticker(ticker)
+    stock_data = analyze_stock_price_only(ticker)
+    price = (stock_data or {}).get("latest_price")
+    expirations = get_options_expirations(ticker)
+    if not expirations:
+        return {"ticker": ticker, "stock_price": price, "expirations": [], "error": "No options expirations found."}
+
+    today = market_now().date()
+    selected = expiration
+    if selected is None:
+        for exp in expirations:
+            try:
+                dte = (datetime.fromisoformat(exp).date() - today).days
+            except ValueError:
+                continue
+            if OPTIONS_MIN_DTE <= dte <= OPTIONS_MAX_DTE:
+                selected = exp
+                break
+        selected = selected or expirations[0]
+
+    chain = get_options_chain(ticker, selected)
+    if chain is None:
+        return {"ticker": ticker, "stock_price": price, "expirations": expirations, "expiration": selected, "error": "Could not load options chain."}
+
+    try:
+        dte = (datetime.fromisoformat(selected).date() - today).days
+    except ValueError:
+        dte = None
+
+    def parse_contracts(frame, side):
+        rows = []
+        for _idx, row in frame.iterrows():
+            bid = _to_float(row.get("bid"))
+            ask = _to_float(row.get("ask"))
+            if (bid is None or bid == 0) and (ask is None or ask == 0):
+                continue
+            mid = option_mid_price(row)
+            if mid is None or mid <= 0:
+                continue
+            spread = ((ask - bid) / mid * 100) if bid is not None and ask is not None and mid else None
+            volume = row.get("volume") if pd.notna(row.get("volume")) else 0
+            open_interest = row.get("openInterest") if pd.notna(row.get("openInterest")) else 0
+            if volume < OPTIONS_MIN_VOLUME or open_interest < OPTIONS_MIN_OPEN_INTEREST:
+                continue
+            if spread is not None and spread > OPTIONS_MAX_SPREAD_PERCENT:
+                continue
+            strike = _to_float(row.get("strike"))
+            break_even = (strike + mid) if side == "call" and strike is not None else (strike - mid) if strike is not None else None
+            rows.append({
+                "contractSymbol": row.get("contractSymbol"),
+                "strike": strike,
+                "lastPrice": _to_float(row.get("lastPrice")),
+                "bid": bid,
+                "ask": ask,
+                "mid": mid,
+                "volume": int(volume or 0),
+                "openInterest": int(open_interest or 0),
+                "impliedVolatility": _to_float(row.get("impliedVolatility")),
+                "spread_percent": spread,
+                "moneyness": ((strike - price) / price * 100) if price and strike else None,
+                "days_to_expiration": dte,
+                "break_even": break_even,
+                "volume_oi_ratio": (volume / open_interest) if open_interest else None,
+                "side": side,
+            })
+        rows.sort(key=lambda item: (item["volume"], item["openInterest"]), reverse=True)
+        return rows
+
+    calls = parse_contracts(chain.calls, "call")
+    puts = parse_contracts(chain.puts, "put")
+    return {"ticker": ticker, "stock_price": price, "expirations": expirations, "expiration": selected, "days_to_expiration": dte, "calls": calls, "puts": puts}
+
+
+def format_options_contracts(title, contracts):
+    lines = [title]
+    if not contracts:
+        lines.append("- No contracts matched the liquidity/spread filters.")
+        return lines
+    for index, item in enumerate(contracts[:5], start=1):
+        lines.extend([
+            f"{index}. Strike {format_money(item.get('strike'))}",
+            f"   Mid: {format_money(item.get('mid'))}",
+            f"   Bid/Ask: {format_money(item.get('bid'))} / {format_money(item.get('ask'))}",
+            f"   Volume: {format_integer(item.get('volume'))}",
+            f"   Open Interest: {format_integer(item.get('openInterest'))}",
+            f"   IV: {format_percent((item.get('impliedVolatility') or 0) * 100)}",
+            f"   Break-even: {format_money(item.get('break_even'))}",
+            f"   Spread: {format_percent(item.get('spread_percent'))}",
+        ])
+    return lines
+
+
+def format_options_message(data):
+    if data.get("error"):
+        return f"Options Check — {data.get('ticker')}\n{data['error']}\n\nOptions data is for research only and is not financial advice."
+    lines = [
+        f"Options Check — {data['ticker']}",
+        "",
+        f"Stock Price: {format_money(data.get('stock_price'))}",
+        f"Expiration: {data.get('expiration')}",
+        f"Days to Expiration: {data.get('days_to_expiration', 'N/A')}",
+        "",
+    ]
+    lines.extend(format_options_contracts("Top Liquid Calls:", data.get("calls", [])))
+    lines.append("")
+    lines.extend(format_options_contracts("Top Liquid Puts:", data.get("puts", [])))
+    lines.extend([
+        "",
+        "Risk Notes:",
+        "- Wide bid/ask spreads can make entries/exits difficult",
+        "- Earnings before expiration may cause IV crush",
+        "- Options can lose 100% of premium",
+        "",
+        "Options data is for research only and is not financial advice.",
+    ])
+    return "\n".join(lines)
+
+
+def format_unusual_options_message(ticker):
+    data = analyze_options_chain(ticker)
+    if data.get("error"):
+        return format_options_message(data)
+    unusual = [
+        item for item in (data.get("calls", []) + data.get("puts", []))
+        if item.get("volume_oi_ratio") is not None and item["volume_oi_ratio"] > 1.0 and item.get("volume", 0) > 100
+    ]
+    unusual.sort(key=lambda item: (item.get("volume_oi_ratio") or 0, item.get("volume") or 0), reverse=True)
+    lines = [f"Unusual Options — {data['ticker']}", "", f"Stock Price: {format_money(data.get('stock_price'))}", f"Expiration: {data.get('expiration')}"]
+    if not unusual:
+        lines.append("No unusual options contracts matched the current filters.")
+    for index, item in enumerate(unusual[:10], start=1):
+        lines.extend([
+            "",
+            f"{index}. {item['side'].title()} {format_money(item.get('strike'))}",
+            f"   Mid: {format_money(item.get('mid'))}",
+            f"   Volume/OI: {format_multiple(item.get('volume_oi_ratio'))}",
+            f"   Volume: {format_integer(item.get('volume'))}",
+            f"   Open Interest: {format_integer(item.get('openInterest'))}",
+            f"   Spread: {format_percent(item.get('spread_percent'))}",
+        ])
+    lines.extend(["", "Options data is for research only and is not financial advice."])
+    return "\n".join(lines)
 
 
 def reddit_credentials_configured():
@@ -2643,7 +3448,7 @@ def update_wsb_tracking():
     tracked = []
     for mention in eligible_mentions:
         ticker = mention["ticker"]
-        analysis = analyze_stock(ticker)
+        analysis = analyze_stock_price_only(ticker)
         if analysis is None:
             continue
 
@@ -2780,7 +3585,235 @@ def get_channel_by_name(guild, channel_name):
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix="!", intents=intents, help_command=None, case_insensitive=True)
+
+
+def build_guide_messages():
+    """Return the automatic guide messages keyed by channel name."""
+    return {
+        "how-to-read-alerts": """[STOCK_BOT_GUIDE_MESSAGE]
+How to Read Stock Bot Alerts
+
+Alerts are research signals, not buy/sell instructions. The bot watches stocks for movement, RSI, volume, earnings, Reddit attention, and custom scanner criteria.
+
+A stock can be flagged for being strong, weak, risky, or unusual. Always read the reason for the alert before acting. Alerts may be delayed or affected by data-provider limits. The bot does not place real trades.
+
+Example:
+
+🚨 High Alert — NVDA
+Reason: Near 52-week high + relative volume spike
+Price: $___
+Change: 🟢 📈 +2.4%
+RSI: ⚠️ 72.1
+Signal Score: 8.0/10 — Strong
+Risk Flags:
+- RSI overbought
+- Earnings within 7 days
+
+How to read it:
+- The alert title tells you the main signal.
+- Price/change shows current direction.
+- RSI shows whether the stock may be stretched or oversold.
+- Signal Score summarizes strength.
+- Risk Flags show reasons to be cautious.
+
+All bot alerts are for research only and are not financial advice.""",
+        "emoji-legend": """[STOCK_BOT_GUIDE_MESSAGE]
+Emoji Legend
+
+🟢 📈 = Stock is up / green day
+🔴 📉 = Stock is down / red day
+⚪ ➖ = Flat or neutral
+🔥 = Unusual volume or unusual attention
+⚠️ = Caution, risk, or overbought condition
+🧊 = Oversold condition
+🚀 = Near breakout, strong move, or near 52-week high
+📅 = Earnings / quarterly report
+🔎 = Research signal
+🟡 = Medium priority
+🔴 = High priority
+🚨 = Critical alert
+
+Important:
+- Green does not automatically mean buy.
+- Red does not automatically mean sell.
+- Fire means unusual activity, not guaranteed opportunity.
+- Warning means slow down and check the details.
+
+Emojis are visual shortcuts, not trading instructions.""",
+        "scanner-guide": """[STOCK_BOT_GUIDE_MESSAGE]
+How to Read Scanner Results
+
+Scanner results are stocks that matched a set of filters. Preset scans include momentum, breakouts, oversold, pullbacks, and volume. Custom scans let users search with filters like `rsi>70`, `price>10`, and `relvol>1.5`.
+
+Broad scans search a bigger universe and may take longer. Results are ranked by how closely they match the scan criteria.
+
+Example:
+
+Scanner Results — Momentum
+
+1. 🟢 📈 AMD
+   Price: $___
+   Change: +3.2%
+   RSI: 64.5
+   Trend: 🟢 Bullish
+   Rel Volume: 🔥 1.8x
+   Signal Score: 7.5/10
+   Match Reasons:
+   - Price above 20MA, 50MA, and 200MA
+   - RSI between 45 and 70
+   - Relative volume above average
+
+How to read it:
+- Match Reasons show why the stock appeared.
+- Signal Score summarizes the setup.
+- Risk Flags should still be checked.
+- Scanner results are not buy recommendations.
+
+More research tools:
+- Best Setups ranks possible setups by signal score, trend, volume, momentum, risk flags, and support/resistance context.
+- Do Not Chase warnings flag stocks that may be extended by RSI, 5-day move, distance above the 20MA, or unusual activity.
+- Support/resistance levels show nearby price areas from recent highs and lows. They are context, not instructions.
+- Options checks explain liquidity, spread, open interest, implied volatility, days to expiration, and break-even.
+- Watchlist groups let you organize tickers by theme and run checks or scans on one group at a time.
+
+Examples:
+`!scan momentum`
+`!scan oversold`
+`!scan custom rsi>70 price>10`
+`!scan custom rsi=45-65 above50ma=true above200ma=true`
+`!scan all custom relvol>1.5 change5d>3`
+`!bestsetups`
+`!donotchase`
+`!levels AAPL`
+`!options AAPL`
+`!groups`
+
+Scanner results are for research only and are not financial advice.""",
+        "risk-and-score-guide": """[STOCK_BOT_GUIDE_MESSAGE]
+Signal Score and Risk Flags Guide
+
+Signal Score:
+- 0-3 = Weak
+- 4-6 = Moderate
+- 7-8 = Strong
+- 9-10 = Very Strong
+
+The score combines trend, volume, momentum, RSI, analyst data, earnings risk, and Reddit attention when available.
+
+Risk Flags:
+Risk flags are caution notes. They do not always mean avoid a stock. They mean the setup has something worth checking before making a decision.
+
+Risk flag examples:
+- Earnings today/tomorrow
+- RSI extremely overbought
+- Stock extended after a large 5-day move
+- Below 200-day moving average
+- Low volume
+- Very high Reddit attention
+- Data incomplete
+
+Support and resistance:
+- Support is a nearby area where price recently found buyers.
+- Resistance is a nearby area where price recently stalled.
+- A move near support or resistance can be useful context, but it is not a trade instruction.
+
+Do Not Chase warnings:
+- These appear when a stock may be exciting but extended.
+- Extended stocks can still move higher, but the risk/reward may be less forgiving.
+
+Example:
+
+Signal Score: 8.0/10 — Strong
+Risk Flags:
+⚠️ RSI overbought
+📅 Earnings within 3 days
+🔥 Relative volume above 2.0x
+
+How to read it:
+- Strong signal score with high risk flags means the stock may be interesting but risky.
+- Low signal score with many risk flags means the setup is weaker.
+- Missing data should always be treated carefully.
+
+Signal scores and risk flags are research tools, not financial advice.""",
+        "paper-trading-guide": """[STOCK_BOT_GUIDE_MESSAGE]
+Paper Trading Guide
+
+Paper trading is simulated trading only. It does not buy or sell real stocks. Use it to test ideas from alerts and scanners. Paper trades are saved in the bot journal.
+
+Commands:
+`!paperbuy AAPL 10 195.20 breakout setup`
+`!papersell AAPL 10 205.00 taking profit`
+`!paperportfolio`
+`!paperpnl`
+`!paperjournal`
+`!paperclose AAPL 210.00 closing test trade`
+`!paperclear CONFIRM`
+
+How to read the command:
+- Quantity is simulated share count.
+- Price is the simulated entry/exit price.
+- Reason is optional but useful for learning.
+- Use paper trading to see whether the bot's signals are actually helpful over time.
+
+Paper trading is simulated only and does not place real trades.""",
+    }
+
+
+async def post_or_update_guide_messages(guild):
+    """Post or update one pinned guide message in each guide channel."""
+    global guide_pin_permission_warning_printed
+
+    if guild is None:
+        return
+
+    for channel_name, guide_message in build_guide_messages().items():
+        channel = get_channel_by_name(guild, channel_name)
+        if channel is None:
+            print(f"Guide channel #{channel_name} is missing.")
+            continue
+
+        existing_message = None
+        try:
+            for message in await channel.pins():
+                if message.author == bot.user and GUIDE_MESSAGE_MARKER in (message.content or ""):
+                    existing_message = message
+                    break
+        except (discord.Forbidden, discord.HTTPException) as error:
+            print(f"Could not read pinned guide messages in #{channel_name}: {error}")
+
+        try:
+            async for message in channel.history(limit=50):
+                if existing_message:
+                    break
+                if message.author == bot.user and GUIDE_MESSAGE_MARKER in (message.content or ""):
+                    existing_message = message
+                    break
+        except (discord.Forbidden, discord.HTTPException) as error:
+            print(f"Could not search guide history in #{channel_name}: {error}")
+
+        try:
+            if existing_message:
+                await existing_message.edit(content=guide_message)
+                guide_post = existing_message
+                print(f"Updated guide message in #{channel_name}.")
+            else:
+                guide_post = await channel.send(guide_message)
+                print(f"Posted guide message in #{channel_name}.")
+        except (discord.Forbidden, discord.HTTPException) as error:
+            print(f"Could not post guide message in #{channel_name}: {error}")
+            continue
+
+        if not guide_post.pinned:
+            try:
+                await guide_post.pin(reason="Stock bot guide message")
+                print(f"Pinned guide message in #{channel_name}.")
+            except discord.Forbidden:
+                if not guide_pin_permission_warning_printed:
+                    print("Guide message posted but could not be pinned. Give the bot Manage Messages permission to allow pinning.")
+                    guide_pin_permission_warning_printed = True
+            except discord.HTTPException as error:
+                print(f"Guide message posted but could not be pinned: {error}")
 
 
 async def send_long_message(destination, message):
@@ -2845,8 +3878,11 @@ async def process_stock_alerts(guild, analysis):
     price = analysis["price"]
     if price is None:
         return
+    signal_score = calculate_signal_score(analysis)
+    risk_flags = calculate_risk_flags(analysis)
 
     if should_send_alert(ticker, "summary"):
+        log_signal(ticker, "summary", "stock_alert", analysis, signal_score, "low", risk_flags, ["Watchlist summary alert"])
         await send_stock_alert(
             guild,
             "stock-alerts",
@@ -2858,6 +3894,7 @@ async def process_stock_alerts(guild, analysis):
         and price >= analysis["day_high"] * NEAR_DAILY_HIGH_THRESHOLD
         and should_send_alert(ticker, "daily_high")
     ):
+        log_signal(ticker, "near_daily_high", "stock_alert", analysis, signal_score, "medium", risk_flags, ["Near daily high"])
         await send_stock_alert(
             guild,
             "daily-highs",
@@ -2869,6 +3906,7 @@ async def process_stock_alerts(guild, analysis):
         and price <= analysis["day_low"] * NEAR_DAILY_LOW_THRESHOLD
         and should_send_alert(ticker, "daily_low")
     ):
+        log_signal(ticker, "near_daily_low", "stock_alert", analysis, signal_score, "medium", risk_flags, ["Near daily low"])
         await send_stock_alert(
             guild,
             "daily-lows",
@@ -2880,6 +3918,7 @@ async def process_stock_alerts(guild, analysis):
         and price >= analysis["fifty_two_week_high"] * NEAR_52W_HIGH_THRESHOLD
         and should_send_alert(ticker, "52w_high")
     ):
+        log_signal(ticker, "near_52_week_high", "stock_alert", analysis, signal_score, "medium", risk_flags, ["Near 52-week high"])
         await send_stock_alert(
             guild,
             "fifty-two-week-highs",
@@ -2891,6 +3930,7 @@ async def process_stock_alerts(guild, analysis):
         and price <= analysis["fifty_two_week_low"] * NEAR_52W_LOW_THRESHOLD
         and should_send_alert(ticker, "52w_low")
     ):
+        log_signal(ticker, "near_52_week_low", "stock_alert", analysis, signal_score, "medium", risk_flags, ["Near 52-week low"])
         await send_stock_alert(
             guild,
             "fifty-two-week-lows",
@@ -2899,6 +3939,7 @@ async def process_stock_alerts(guild, analysis):
 
     if analysis["rsi"] is not None and analysis["rsi"] >= RSI_OVERBOUGHT:
         if should_send_alert(ticker, "rsi_overbought"):
+            log_signal(ticker, "rsi_overbought", "stock_alert", analysis, signal_score, "medium", risk_flags, ["RSI overbought"])
             await send_stock_alert(
                 guild,
                 "rsi-alerts",
@@ -2907,6 +3948,7 @@ async def process_stock_alerts(guild, analysis):
 
     if analysis["rsi"] is not None and analysis["rsi"] <= RSI_OVERSOLD:
         if should_send_alert(ticker, "rsi_oversold"):
+            log_signal(ticker, "rsi_oversold", "stock_alert", analysis, signal_score, "medium", risk_flags, ["RSI oversold"])
             await send_stock_alert(
                 guild,
                 "rsi-alerts",
@@ -2914,6 +3956,7 @@ async def process_stock_alerts(guild, analysis):
             )
 
     if analysis["volume_spike"] and should_send_alert(ticker, "volume_spike"):
+        log_signal(ticker, "volume_spike", "stock_alert", analysis, signal_score, "high", risk_flags, ["Volume spike"])
         await send_stock_alert(
             guild,
             "volume-spikes",
@@ -2921,25 +3964,57 @@ async def process_stock_alerts(guild, analysis):
         )
 
 
+async def process_levels_alerts(guild, analysis):
+    ticker = analysis.get("ticker")
+    levels = await asyncio.to_thread(calculate_support_resistance, ticker, analysis)
+    distance_resistance = levels.get("distance_to_resistance_percent")
+    distance_support = levels.get("distance_to_support_percent")
+    if distance_resistance is not None and distance_resistance <= LEVELS_ALERT_DISTANCE_PERCENT and analysis.get("trend") == "Bullish":
+        if should_send_alert(ticker, "near_resistance"):
+            score_data = calculate_signal_score(analysis)
+            risk_flags = calculate_risk_flags(analysis)
+            log_signal(ticker, "near_resistance", "levels_alert", analysis, score_data, "medium", risk_flags, ["Price near resistance"])
+            await send_stock_alert(
+                guild,
+                "levels-alerts",
+                f"{ticker} near resistance\nPrice: {format_money(analysis.get('latest_price'))}\nResistance: {format_money(levels.get('nearest_resistance'))}\nDistance: {format_percent(distance_resistance)}",
+                "medium",
+            )
+    if distance_support is not None and distance_support <= LEVELS_ALERT_DISTANCE_PERCENT:
+        if should_send_alert(ticker, "near_support"):
+            score_data = calculate_signal_score(analysis)
+            risk_flags = calculate_risk_flags(analysis)
+            log_signal(ticker, "near_support", "levels_alert", analysis, score_data, "medium", risk_flags, ["Price near support"])
+            await send_stock_alert(
+                guild,
+                "levels-alerts",
+                f"{ticker} near support\nPrice: {format_money(analysis.get('latest_price'))}\nSupport: {format_money(levels.get('nearest_support'))}\nDistance: {format_percent(distance_support)}",
+                "medium",
+            )
+
+
 @tasks.loop(hours=24)
 async def daily_scanner_loop():
-    guild_id = get_guild_id()
-    if guild_id is None:
-        return
+    try:
+        guild_id = get_guild_id()
+        if guild_id is None:
+            return
 
-    guild = bot.get_guild(guild_id)
-    if guild is None:
-        print("Daily scanner could not find the configured Discord server.")
-        return
+        guild = bot.get_guild(guild_id)
+        if guild is None:
+            print("Daily scanner could not find the configured Discord server.")
+            return
 
-    results = await asyncio.to_thread(build_scanner_results, "balanced")
-    message = format_scanner_results(results, "balanced")
-    channel = get_channel_by_name(guild, "stock-ideas")
-    if channel is None:
-        print("Daily scanner could not find #stock-ideas.")
-        return
+        results = await asyncio.to_thread(build_scanner_results, "balanced")
+        message = format_scanner_results(results, "balanced")
+        channel = get_channel_by_name(guild, "stock-ideas")
+        if channel is None:
+            print("Daily scanner could not find #stock-ideas.")
+            return
 
-    await channel.send(message)
+        await channel.send(message)
+    except Exception as error:
+        print(f"Daily scanner loop failed safely: {error}")
 
 
 @daily_scanner_loop.before_loop
@@ -2967,7 +4042,12 @@ async def stock_alert_loop():
         print("Stock alert loop could not find the configured Discord server.")
         return
 
-    tickers = load_watchlist()
+    tickers = set(load_watchlist())
+    groups = load_watchlist_groups()
+    for group_name, enabled in groups.get("alerts_enabled", {}).items():
+        if enabled:
+            tickers.update(groups.get("groups", {}).get(group_name, []))
+    tickers = sorted({normalize_ticker(ticker) for ticker in tickers if normalize_ticker(ticker)})
     if not tickers:
         print("Stock alert loop skipped because the watchlist is empty.")
         return
@@ -2976,12 +4056,13 @@ async def stock_alert_loop():
 
     for ticker in tickers:
         try:
-            analysis = await asyncio.to_thread(analyze_stock, ticker)
+            analysis = await asyncio.to_thread(analyze_stock_price_only, ticker)
             if analysis is None:
                 print(f"Skipping {ticker}; no valid stock data was returned.")
                 continue
 
             await process_stock_alerts(guild, analysis)
+            await process_levels_alerts(guild, analysis)
         except Exception as error:
             print(f"Stock alert check failed for {ticker}: {error}")
 
@@ -3043,6 +4124,71 @@ async def morning_briefing_loop():
         print(f"Morning briefing sent for {last_morning_briefing_date}.")
     except Exception as error:
         print(f"Morning briefing loop failed safely: {error}")
+
+
+@tasks.loop(minutes=10)
+async def best_setups_loop():
+    global last_best_setups_date
+    try:
+        if not should_run_best_setups():
+            return
+        guild_id = get_guild_id()
+        guild = bot.get_guild(guild_id) if guild_id else None
+        if guild is None:
+            return
+        channel = get_channel_by_name(guild, "best-setups")
+        if channel is None:
+            print("Best setups loop could not find #best-setups.")
+            return
+        results = await asyncio.to_thread(build_best_setups_of_day)
+        await send_long_message(channel, format_best_setups_message(results))
+        last_best_setups_date = market_now().date().isoformat()
+        print(f"Best setups posted for {last_best_setups_date}.")
+    except Exception as error:
+        print(f"Best setups loop failed safely: {error}")
+
+
+@tasks.loop(minutes=10)
+async def do_not_chase_loop():
+    global last_do_not_chase_date
+    try:
+        if not should_run_do_not_chase():
+            return
+        guild_id = get_guild_id()
+        guild = bot.get_guild(guild_id) if guild_id else None
+        if guild is None:
+            return
+        channel = get_channel_by_name(guild, "do-not-chase")
+        if channel is None:
+            print("Do-not-chase loop could not find #do-not-chase.")
+            return
+        results = await asyncio.to_thread(build_do_not_chase_results)
+        await send_long_message(channel, format_do_not_chase_message(results))
+        last_do_not_chase_date = market_now().date().isoformat()
+        print(f"Do-not-chase watch posted for {last_do_not_chase_date}.")
+    except Exception as error:
+        print(f"Do-not-chase loop failed safely: {error}")
+
+
+@tasks.loop(hours=6)
+async def signal_performance_loop():
+    global last_signal_performance_summary_date
+    try:
+        await asyncio.to_thread(update_signal_performance)
+        today = market_now().date().isoformat()
+        if last_signal_performance_summary_date == today:
+            return
+        guild_id = get_guild_id()
+        guild = bot.get_guild(guild_id) if guild_id else None
+        channel = get_channel_by_name(guild, "signal-performance") if guild else None
+        if channel is None:
+            return
+        message = await asyncio.to_thread(format_signal_performance_summary, 30)
+        if "No logged signals" not in message:
+            await send_long_message(channel, message)
+            last_signal_performance_summary_date = today
+    except Exception as error:
+        print(f"Signal performance loop failed safely: {error}")
 
 
 @tasks.loop(minutes=10)
@@ -3179,6 +4325,16 @@ async def wsb_tracker_loop():
             reasons = wsb_alert_reasons(item)
             if reasons:
                 try:
+                    log_signal(
+                        item.get("ticker"),
+                        "wsb_attention",
+                        "wsb",
+                        {"latest_price": item.get("price"), "ticker": item.get("ticker"), "rsi": item.get("rsi"), "relative_volume": item.get("relative_volume"), "change_5d_percent": item.get("change_5d_percent"), "trend": item.get("trend")},
+                        None,
+                        "high",
+                        [],
+                        reasons,
+                    )
                     await send_long_message(alerts_channel, format_wsb_alert(item, reasons))
                 except Exception as error:
                     print(f"WSB alert send failed safely: {error}")
@@ -3308,6 +4464,7 @@ async def on_ready():
 
     try:
         await setup_channels(guild)
+        await post_or_update_guide_messages(guild)
     except discord.Forbidden:
         print(
             "Error: Discord denied the channel setup request. Give the bot "
@@ -3334,6 +4491,18 @@ async def on_ready():
             f"{MORNING_BRIEFING_HOUR:02d}:{MORNING_BRIEFING_MINUTE:02d} Pacific."
         )
 
+    if not best_setups_loop.is_running():
+        best_setups_loop.start()
+        print(f"Best setups loop started. Scheduled for {BEST_SETUPS_HOUR:02d}:{BEST_SETUPS_MINUTE:02d} Pacific.")
+
+    if not do_not_chase_loop.is_running():
+        do_not_chase_loop.start()
+        print("Do-not-chase loop started. Scheduled for 07:05 Pacific.")
+
+    if not signal_performance_loop.is_running():
+        signal_performance_loop.start()
+        print("Signal performance loop started. Updating every 6 hours.")
+
     if not earnings_weekly_loop.is_running():
         earnings_weekly_loop.start()
         print(
@@ -3353,13 +4522,29 @@ async def on_ready():
     elif praw is None:
         print("Skipped optional WSB tracker because PRAW is not installed.")
 
-    if not pauls_tracker_loop.is_running():
+    if PAULS_TRACKERS_AUTO_ENABLED and not pauls_tracker_loop.is_running():
         pauls_tracker_loop.start()
         print(f"Paul's Trackers loop started. Checking every {PAULS_TRACKER_SCAN_INTERVAL_MINUTES} minutes.")
+    elif not PAULS_TRACKERS_AUTO_ENABLED:
+        print("Paul's Trackers automatic loop disabled by settings.")
 
     if ENABLE_DAILY_SCANNER and not daily_scanner_loop.is_running():
         daily_scanner_loop.start()
         print("Daily scanner loop started.")
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send("Please wait before running this command again.")
+        return
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("That command is missing a required value. Use `!help` or `!commands` for examples.")
+        return
+    if isinstance(error, commands.BadArgument):
+        await ctx.send("I could not read one of those values. Use `!help` or `!commands` for examples.")
+        return
+    raise error
 
 
 @bot.command(name="setup")
@@ -3381,10 +4566,11 @@ async def setup_command(ctx):
         await ctx.send("Channel setup could not run. Check the bot terminal.")
         return
 
+    await post_or_update_guide_messages(ctx.guild)
     await ctx.send(
         "Server organization complete. Stock bot channels are now grouped by Core, "
         "Watchlist, Scanner, Journal, Briefings, Quarterly Reports, WallStreetBets, "
-        "Paul's Trackers, and Paper Trading."
+        "Paul's Trackers, Paper Trading, and Guide."
     )
 
 
@@ -3412,6 +4598,25 @@ async def channels_command(ctx):
     await send_long_message(ctx, "\n".join(lines))
 
 
+@bot.command(name="postguides")
+@commands.guild_only()
+async def postguides_command(ctx):
+    """Manually post or update automatic guide messages."""
+    await post_or_update_guide_messages(ctx.guild)
+    await ctx.send("Guide messages updated in the Stock Bot — Guide section.")
+
+
+@bot.command(name="guide")
+@commands.guild_only()
+async def guide_command(ctx):
+    """Show guide channels."""
+    lines = ["Stock Bot Guide:"]
+    for channel_name in GUIDE_CHANNELS:
+        channel = get_channel_by_name(ctx.guild, channel_name)
+        lines.append(channel.mention if channel else f"#{channel_name} (missing)")
+    await ctx.send("\n".join(lines))
+
+
 @bot.command(name="ping")
 async def ping_command(ctx):
     """Confirm that the bot is online."""
@@ -3424,6 +4629,8 @@ def command_help_text():
         "Channels are organized by Core, Watchlist, Scanner, Journal, Briefings, Quarterly Reports, Paul's Trackers, Paper Trading, and WallStreetBets.\n"
         "!setup - Create the stock bot channel structure\n"
         "!channels - List stock bot channels\n"
+        "!guide - Show guide channels\n"
+        "!postguides - Repost/update automatic guide messages\n"
         "!quickstart - Show first steps for using the bot\n"
         "!examples - Show example commands\n"
         "!ping - Check whether the bot is online\n"
@@ -3437,6 +4644,46 @@ def command_help_text():
         "!markethoursonly on/off - Restrict stock alerts to regular market hours\n"
         "!alertfrequency 5 - Save alert loop frequency\n"
         "!setalertseverity high - Set minimum alert severity\n"
+        "Best Setups:\n"
+        "!bestsetups - Show best research candidates of the day\n"
+        "!bestsetupsstatus - Show best setups loop status\n"
+        "!setbestsetupstime 7 0 - Set best setups schedule\n"
+        "!setbestsetupscore 7 - Set minimum best setups score\n"
+        "!setbestsetuplimit 10 - Set best setups result limit\n"
+        "Do Not Chase:\n"
+        "!donotchase - Show extended setups to be cautious with\n"
+        "!donotchasestatus - Show do-not-chase thresholds\n"
+        "!setchaseRSI 75 - Set do-not-chase RSI threshold\n"
+        "!setchase5day 15 - Set do-not-chase 5-day gain threshold\n"
+        "!setchase20ma 7 - Set do-not-chase 20MA distance threshold\n"
+        "Signal Performance:\n"
+        "!signals - Show recent logged signals\n"
+        "!signalperformance 30 - Show historical signal tracking\n"
+        "!signalreview AAPL - Review one ticker's signals\n"
+        "!clearsignals CONFIRM - Clear signal tracking history\n"
+        "Support/Resistance:\n"
+        "!levels AAPL - Show support/resistance levels\n"
+        "!watchlevels - Show levels for the watchlist\n"
+        "!setleveldistance 1 - Set levels alert distance\n"
+        "Options:\n"
+        "!options AAPL - Show options overview\n"
+        "!unusualoptions AAPL - Scan unusual options activity\n"
+        "!optionshelp - Explain options fields\n"
+        "!optionssettings - Show options filters\n"
+        "!setoptionsvolume 10 - Set options minimum volume\n"
+        "!setoptionsoi 100 - Set options minimum open interest\n"
+        "!setoptionsspread 20 - Set options max spread\n"
+        "!setoptionsdte 14 60 - Set options DTE range\n"
+        "Watchlist Groups:\n"
+        "!groups - Show watchlist groups\n"
+        "!groupcreate semiconductors - Create a group\n"
+        "!groupdelete semiconductors CONFIRM - Delete a group\n"
+        "!groupadd semiconductors NVDA - Add ticker to group\n"
+        "!groupremove semiconductors NVDA - Remove ticker from group\n"
+        "!groupshow semiconductors - Show group tickers\n"
+        "!groupcheck semiconductors - Check all tickers in a group\n"
+        "!groupscan semiconductors momentum - Scan a group\n"
+        "!groupalerts semiconductors on/off - Toggle group background alerts\n"
         "!scan momentum - Run a preset scanner\n"
         "!scan custom rsi>70 - Run a custom scanner\n"
         "!scan all momentum - Run a broad scanner\n"
@@ -3461,6 +4708,8 @@ def command_help_text():
         "!dividendhighs - Find stocks near all-time highs with at least 5% dividend yield\n"
         "!fivedayrunners - Find stocks up at least 10% over the past 5 trading days\n"
         "!paulssettings - Show Paul's Tracker settings\n"
+        "!paulsauto on/off - Turn automatic Paul's Trackers loop on or off\n"
+        "!setpaulslimit 50 - Set Paul's Tracker scan limit\n"
         "!setpaulsdividend 5 - Set dividend yield threshold\n"
         "!setpaulsath 5 - Set near all-time-high threshold\n"
         "!setpauls5day 10 - Set 5-day gain threshold\n"
@@ -3519,7 +4768,9 @@ async def quickstart_command(ctx):
         "8. Run Paul's Trackers with `!paulstrackers`.\n"
         "9. Review settings with `!settings`.\n"
         "10. Track simulated trades with `!paperbuy AAPL 10 195.20 reason`.\n"
-        "11. Use `!help` or `!commands` anytime."
+        "11. Review levels with `!levels AAPL`.\n"
+        "12. Review groups with `!groups`.\n"
+        "13. Use `!help` or `!commands` anytime."
     )
 
 
@@ -3537,6 +4788,12 @@ async def examples_command(ctx):
         "`!eodsummary`\n"
         "`!morningbriefing`\n"
         "`!settings`\n"
+        "`!levels AAPL`\n"
+        "`!bestsetups`\n"
+        "`!donotchase`\n"
+        "`!options AAPL`\n"
+        "`!groups`\n"
+        "`!groupadd ai NVDA`\n"
         "`!paperbuy AAPL 10 195.20 breakout setup`\n"
         "`!paperportfolio`\n"
         "`!paulstrackers`\n"
@@ -3647,7 +4904,7 @@ async def check_command(ctx, ticker=None):
         return
 
     await ctx.send(f"Checking {ticker}. This may take a moment...")
-    analysis = await asyncio.to_thread(analyze_stock, ticker)
+    analysis = await asyncio.to_thread(analyze_stock_price_only, ticker)
 
     if analysis is None:
         await ctx.send(f"I could not find recent stock data for {ticker}.")
@@ -3691,7 +4948,13 @@ async def settings_command(ctx):
         f"Minimum alert severity: {settings.get('min_alert_severity')}\n"
         f"Paul's dividend minimum: {settings.get('pauls_dividend_min_percent')}%\n"
         f"Paul's near-ATH threshold: {settings.get('pauls_ath_threshold_percent')}%\n"
-        f"Paul's 5-day gain threshold: {settings.get('pauls_5day_gain_percent')}%"
+        f"Paul's 5-day gain threshold: {settings.get('pauls_5day_gain_percent')}%\n"
+        f"Paul's Trackers auto enabled: {settings.get('pauls_trackers_auto_enabled')}\n"
+        f"Paul's Tracker scan limit: {settings.get('pauls_tracker_scan_limit')}\n"
+        f"Best setups time: {settings.get('best_setups_time')}\n"
+        f"Best setups min score: {settings.get('best_setups_min_score')}\n"
+        f"Levels alert distance: {settings.get('levels_alert_distance_percent')}%\n"
+        f"Options filters: volume {settings.get('options_min_volume')}, OI {settings.get('options_min_open_interest')}, spread {settings.get('options_max_spread_percent')}%"
     )
 
 
@@ -4048,9 +5311,52 @@ async def paulssettings_command(ctx):
         f"Five-day gain minimum: {FIVE_DAY_GAIN_MIN_PERCENT}%\n"
         f"Scan interval: {PAULS_TRACKER_SCAN_INTERVAL_MINUTES} minutes\n"
         f"Result limit: {PAULS_TRACKER_RESULT_LIMIT}\n"
+        f"Automatic loop enabled: {PAULS_TRACKERS_AUTO_ENABLED}\n"
+        f"Scan limit: {PAULS_TRACKER_SCAN_LIMIT}\n"
         f"Ticker universe source: {source}\n\n"
         f"{PAULS_TRACKER_DISCLAIMER}"
     )
+
+
+@bot.command(name="paulsauto")
+@commands.guild_only()
+async def paulsauto_command(ctx, mode=None):
+    """Turn automatic Paul's Trackers loop on or off."""
+    global PAULS_TRACKERS_AUTO_ENABLED
+    if mode not in {"on", "off"}:
+        await ctx.send("Use `!paulsauto on` or `!paulsauto off`.")
+        return
+
+    PAULS_TRACKERS_AUTO_ENABLED = mode == "on"
+    set_setting("pauls_trackers_auto_enabled", PAULS_TRACKERS_AUTO_ENABLED)
+
+    if PAULS_TRACKERS_AUTO_ENABLED and not pauls_tracker_loop.is_running():
+        pauls_tracker_loop.start()
+    elif not PAULS_TRACKERS_AUTO_ENABLED and pauls_tracker_loop.is_running():
+        pauls_tracker_loop.cancel()
+
+    await ctx.send(
+        f"Paul's Trackers automatic loop is now {'on' if PAULS_TRACKERS_AUTO_ENABLED else 'off'}.\n\n"
+        f"{PAULS_TRACKER_DISCLAIMER}"
+    )
+
+
+@bot.command(name="setpaulslimit")
+@commands.guild_only()
+async def setpaulslimit_command(ctx, number=None):
+    """Set Paul's Tracker scan limit."""
+    global PAULS_TRACKER_SCAN_LIMIT
+    try:
+        value = int(number)
+    except (TypeError, ValueError):
+        await ctx.send("Please provide a whole number from 10 to 500, like `!setpaulslimit 50`.")
+        return
+    if value < 10 or value > 500:
+        await ctx.send("Paul's Tracker scan limit must be between 10 and 500.")
+        return
+    PAULS_TRACKER_SCAN_LIMIT = value
+    set_setting("pauls_tracker_scan_limit", value)
+    await ctx.send(f"Paul's Tracker scan limit set to {PAULS_TRACKER_SCAN_LIMIT} tickers and saved.")
 
 
 @bot.command(name="setpaulsdividend")
@@ -4105,6 +5411,256 @@ async def setpauls5day_command(ctx, percent=None):
     FIVE_DAY_GAIN_MIN_PERCENT = value
     set_setting("pauls_5day_gain_percent", value)
     await ctx.send(f"Paul's 5-day gain threshold set to {FIVE_DAY_GAIN_MIN_PERCENT}% and saved.")
+
+
+@bot.command(name="signals")
+@commands.guild_only()
+async def signals_command(ctx):
+    """Show recent logged bot signals."""
+    signals = list(reversed(load_signal_log().get("signals", [])))[:10]
+    lines = ["Recent Logged Signals"]
+    if not signals:
+        lines.append("No signals logged yet.")
+    for signal in signals:
+        lines.append(
+            f"- {signal.get('timestamp')} | {signal.get('ticker')} | "
+            f"{signal.get('source')} / {signal.get('signal_type')} | "
+            f"Price: {format_money(signal.get('price_at_signal'))} | Score: {signal.get('signal_score', 'N/A')}"
+        )
+    lines.extend(["", "Signal performance is historical tracking only and is not financial advice."])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="signalperformance")
+@commands.guild_only()
+async def signalperformance_command(ctx, days=30):
+    """Show signal performance summary."""
+    try:
+        days = int(days)
+    except (TypeError, ValueError):
+        days = 30
+    days = max(1, min(days, 365))
+    await send_long_message(ctx, await asyncio.to_thread(format_signal_performance_summary, days))
+
+
+@bot.command(name="signalreview")
+@commands.guild_only()
+async def signalreview_command(ctx, ticker=None):
+    """Review logged signals for one ticker."""
+    ticker = normalize_ticker(ticker)
+    if not ticker:
+        await ctx.send("Use `!signalreview AAPL`.")
+        return
+    items = [item for item in load_signal_log().get("signals", []) if item.get("ticker") == ticker]
+    lines = [f"Signal Review — {ticker}"]
+    if not items:
+        lines.append("No logged signals found for this ticker.")
+    for item in list(reversed(items))[:15]:
+        perf = item.get("performance", {})
+        lines.append(
+            f"- {item.get('timestamp')} | {item.get('source')} / {item.get('signal_type')} | "
+            f"Price: {format_money(item.get('price_at_signal'))} | 1D {format_percent(perf.get('1d'))} | 5D {format_percent(perf.get('5d'))} | 10D {format_percent(perf.get('10d'))}"
+        )
+    lines.extend(["", "Signal performance is historical tracking only and is not financial advice."])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="clearsignals")
+@commands.guild_only()
+async def clearsignals_command(ctx, confirm=None):
+    if confirm != "CONFIRM":
+        await ctx.send("Type `!clearsignals CONFIRM` to clear signal_log.json.")
+        return
+    save_signal_log({"signals": []})
+    await ctx.send("Signal log cleared.")
+
+
+@bot.command(name="bestsetups")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def bestsetups_command(ctx):
+    await ctx.send("Building best setups of the day. This may take a moment...")
+    results = await asyncio.to_thread(build_best_setups_of_day)
+    await send_long_message(ctx, format_best_setups_message(results))
+
+
+@bot.command(name="bestsetupsstatus")
+@commands.guild_only()
+async def bestsetupsstatus_command(ctx):
+    status = "running" if best_setups_loop.is_running() else "stopped"
+    await ctx.send(
+        "Best setups status:\n"
+        f"Loop: {status}\n"
+        f"Schedule: {BEST_SETUPS_HOUR:02d}:{BEST_SETUPS_MINUTE:02d} Pacific\n"
+        f"Last run: {last_best_setups_date or 'Never'}\n"
+        f"Minimum score: {BEST_SETUPS_MIN_SCORE}\n"
+        f"Result limit: {BEST_SETUPS_RESULT_LIMIT}"
+    )
+
+
+@bot.command(name="setbestsetupstime")
+@commands.guild_only()
+async def setbestsetupstime_command(ctx, hour=None, minute=None):
+    global BEST_SETUPS_HOUR, BEST_SETUPS_MINUTE
+    try:
+        hour = int(hour)
+        minute = int(minute)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setbestsetupstime 7 0`.")
+        return
+    if not 0 <= hour <= 23 or not 0 <= minute <= 59:
+        await ctx.send("Hour must be 0-23 and minute must be 0-59.")
+        return
+    BEST_SETUPS_HOUR = hour
+    BEST_SETUPS_MINUTE = minute
+    set_setting("best_setups_time", f"{hour:02d}:{minute:02d}")
+    await ctx.send(f"Best setups time set to {hour:02d}:{minute:02d} Pacific.")
+
+
+@bot.command(name="setbestsetupscore")
+@commands.guild_only()
+async def setbestsetupscore_command(ctx, score=None):
+    global BEST_SETUPS_MIN_SCORE
+    try:
+        value = float(score)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setbestsetupscore 7`.")
+        return
+    if value < 0 or value > 10:
+        await ctx.send("Score must be between 0 and 10.")
+        return
+    BEST_SETUPS_MIN_SCORE = value
+    set_setting("best_setups_min_score", value)
+    await ctx.send(f"Best setups minimum score set to {value}.")
+
+
+@bot.command(name="setbestsetuplimit")
+@commands.guild_only()
+async def setbestsetuplimit_command(ctx, number=None):
+    global BEST_SETUPS_RESULT_LIMIT
+    try:
+        value = int(number)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setbestsetuplimit 10`.")
+        return
+    if value < 3 or value > 25:
+        await ctx.send("Limit must be between 3 and 25.")
+        return
+    BEST_SETUPS_RESULT_LIMIT = value
+    set_setting("best_setups_result_limit", value)
+    await ctx.send(f"Best setups result limit set to {value}.")
+
+
+@bot.command(name="donotchase")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def donotchase_command(ctx):
+    await ctx.send("Scanning for do-not-chase risk reminders...")
+    results = await asyncio.to_thread(build_do_not_chase_results)
+    await send_long_message(ctx, format_do_not_chase_message(results))
+
+
+@bot.command(name="donotchasestatus")
+@commands.guild_only()
+async def donotchasestatus_command(ctx):
+    status = "running" if do_not_chase_loop.is_running() else "stopped"
+    await ctx.send(
+        "Do-not-chase status:\n"
+        f"Loop: {status}\n"
+        f"RSI threshold: {DO_NOT_CHASE_RSI}\n"
+        f"5D gain threshold: {DO_NOT_CHASE_5D_GAIN}%\n"
+        f"Distance above 20MA threshold: {DO_NOT_CHASE_DISTANCE_ABOVE_20MA}%"
+    )
+
+
+@bot.command(name="setchasersi")
+@commands.guild_only()
+async def setchasersi_command(ctx, number=None):
+    global DO_NOT_CHASE_RSI
+    try:
+        value = float(number)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setchaseRSI 75`.")
+        return
+    DO_NOT_CHASE_RSI = value
+    set_setting("do_not_chase_rsi", value)
+    await ctx.send(f"Do-not-chase RSI threshold set to {value}.")
+
+
+@bot.command(name="setchase5day")
+@commands.guild_only()
+async def setchase5day_command(ctx, percent=None):
+    global DO_NOT_CHASE_5D_GAIN
+    try:
+        value = float(percent)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setchase5day 15`.")
+        return
+    DO_NOT_CHASE_5D_GAIN = value
+    set_setting("do_not_chase_5d_gain", value)
+    await ctx.send(f"Do-not-chase 5D gain threshold set to {value}%.")
+
+
+@bot.command(name="setchase20ma")
+@commands.guild_only()
+async def setchase20ma_command(ctx, percent=None):
+    global DO_NOT_CHASE_DISTANCE_ABOVE_20MA
+    try:
+        value = float(percent)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setchase20ma 7`.")
+        return
+    DO_NOT_CHASE_DISTANCE_ABOVE_20MA = value
+    set_setting("do_not_chase_distance_above_20ma", value)
+    await ctx.send(f"Do-not-chase 20MA distance threshold set to {value}%.")
+
+
+@bot.command(name="levels")
+@commands.guild_only()
+async def levels_command(ctx, ticker=None):
+    ticker = normalize_ticker(ticker)
+    if not ticker:
+        await ctx.send("Use `!levels AAPL`.")
+        return
+    await send_long_message(ctx, await asyncio.to_thread(format_levels_message, ticker))
+
+
+@bot.command(name="watchlevels")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def watchlevels_command(ctx):
+    lines = ["Watchlist Support / Resistance"]
+    for ticker in load_watchlist():
+        stock_data = await asyncio.to_thread(analyze_stock_price_only, ticker)
+        if not stock_data:
+            continue
+        levels = await asyncio.to_thread(calculate_support_resistance, ticker, stock_data)
+        lines.extend([
+            "",
+            f"{ticker}",
+            f"Price: {format_money(stock_data.get('latest_price'))}",
+            f"Support: {format_money(levels.get('nearest_support'))} ({format_percent(levels.get('distance_to_support_percent'))})",
+            f"Resistance: {format_money(levels.get('nearest_resistance'))} ({format_percent(levels.get('distance_to_resistance_percent'))})",
+        ])
+    lines.extend(["", "Research only — not financial advice."])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="setleveldistance")
+@commands.guild_only()
+async def setleveldistance_command(ctx, percent=None):
+    global LEVELS_ALERT_DISTANCE_PERCENT
+    try:
+        value = float(percent)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setleveldistance 1`.")
+        return
+    if value < 0.25 or value > 10:
+        await ctx.send("Level distance must be between 0.25 and 10 percent.")
+        return
+    LEVELS_ALERT_DISTANCE_PERCENT = value
+    set_setting("levels_alert_distance_percent", value)
+    await ctx.send(f"Levels alert distance set to {value}%.")
 
 
 @bot.command(name="scan")
@@ -4402,6 +5958,275 @@ async def scanfilters_command(ctx):
     )
 
 
+@bot.command(name="options")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def options_command(ctx, ticker=None, expiration=None):
+    ticker = normalize_ticker(ticker)
+    if not ticker:
+        await ctx.send("Use `!options AAPL` or `!options AAPL 2026-06-19`.\n\nOptions data is for research only and is not financial advice.")
+        return
+    await ctx.send(f"Checking options data for {ticker}. This may take a moment...")
+    data = await asyncio.to_thread(analyze_options_chain, ticker, expiration)
+    await send_long_message(ctx, format_options_message(data))
+
+
+@bot.command(name="unusualoptions")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def unusualoptions_command(ctx, ticker=None):
+    ticker = normalize_ticker(ticker)
+    if not ticker:
+        await ctx.send("Use `!unusualoptions AAPL`.\n\nOptions data is for research only and is not financial advice.")
+        return
+    await ctx.send(f"Scanning unusual options activity for {ticker}.")
+    await send_long_message(ctx, await asyncio.to_thread(format_unusual_options_message, ticker))
+
+
+@bot.command(name="optionshelp")
+@commands.guild_only()
+async def optionshelp_command(ctx):
+    await ctx.send(
+        "Options help:\n"
+        "- Strike: the price where an option can be exercised.\n"
+        "- Expiration: the date the contract expires.\n"
+        "- Bid/ask spread: the gap between buyer and seller prices; wide spreads can be hard to trade.\n"
+        "- Open interest: contracts currently open.\n"
+        "- Volume: contracts traded today.\n"
+        "- Implied volatility: market-implied expected movement.\n"
+        "- Break-even: approximate stock price needed to cover premium at expiration.\n"
+        "- Theta risk: options lose time value as expiration approaches.\n"
+        "- IV crush: implied volatility can fall after earnings.\n\n"
+        "Options data is for research only and is not financial advice."
+    )
+
+
+@bot.command(name="optionssettings")
+@commands.guild_only()
+async def optionssettings_command(ctx):
+    await ctx.send(
+        "Options settings:\n"
+        f"Minimum volume: {OPTIONS_MIN_VOLUME}\n"
+        f"Minimum open interest: {OPTIONS_MIN_OPEN_INTEREST}\n"
+        f"Maximum spread: {OPTIONS_MAX_SPREAD_PERCENT}%\n"
+        f"DTE range: {OPTIONS_MIN_DTE}-{OPTIONS_MAX_DTE}\n\n"
+        "Options data is for research only and is not financial advice."
+    )
+
+
+@bot.command(name="setoptionsvolume")
+@commands.guild_only()
+async def setoptionsvolume_command(ctx, number=None):
+    global OPTIONS_MIN_VOLUME
+    try:
+        value = int(number)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setoptionsvolume 10`.")
+        return
+    OPTIONS_MIN_VOLUME = max(0, value)
+    set_setting("options_min_volume", OPTIONS_MIN_VOLUME)
+    await ctx.send(f"Options minimum volume set to {OPTIONS_MIN_VOLUME}.")
+
+
+@bot.command(name="setoptionsoi")
+@commands.guild_only()
+async def setoptionsoi_command(ctx, number=None):
+    global OPTIONS_MIN_OPEN_INTEREST
+    try:
+        value = int(number)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setoptionsoi 100`.")
+        return
+    OPTIONS_MIN_OPEN_INTEREST = max(0, value)
+    set_setting("options_min_open_interest", OPTIONS_MIN_OPEN_INTEREST)
+    await ctx.send(f"Options minimum open interest set to {OPTIONS_MIN_OPEN_INTEREST}.")
+
+
+@bot.command(name="setoptionsspread")
+@commands.guild_only()
+async def setoptionsspread_command(ctx, percent=None):
+    global OPTIONS_MAX_SPREAD_PERCENT
+    try:
+        value = float(percent)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setoptionsspread 20`.")
+        return
+    OPTIONS_MAX_SPREAD_PERCENT = max(1, value)
+    set_setting("options_max_spread_percent", OPTIONS_MAX_SPREAD_PERCENT)
+    await ctx.send(f"Options max spread set to {OPTIONS_MAX_SPREAD_PERCENT}%.")
+
+
+@bot.command(name="setoptionsdte")
+@commands.guild_only()
+async def setoptionsdte_command(ctx, min_days=None, max_days=None):
+    global OPTIONS_MIN_DTE, OPTIONS_MAX_DTE
+    try:
+        min_value = int(min_days)
+        max_value = int(max_days)
+    except (TypeError, ValueError):
+        await ctx.send("Use `!setoptionsdte 14 60`.")
+        return
+    if min_value < 0 or max_value < min_value:
+        await ctx.send("DTE range is invalid.")
+        return
+    OPTIONS_MIN_DTE = min_value
+    OPTIONS_MAX_DTE = max_value
+    set_setting("options_min_dte", min_value)
+    set_setting("options_max_dte", max_value)
+    await ctx.send(f"Options DTE range set to {OPTIONS_MIN_DTE}-{OPTIONS_MAX_DTE}.")
+
+
+@bot.command(name="groups")
+@commands.guild_only()
+async def groups_command(ctx):
+    data = load_watchlist_groups()
+    lines = ["Watchlist Groups"]
+    for name, tickers in sorted(data.get("groups", {}).items()):
+        alerts = "on" if data.get("alerts_enabled", {}).get(name, False) else "off"
+        lines.append(f"- {name}: {len(tickers)} ticker(s), alerts {alerts}")
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="groupcreate")
+@commands.guild_only()
+async def groupcreate_command(ctx, name=None):
+    if not name:
+        await ctx.send("Use `!groupcreate semiconductors`.")
+        return
+    data = load_watchlist_groups()
+    if name in data["groups"]:
+        await ctx.send(f"Group `{name}` already exists.")
+        return
+    data["groups"][name] = []
+    data["alerts_enabled"][name] = False
+    save_watchlist_groups(data)
+    await ctx.send(f"Created group `{name}`.")
+
+
+@bot.command(name="groupdelete")
+@commands.guild_only()
+async def groupdelete_command(ctx, name=None, confirm=None):
+    data = load_watchlist_groups()
+    if name == "default" and confirm != "CONFIRM_DEFAULT":
+        await ctx.send("To delete default, type `!groupdelete default CONFIRM_DEFAULT`.")
+        return
+    if confirm != "CONFIRM" and name != "default":
+        await ctx.send("Use `!groupdelete groupname CONFIRM`.")
+        return
+    if name not in data["groups"]:
+        await ctx.send(f"Group `{name}` does not exist.")
+        return
+    data["groups"].pop(name, None)
+    data["alerts_enabled"].pop(name, None)
+    save_watchlist_groups(data)
+    await ctx.send(f"Deleted group `{name}`.")
+
+
+@bot.command(name="groupadd")
+@commands.guild_only()
+async def groupadd_command(ctx, group=None, ticker=None):
+    ticker = normalize_ticker(ticker)
+    data = load_watchlist_groups()
+    if group not in data["groups"] or not ticker:
+        await ctx.send("Use `!groupadd semiconductors NVDA`.")
+        return
+    data["groups"][group] = sorted(set(data["groups"][group] + [ticker]))
+    if group == "default":
+        save_watchlist(data["groups"][group])
+    save_watchlist_groups(data)
+    await ctx.send(f"Added {ticker} to `{group}`.")
+
+
+@bot.command(name="groupremove")
+@commands.guild_only()
+async def groupremove_command(ctx, group=None, ticker=None):
+    ticker = normalize_ticker(ticker)
+    data = load_watchlist_groups()
+    if group not in data["groups"] or not ticker:
+        await ctx.send("Use `!groupremove semiconductors NVDA`.")
+        return
+    data["groups"][group] = [item for item in data["groups"][group] if normalize_ticker(item) != ticker]
+    if group == "default":
+        save_watchlist(data["groups"][group])
+    save_watchlist_groups(data)
+    await ctx.send(f"Removed {ticker} from `{group}`.")
+
+
+@bot.command(name="groupshow")
+@commands.guild_only()
+async def groupshow_command(ctx, group=None):
+    tickers = get_group_tickers(group)
+    if not tickers:
+        await ctx.send(f"Group `{group}` is empty or missing.")
+        return
+    await ctx.send(f"{group}:\n" + ", ".join(tickers))
+
+
+@bot.command(name="groupcheck")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def groupcheck_command(ctx, group=None):
+    tickers = get_group_tickers(group)
+    if not tickers:
+        await ctx.send(f"Group `{group}` is empty or missing.")
+        return
+    lines = [f"Group Check — {group}"]
+    for ticker in tickers:
+        analysis = await asyncio.to_thread(analyze_stock_price_only, ticker)
+        if analysis:
+            lines.extend(["", format_stock_check(analysis)])
+    await send_long_message(ctx, "\n\n".join(lines))
+
+
+@bot.command(name="groupscan")
+@commands.guild_only()
+@commands.cooldown(1, 120, commands.BucketType.guild)
+async def groupscan_command(ctx, group=None, scan_type="momentum", *args):
+    tickers = get_group_tickers(group)
+    if not tickers:
+        await ctx.send(f"Group `{group}` is empty or missing.")
+        return
+    if scan_type == "custom":
+        parsed = parse_custom_filters(" ".join(args))
+        if parsed["errors"]:
+            await ctx.send(parsed["errors"][0])
+            return
+        results = await asyncio.to_thread(group_scan_results, tickers, "custom", parsed)
+        await send_long_message(ctx, format_custom_scanner_results({"results": results, "scanned_count": len(tickers), "match_count": len(results), "filters_text": " ".join(args)}, parsed, broad=False))
+        return
+    if scan_type not in VALID_SCAN_TYPES:
+        await ctx.send("Unknown scan type.")
+        return
+    results = await asyncio.to_thread(group_scan_results, tickers, scan_type, None)
+    await send_long_message(ctx, format_scanner_results(results, scan_type))
+
+
+@bot.command(name="groupalerts")
+@commands.guild_only()
+async def groupalerts_command(ctx, group=None, mode=None):
+    data = load_watchlist_groups()
+    if group not in data["groups"] or mode not in {"on", "off"}:
+        await ctx.send("Use `!groupalerts semiconductors on` or `!groupalerts semiconductors off`.")
+        return
+    data["alerts_enabled"][group] = mode == "on"
+    save_watchlist_groups(data)
+    await ctx.send(f"Alerts for `{group}` are now {mode}.")
+
+
+@bot.command(name="groupclear")
+@commands.guild_only()
+async def groupclear_command(ctx, group=None, confirm=None):
+    data = load_watchlist_groups()
+    if group not in data["groups"] or confirm != "CONFIRM":
+        await ctx.send("Use `!groupclear groupname CONFIRM`.")
+        return
+    data["groups"][group] = []
+    if group == "default":
+        save_watchlist([])
+    save_watchlist_groups(data)
+    await ctx.send(f"Cleared group `{group}`.")
+
+
 @bot.command(name="wsbstatus")
 @commands.guild_only()
 async def wsbstatus_command(ctx):
@@ -4558,7 +6383,7 @@ async def paperportfolio_command(ctx):
     if not positions:
         lines.append("No open simulated positions.")
     for position in positions:
-        analysis = await asyncio.to_thread(analyze_stock, position["ticker"])
+        analysis = await asyncio.to_thread(analyze_stock_price_only, position["ticker"])
         latest_price = (analysis or {}).get("latest_price")
         average_cost = position["average_cost"]
         quantity = position["quantity"]
@@ -4586,7 +6411,7 @@ async def paperpnl_command(ctx):
     realized = realized_pnl()
     unrealized = 0.0
     for position in open_positions():
-        analysis = await asyncio.to_thread(analyze_stock, position["ticker"])
+        analysis = await asyncio.to_thread(analyze_stock_price_only, position["ticker"])
         latest_price = (analysis or {}).get("latest_price")
         if latest_price is not None:
             unrealized += (latest_price - position["average_cost"]) * position["quantity"]
@@ -4649,6 +6474,7 @@ async def paperclear_command(ctx, confirm=None):
 
 
 print("Tip: On Windows, if `python` does not work, run this bot with `py main.py`.")
+print("Price-only stock analysis enabled for alerts and scanners.")
 
 if not DISCORD_BOT_TOKEN:
     print("Missing DISCORD_BOT_TOKEN. Create a .env file in this project folder.")

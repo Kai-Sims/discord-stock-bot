@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from storage import data_path, read_json, write_json
+from storage import data_path, get_json_lock, read_json, write_json
 
 
 CACHE_FILES = {
@@ -26,10 +26,9 @@ def _parse_timestamp(value):
 
 def load_cache(cache_name):
     path = CACHE_FILES.get(cache_name, data_path(f"{cache_name}_cache.json"))
-    data = read_json(path, {})
+    data = read_json(path, {}, recreate_on_error=True)
     if not isinstance(data, dict):
         data = {}
-    print(f"Loaded cache: {cache_name}")
     return data
 
 
@@ -58,13 +57,17 @@ def get_cached_value(cache_name, key, max_age_minutes):
 
 
 def set_cached_value(cache_name, key, value, status="ok"):
-    cache = load_cache(cache_name)
-    cache[str(key).upper()] = {
-        "value": value,
-        "last_checked": _now().isoformat(timespec="seconds"),
-        "status": status,
-    }
-    save_cache(cache_name, cache)
+    path = CACHE_FILES.get(cache_name, data_path(f"{cache_name}_cache.json"))
+    with get_json_lock(path):
+        cache = read_json(path, {}, recreate_on_error=True)
+        if not isinstance(cache, dict):
+            cache = {}
+        cache[str(key).upper()] = {
+            "value": value,
+            "last_checked": _now().isoformat(timespec="seconds"),
+            "status": status,
+        }
+        write_json(path, cache)
 
 
 def is_recently_rate_limited(cache_name, key, retry_after_minutes):

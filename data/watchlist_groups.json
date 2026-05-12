@@ -1,0 +1,11 @@
+{
+  "groups": {
+    "default": ["AAPL", "TSLA", "NVDA", "AMD", "SPY", "QQQ"],
+    "semiconductors": ["NVDA", "AMD", "AVGO", "QCOM", "MU", "SMH"],
+    "big-tech": ["AAPL", "MSFT", "GOOGL", "META", "AMZN", "NVDA"],
+    "etfs": ["SPY", "QQQ", "IWM", "DIA", "SMH"]
+  },
+  "alerts_enabled": {
+    "default": true
+  }
+}

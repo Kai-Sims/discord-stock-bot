@@ -16,13 +16,13 @@
   },
   "QQQ": {
     "earnings_date": null,
-    "last_checked": "2026-05-12T10:29:13",
-    "status": "missing"
+    "last_checked": "2026-05-12T15:31:33",
+    "status": "etf"
   },
   "SPY": {
     "earnings_date": null,
-    "last_checked": "2026-05-12T10:29:13",
-    "status": "missing"
+    "last_checked": "2026-05-12T15:31:33",
+    "status": "etf"
   },
   "TSLA": {
     "earnings_date": "2026-07-22",
