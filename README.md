@@ -8,11 +8,18 @@ This project is for educational research and market monitoring only. It does not
 
 - Uses `discord.py`
 - Loads secrets from a local `.env` file
-- Creates a `Stock Market Bot` category
+- Organizes stock bot channels into Core, Watchlist, Scanner, Journal, Briefings, Quarterly Reports, WallStreetBets, Paul's Trackers, and Paper Trading categories
 - Creates stock alert channels only when they do not already exist
 - Saves tracked tickers in `watchlist.json`
 - Uses `yfinance` to check recent stock data
 - Runs a background alert loop every 5 minutes
+- Saves persistent settings in `data/bot_settings.json`
+- Uses JSON caches in `data/` to reduce repeated data-provider requests
+- Posts weekday morning briefings and post-market recaps
+- Adds signal scores, risk flags, quiet mode, and alert severity settings
+- Includes a simulated paper trade journal
+- Tracks upcoming quarterly reports and analyst-supported earnings research candidates
+- Adds Paul's Trackers for dividend highs and 5-day runners
 - Runs on-demand stock scanners for stock ideas and watchlist candidates
 - Can optionally build a broader US stock universe from Nasdaq Trader symbol files
 - Includes setup, watchlist, stock check, and alert status commands
@@ -113,7 +120,7 @@ On Windows, run:
 py main.py
 ```
 
-When the bot starts, it will log in, find your server by `GUILD_ID`, and create the stock bot category and channels if they do not already exist.
+When the bot starts, it will log in, find your server by `GUILD_ID`, and organize the stock bot categories and channels if they do not already exist.
 
 ## Bot Commands
 
@@ -121,13 +128,25 @@ When the bot starts, it will log in, find your server by `GUILD_ID`, and create 
 !setup
 ```
 
-Manually runs the channel setup process.
+Organizes channels into Core, Watchlist, Scanner, Journal, and WallStreetBets categories.
 
 ```text
 !channels
 ```
 
 Lists the stock bot channels.
+
+```text
+!quickstart
+```
+
+Shows first steps and reminds users to run `!setup` first.
+
+```text
+!examples
+```
+
+Shows example commands.
 
 ```text
 !ping
@@ -202,6 +221,17 @@ Show the EOD summary loop status, scheduled time, last summary date, target chan
 ```
 
 Set the EOD summary time for the current bot session. The time uses Pacific time.
+
+```text
+!earnings
+!earningswatch
+!promisingearnings
+!earningsstatus
+!earningssettings
+!setearningslookahead 30
+```
+
+Use the quarterly reports tracker to review upcoming watchlist earnings and analyst-supported research candidates.
 
 ```text
 !wsbstatus
@@ -420,6 +450,70 @@ Every EOD summary ends with:
 End-of-day summaries are for tracking and research only and are not financial advice.
 ```
 
+## Quarterly Reports / Earnings Tracker
+
+The quarterly reports tracker watches for upcoming earnings dates and quarterly reports. It can summarize upcoming watchlist earnings and scan for analyst-supported earnings watchlist candidates.
+
+The bot does not place trades.
+
+This feature uses:
+
+- `watchlist-earnings`
+- `promising-earnings`
+- `earnings-alerts`
+
+The weekly summary runs on Monday at 8:00 AM Pacific. It posts watchlist earnings to `watchlist-earnings` and analyst-supported research candidates to `promising-earnings`. If those channels are missing, the bot falls back to `earnings-alerts` or `stock-alerts`.
+
+Watchlist earnings summaries include upcoming reports for tickers in `watchlist.json` within the current lookahead window.
+
+Analyst-supported earnings candidates use yfinance analyst and market data, including target upside, recommendation mean, analyst count, RSI, trend, relative volume, and moving-average position. These are research candidates, not trade instructions.
+
+Commands:
+
+```text
+!earnings
+```
+
+Show upcoming quarterly reports for watchlist stocks.
+
+```text
+!earningswatch
+```
+
+Same as `!earnings`.
+
+```text
+!promisingearnings
+```
+
+Show analyst-supported earnings candidates for the next lookahead window.
+
+```text
+!earningsstatus
+```
+
+Show whether earnings loops are running, the weekly schedule, lookahead days, target channels, and watchlist count.
+
+```text
+!earningssettings
+```
+
+Show the current earnings filter settings.
+
+```text
+!setearningslookahead 30
+```
+
+Set the earnings lookahead window for the current bot session. The minimum is `1` day and the maximum is `90` days.
+
+yfinance earnings and analyst data may be incomplete, delayed, or unavailable for some tickers.
+
+Every earnings output includes:
+
+```text
+Earnings and analyst data are for research only and are not financial advice.
+```
+
 ## Stock Scanner
 
 The scanner looks beyond your personal watchlist and sweeps through `scanner_universe.json` for stock ideas, watchlist candidates, scanner results, and possible setups.
@@ -476,6 +570,64 @@ Examples:
 | `trend` | Trend label from the bot's stock analysis | `trend=bullish`, `trend=bearish`, `trend=mixed`, `trend=high-risk` |
 
 Custom scanner results are scanner results and watchlist candidates for research only. They are not buy signals, sell signals, or trading instructions.
+
+## Paul's Trackers
+
+Paul's Trackers are research screens that run inside the same Discord stock bot.
+
+Channels:
+
+- `dividend-highs`
+- `five-day-runners`
+
+`dividend-highs` tracks stocks near all-time highs with dividend yield above the selected threshold. The default criteria are:
+
+- Dividend yield of at least `5.0%`
+- Price within `5.0%` of all-time high
+
+`five-day-runners` tracks stocks up at least the selected percentage over the past 5 trading days. The default 5-day gain threshold is `10.0%`.
+
+Commands:
+
+```text
+!paulstrackers
+```
+
+Run both Paul's Tracker scans.
+
+```text
+!dividendhighs
+```
+
+Find stocks near all-time highs with at least the selected dividend yield.
+
+```text
+!fivedayrunners
+```
+
+Find stocks up at least the selected percentage over the past 5 trading days.
+
+```text
+!paulssettings
+```
+
+Show Paul's Tracker settings and ticker universe source.
+
+```text
+!setpaulsdividend 5
+!setpaulsath 5
+!setpauls5day 10
+```
+
+Adjust thresholds for the current bot session.
+
+Results are tracker results and research candidates only, not financial advice. yfinance data may be delayed, incomplete, or rate-limited.
+
+Every Paul's Tracker output includes:
+
+```text
+Paul's Tracker results are for research only and are not financial advice.
+```
 
 ## Broad US Stock Scanner
 
@@ -617,25 +769,151 @@ Every WSB output includes:
 WSB tracking is for research only and is not financial advice.
 ```
 
-## Created Channels
+## Discord Channel Organization
 
-The bot creates these text channels inside the `Stock Market Bot` category:
+Run `!setup` to create and organize the bot channels. If a channel already exists in the wrong category, the bot moves it to the correct category.
 
-- `stock-alerts`
-- `options-alerts`
-- `daily-highs`
-- `daily-lows`
-- `fifty-two-week-highs`
-- `fifty-two-week-lows`
-- `rsi-alerts`
-- `volume-spikes`
-- `earnings-alerts`
-- `news-alerts`
-- `watchlist`
-- `stock-ideas`
-- `bot-status`
-- `trade-journal`
-- `bot-commands`
+```text
+Stock Bot — Core
+- bot-commands
+- bot-status
+- help-and-examples
+
+Stock Bot — Watchlist
+- watchlist
+- stock-alerts
+- options-alerts
+- daily-highs
+- daily-lows
+- fifty-two-week-highs
+- fifty-two-week-lows
+- rsi-alerts
+- volume-spikes
+- news-alerts
+
+Stock Bot — Scanner
+- stock-ideas
+- scanner-results
+- broad-scanner
+- custom-scans
+
+Stock Bot — Journal
+- trade-journal
+- daily-summaries
+
+Stock Bot — Quarterly Reports
+- watchlist-earnings
+- promising-earnings
+- earnings-alerts
+
+Paul's Trackers
+- dividend-highs
+- five-day-runners
+
+Stock Bot — WallStreetBets
+- wsb-mentions
+- wsb-tracking
+- wsb-alerts
+```
+
+Additional channel groups created by the upgraded bot:
+
+```text
+Stock Bot — Briefings
+- morning-briefing
+- market-briefing
+
+Stock Bot — Paper Trading
+- paper-trades
+- paper-portfolio
+- paper-pnl
+```
+
+## Persistent Settings
+
+Settings are saved in `data/bot_settings.json` so they survive bot restarts.
+
+```text
+!settings
+!resetsettings
+!quietmode on
+!quietmode off
+!markethoursonly on
+!markethoursonly off
+!alertfrequency 5
+!setalertseverity high
+```
+
+Quiet mode suppresses non-critical alerts. Market-hours-only mode limits stock alerts to regular U.S. market hours, Monday-Friday, 6:30 AM to 1:00 PM Pacific.
+
+## Morning Briefing
+
+The bot can post a weekday market briefing at 6:30 AM Pacific by default.
+
+```text
+!morningbriefing
+!morningstatus
+!setmorningtime 6 30
+```
+
+Morning briefings include watchlist trend counts, earnings coming up, possible breakout-style watchlist candidates, risk flags, scanner ideas, and WSB attention if Reddit is configured.
+
+Morning briefings are for research only and are not financial advice.
+
+## Post-Market Recap
+
+The end-of-day summary has been upgraded into a post-market watchlist recap.
+
+```text
+!eodsummary
+!eodstatus
+!seteodtime 13 30
+```
+
+It includes green/red/flat counts, top gainers, top losers, relative volume leaders, RSI extremes, stocks near 52-week highs/lows, individual signal scores, and risk flags.
+
+End-of-day summaries are for tracking and research only and are not financial advice.
+
+## Signal Scores And Risk Flags
+
+Signal scores are research-only 0-10 ratings for possible setups. They consider trend, volume, momentum, RSI, analyst data when available, earnings risk, and Reddit attention when available.
+
+Risk flags highlight caution items such as earnings today or tomorrow, overbought/oversold RSI, large 5-day moves, below the 200-day moving average, low relative volume, very high Reddit attention, unusual moves, near 52-week lows, or incomplete data.
+
+These are not buy signals, sell signals, or trading recommendations.
+
+## Paper Trading
+
+Paper trading is simulated only. The bot does not place real trades.
+
+```text
+!paperbuy AAPL 10 195.20 breakout setup
+!papersell AAPL 10 205.00 trim paper position
+!paperportfolio
+!paperpnl
+!paperjournal
+!paperclose AAPL 210.00 close test
+!paperclear CONFIRM
+```
+
+Paper trades are saved in `data/paper_trades.json`. When the channel exists, trade entries are also posted to `#paper-trades`.
+
+Paper trading is simulated for research only and is not financial advice.
+
+## Data Folder And Caches
+
+New bot data is saved under `data/`. If older JSON files exist in the project root, the bot keeps backward compatibility by migrating them into `data/` when it starts.
+
+Cache files include:
+
+```text
+data/stock_data_cache.json
+data/earnings_cache.json
+data/analyst_cache.json
+data/dividend_cache.json
+```
+
+These caches reduce repeated `yfinance` requests and help the bot skip recently rate-limited tickers instead of crashing background loops.
 
 ## Notes
 

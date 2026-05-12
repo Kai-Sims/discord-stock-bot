@@ -1,0 +1,247 @@
+{
+  "AAPL": {
+    "earnings_date": "2026-07-30",
+    "last_checked": "2026-05-11T17:09:46",
+    "status": "ok"
+  },
+  "AMD": {
+    "earnings_date": "2026-08-04",
+    "last_checked": "2026-05-11T17:09:46",
+    "status": "ok"
+  },
+  "NVDA": {
+    "earnings_date": "2026-05-20",
+    "last_checked": "2026-05-11T17:09:46",
+    "status": "ok"
+  },
+  "QQQ": {
+    "earnings_date": null,
+    "last_checked": "2026-05-12T10:29:13",
+    "status": "missing"
+  },
+  "SPY": {
+    "earnings_date": null,
+    "last_checked": "2026-05-12T10:29:13",
+    "status": "missing"
+  },
+  "TSLA": {
+    "earnings_date": "2026-07-22",
+    "last_checked": "2026-05-11T17:09:46",
+    "status": "ok"
+  },
+  "ADBE": {
+    "earnings_date": "2026-06-11",
+    "last_checked": "2026-05-11T17:09:48",
+    "status": "ok"
+  },
+  "AMZN": {
+    "earnings_date": "2026-07-30",
+    "last_checked": "2026-05-11T17:09:49",
+    "status": "ok"
+  },
+  "AVGO": {
+    "earnings_date": "2026-06-03",
+    "last_checked": "2026-05-11T17:09:49",
+    "status": "ok"
+  },
+  "BA": {
+    "earnings_date": "2026-07-28",
+    "last_checked": "2026-05-11T17:09:50",
+    "status": "ok"
+  },
+  "BAC": {
+    "earnings_date": "2026-07-14",
+    "last_checked": "2026-05-11T17:09:51",
+    "status": "ok"
+  },
+  "CAT": {
+    "earnings_date": "2026-08-04",
+    "last_checked": "2026-05-11T17:09:51",
+    "status": "ok"
+  },
+  "COIN": {
+    "earnings_date": "2026-07-30",
+    "last_checked": "2026-05-11T17:09:52",
+    "status": "ok"
+  },
+  "COST": {
+    "earnings_date": "2026-05-28",
+    "last_checked": "2026-05-11T17:09:52",
+    "status": "ok"
+  },
+  "CRM": {
+    "earnings_date": "2026-05-27",
+    "last_checked": "2026-05-11T17:09:53",
+    "status": "ok"
+  },
+  "CVX": {
+    "earnings_date": "2026-07-31",
+    "last_checked": "2026-05-11T17:09:53",
+    "status": "ok"
+  },
+  "DE": {
+    "earnings_date": "2026-05-21",
+    "last_checked": "2026-05-11T17:09:54",
+    "status": "ok"
+  },
+  "DIA": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:21:54",
+    "status": "missing"
+  },
+  "DIS": {
+    "earnings_date": "2026-08-05",
+    "last_checked": "2026-05-11T17:09:55",
+    "status": "ok"
+  },
+  "GE": {
+    "earnings_date": "2026-07-16",
+    "last_checked": "2026-05-11T17:09:56",
+    "status": "ok"
+  },
+  "GOOGL": {
+    "earnings_date": "2026-07-23",
+    "last_checked": "2026-05-11T17:09:57",
+    "status": "ok"
+  },
+  "HD": {
+    "earnings_date": "2026-05-19",
+    "last_checked": "2026-05-11T17:09:57",
+    "status": "ok"
+  },
+  "HOOD": {
+    "earnings_date": "2026-07-29",
+    "last_checked": "2026-05-11T17:09:58",
+    "status": "ok"
+  },
+  "INTC": {
+    "earnings_date": "2026-07-23",
+    "last_checked": "2026-05-11T17:09:59",
+    "status": "ok"
+  },
+  "IWM": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:21:58",
+    "status": "missing"
+  },
+  "JPM": {
+    "earnings_date": "2026-07-14",
+    "last_checked": "2026-05-11T17:10:00",
+    "status": "ok"
+  },
+  "LCID": {
+    "earnings_date": "2026-08-04",
+    "last_checked": "2026-05-11T17:10:00",
+    "status": "ok"
+  },
+  "MA": {
+    "earnings_date": "2026-07-30",
+    "last_checked": "2026-05-11T17:10:01",
+    "status": "ok"
+  },
+  "META": {
+    "earnings_date": "2026-07-29",
+    "last_checked": "2026-05-11T17:10:01",
+    "status": "ok"
+  },
+  "MSFT": {
+    "earnings_date": "2026-07-29",
+    "last_checked": "2026-05-11T17:10:02",
+    "status": "ok"
+  },
+  "MU": {
+    "earnings_date": "2026-06-24",
+    "last_checked": "2026-05-11T17:10:03",
+    "status": "ok"
+  },
+  "NFLX": {
+    "earnings_date": "2026-07-16",
+    "last_checked": "2026-05-11T17:10:03",
+    "status": "ok"
+  },
+  "NKE": {
+    "earnings_date": "2026-06-25",
+    "last_checked": "2026-05-11T17:10:04",
+    "status": "ok"
+  },
+  "ORCL": {
+    "earnings_date": "2026-06-10",
+    "last_checked": "2026-05-11T17:10:05",
+    "status": "ok"
+  },
+  "OXY": {
+    "earnings_date": "2026-08-05",
+    "last_checked": "2026-05-11T17:10:06",
+    "status": "ok"
+  },
+  "PLTR": {
+    "earnings_date": "2026-08-03",
+    "last_checked": "2026-05-11T17:10:06",
+    "status": "ok"
+  },
+  "PYPL": {
+    "earnings_date": "2026-07-28",
+    "last_checked": "2026-05-11T17:10:07",
+    "status": "ok"
+  },
+  "QCOM": {
+    "earnings_date": "2026-07-29",
+    "last_checked": "2026-05-11T17:10:07",
+    "status": "ok"
+  },
+  "RIVN": {
+    "earnings_date": "2026-04-30",
+    "last_checked": "2026-05-11T17:10:08",
+    "status": "ok"
+  },
+  "SHOP": {
+    "earnings_date": "2026-08-05",
+    "last_checked": "2026-05-11T17:10:09",
+    "status": "ok"
+  },
+  "SMH": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:22:09",
+    "status": "missing"
+  },
+  "SOFI": {
+    "earnings_date": "2026-07-28",
+    "last_checked": "2026-05-11T17:10:10",
+    "status": "ok"
+  },
+  "UBER": {
+    "earnings_date": "2026-08-05",
+    "last_checked": "2026-05-11T17:10:12",
+    "status": "ok"
+  },
+  "V": {
+    "earnings_date": "2026-07-28",
+    "last_checked": "2026-05-11T17:10:12",
+    "status": "ok"
+  },
+  "WMT": {
+    "earnings_date": "2026-05-21",
+    "last_checked": "2026-05-11T17:10:13",
+    "status": "ok"
+  },
+  "XLE": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:22:13",
+    "status": "missing"
+  },
+  "XLF": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:22:14",
+    "status": "missing"
+  },
+  "XLK": {
+    "earnings_date": null,
+    "last_checked": "2026-05-11T21:22:15",
+    "status": "missing"
+  },
+  "XOM": {
+    "earnings_date": "2026-07-31",
+    "last_checked": "2026-05-11T17:10:16",
+    "status": "ok"
+  }
+}
