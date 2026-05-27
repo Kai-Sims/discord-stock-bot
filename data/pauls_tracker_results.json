@@ -1,69 +1,40 @@
 {
-  "timestamp": "2026-05-12T22:50:51Z",
+  "timestamp": "2026-05-26T20:34:02Z",
   "source": "us_stock_universe.json",
   "dividend_highs": [
     {
-      "ticker": "ADI",
-      "latest_price": 419.6499938964844,
-      "all_time_high": 422.8800048828125,
-      "percent_below_ath": 0.7638126534791395,
-      "dividend_yield_percent": 96.0,
-      "rsi": 67.3252757173963,
+      "ticker": "ARMK",
+      "latest_price": 52.279998779296875,
+      "all_time_high": 53.56999969482422,
+      "percent_below_ath": 2.408065937793873,
+      "dividend_yield_percent": 94.0,
+      "rsi": 76.31183044452635,
       "trend": "Bullish",
-      "relative_volume": 1.3329482455446668,
-      "change_5d_percent": 3.6761630769789853,
-      "day_change": -3.08001708984375,
-      "day_change_percent": -0.7286014737059592,
+      "relative_volume": 0.5823711782871428,
+      "change_5d_percent": -1.2466941150979367,
+      "day_change": 1.0200004577636719,
+      "day_change_percent": 1.9898565961036951,
       "signal_score": {
-        "score": 9.0,
-        "label": "Very Strong",
+        "score": 6.0,
+        "label": "Strong",
         "components": {
           "trend": 2,
-          "volume": 1,
-          "momentum": 2,
+          "volume": 0,
+          "momentum": 0,
           "rsi": 0,
           "analyst": 0,
           "earnings_risk": 0,
           "reddit_attention": 0
         },
         "notes": [
-          "Bullish trend",
-          "Relative volume above 1.2x",
-          "Healthy 5-day momentum"
-        ]
-      },
-      "risk_flags": []
-    },
-    {
-      "ticker": "ABCB",
-      "latest_price": 84.04000091552734,
-      "all_time_high": 87.98999786376953,
-      "percent_below_ath": 4.489143134606922,
-      "dividend_yield_percent": 94.0,
-      "rsi": 50.844279419163804,
-      "trend": "Mixed",
-      "relative_volume": 0.6098444490573842,
-      "change_5d_percent": -2.9337039290940408,
-      "day_change": -1.0100021362304688,
-      "day_change_percent": -1.1875392122159294,
-      "signal_score": {
-        "score": 6.0,
-        "label": "Strong",
-        "components": {
-          "trend": 1,
-          "volume": 0,
-          "momentum": 0,
-          "rsi": 1,
-          "analyst": 0,
-          "earnings_risk": 0,
-          "reddit_attention": 0
-        },
-        "notes": [
-          "Mixed trend",
-          "RSI in a balanced range"
+          "Bullish trend"
         ]
       },
       "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "RSI overbought"
+        },
         {
           "severity": "low",
           "message": "Low relative volume"
@@ -71,17 +42,17 @@
       ]
     },
     {
-      "ticker": "AAPL",
-      "latest_price": 294.8699951171875,
-      "all_time_high": 294.89990234375,
-      "percent_below_ath": 0.010141484050964062,
-      "dividend_yield_percent": 37.0,
-      "rsi": 75.51303528991669,
+      "ticker": "ATEN",
+      "latest_price": 29.559999465942383,
+      "all_time_high": 30.049999237060547,
+      "percent_below_ath": 1.630614920328681,
+      "dividend_yield_percent": 82.0,
+      "rsi": 72.29357766057599,
       "trend": "Bullish",
-      "relative_volume": 0.8986404333583561,
-      "change_5d_percent": 3.7617012868328104,
-      "day_change": 2.19000244140625,
-      "day_change_percent": 0.7482583354552164,
+      "relative_volume": 0.6116185005518798,
+      "change_5d_percent": 5.120905347555606,
+      "day_change": 0.39999961853027344,
+      "day_change_percent": 1.3717408114656509,
       "signal_score": {
         "score": 8.0,
         "label": "Very Strong",
@@ -103,28 +74,138 @@
         {
           "severity": "medium",
           "message": "RSI overbought"
+        },
+        {
+          "severity": "low",
+          "message": "Low relative volume"
         }
       ]
+    },
+    {
+      "ticker": "ASML",
+      "latest_price": 1631.8299560546875,
+      "all_time_high": 1653.530029296875,
+      "percent_below_ath": 1.312348300769291,
+      "dividend_yield_percent": 54.0,
+      "rsi": 64.78738073461312,
+      "trend": "Bullish",
+      "relative_volume": 0.8765351047248249,
+      "change_5d_percent": 10.828648647438666,
+      "day_change": -1.070068359375,
+      "day_change_percent": -0.06553177435091137,
+      "signal_score": {
+        "score": 7.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 0,
+          "momentum": 0,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": []
+    },
+    {
+      "ticker": "AMAT",
+      "latest_price": 455.010009765625,
+      "all_time_high": 455.82501220703125,
+      "percent_below_ath": 0.17879721813863164,
+      "dividend_yield_percent": 49.0,
+      "rsi": 62.79840486778369,
+      "trend": "Bullish",
+      "relative_volume": 0.9378575566056124,
+      "change_5d_percent": 10.020069566824102,
+      "day_change": 22.850006103515625,
+      "day_change_percent": 5.28739492546405,
+      "signal_score": {
+        "score": 7.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 0,
+          "momentum": 0,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": []
     }
   ],
   "five_day_runners": [
     {
-      "ticker": "ABLV",
-      "latest_price": 1.0199999809265137,
-      "change_5d_percent": 50.44248098805164,
-      "rsi": 61.252444038267114,
-      "trend": "Bullish",
-      "relative_volume": 0.1009985785033171,
-      "current_volume": 118996.0,
-      "year_high": 1.7699999809265137,
-      "percent_below_52w_high": 42.37288181254157,
-      "day_change": -0.029999971389770508,
-      "day_change_percent": -2.857140262110586,
+      "ticker": "AKTX",
+      "latest_price": 17.395000457763672,
+      "change_5d_percent": 397.00001307896207,
+      "rsi": 78.76356471102838,
+      "trend": "Mixed",
+      "relative_volume": 1.153531969913401,
+      "current_volume": 2484488.0,
+      "year_high": 56.79999923706055,
+      "percent_below_52w_high": 69.37499878272203,
+      "day_change": -0.875,
+      "day_change_percent": -4.789271910653821,
       "signal_score": {
-        "score": 6.0,
-        "label": "Strong",
+        "score": 4.0,
+        "label": "Moderate",
         "components": {
-          "trend": 2,
+          "trend": 1,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Mixed trend",
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "RSI overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        }
+      ]
+    },
+    {
+      "ticker": "AMST",
+      "latest_price": 1.5950000286102295,
+      "change_5d_percent": 102.92620884435848,
+      "rsi": 63.66939300626371,
+      "trend": "High-risk",
+      "relative_volume": 0.11653652289899434,
+      "current_volume": 1104051.0,
+      "year_high": 4.78000020980835,
+      "percent_below_52w_high": 66.63180002926862,
+      "day_change": -0.5049998760223389,
+      "day_change_percent": -24.04761423599671,
+      "signal_score": {
+        "score": 4.0,
+        "label": "Moderate",
+        "components": {
+          "trend": 0,
           "volume": 0,
           "momentum": -1,
           "rsi": 1,
@@ -133,7 +214,6 @@
           "reddit_attention": 0
         },
         "notes": [
-          "Bullish trend",
           "Extended after a large 5-day move",
           "RSI in a balanced range"
         ]
@@ -144,23 +224,255 @@
           "message": "Stock is extended after a large 5-day move"
         },
         {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        },
+        {
           "severity": "low",
           "message": "Low relative volume"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
         }
       ]
     },
     {
-      "ticker": "AAON",
-      "latest_price": 133.50999450683594,
-      "change_5d_percent": 42.547500839836154,
-      "rsi": 72.30304040269901,
+      "ticker": "AIMD",
+      "latest_price": 3.1693999767303467,
+      "change_5d_percent": 90.92771328068352,
+      "rsi": 82.06277806365433,
       "trend": "Bullish",
-      "relative_volume": 1.204263398154482,
-      "current_volume": 1725300.0,
-      "year_high": 149.0,
-      "percent_below_52w_high": 10.395976841049706,
-      "day_change": -8.19000244140625,
-      "day_change_percent": -5.779818361180175,
+      "relative_volume": 19.12883734538086,
+      "current_volume": 15054285.0,
+      "year_high": 4.5,
+      "percent_below_52w_high": 29.568889405992294,
+      "day_change": 1.6394000053405762,
+      "day_change_percent": 107.15032915010008,
+      "signal_score": {
+        "score": 6.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": -1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move",
+          "RSI is extreme"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "high",
+          "message": "RSI extremely overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AIB",
+      "latest_price": 3.049999952316284,
+      "change_5d_percent": 70.39106241985007,
+      "rsi": 92.60870139855845,
+      "trend": "Mixed",
+      "relative_volume": 2.3424576313666514,
+      "current_volume": 1619227.0,
+      "year_high": 6.28000020980835,
+      "percent_below_52w_high": 51.43312340097258,
+      "day_change": 0.24000000953674316,
+      "day_change_percent": 8.540925780209967,
+      "signal_score": {
+        "score": 5.0,
+        "label": "Moderate",
+        "components": {
+          "trend": 1,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": -1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Mixed trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move",
+          "RSI is extreme"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "low",
+          "message": "Data incomplete"
+        },
+        {
+          "severity": "high",
+          "message": "RSI extremely overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "ATOM",
+      "latest_price": 12.109999656677246,
+      "change_5d_percent": 51.28044326733939,
+      "rsi": 56.721592128159266,
+      "trend": "Bullish",
+      "relative_volume": 1.3112408191421598,
+      "current_volume": 3685119.0,
+      "year_high": 12.364999771118164,
+      "percent_below_52w_high": 2.0622735071660934,
+      "day_change": 2.869999885559082,
+      "day_change_percent": 31.060605591462842,
+      "signal_score": {
+        "score": 7.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 1,
+          "momentum": -1,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 1.2x",
+          "Extended after a large 5-day move",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "ARM",
+      "latest_price": 321.3699951171875,
+      "change_5d_percent": 49.391038681513486,
+      "rsi": 76.78009745494869,
+      "trend": "Bullish",
+      "relative_volume": 0.900189247197095,
+      "current_volume": 10690744.0,
+      "year_high": 324.9999084472656,
+      "percent_below_52w_high": 1.1168967238854202,
+      "day_change": 14.8599853515625,
+      "day_change_percent": 4.848124001863851,
+      "signal_score": {
+        "score": 5.0,
+        "label": "Moderate",
+        "components": {
+          "trend": 2,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "RSI overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        }
+      ]
+    },
+    {
+      "ticker": "AGPU",
+      "latest_price": 6.920000076293945,
+      "change_5d_percent": 47.86325491705224,
+      "rsi": 60.24759592380915,
+      "trend": "Mixed",
+      "relative_volume": 3.1257339103403847,
+      "current_volume": 1229657.0,
+      "year_high": 32.099998474121094,
+      "percent_below_52w_high": 78.44236633882453,
+      "day_change": 1.5799999237060547,
+      "day_change_percent": 29.588012707084836,
+      "signal_score": {
+        "score": 7.0,
+        "label": "Strong",
+        "components": {
+          "trend": 1,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Mixed trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "ALAB",
+      "latest_price": 318.739990234375,
+      "change_5d_percent": 47.852299622932804,
+      "rsi": 78.12414457237156,
+      "trend": "Bullish",
+      "relative_volume": 1.2544602261153186,
+      "current_volume": 7928750.0,
+      "year_high": 321.989990234375,
+      "percent_below_52w_high": 1.00934814701362,
+      "day_change": 11.8599853515625,
+      "day_change_percent": 3.864697980597153,
       "signal_score": {
         "score": 6.0,
         "label": "Strong",
@@ -191,17 +503,418 @@
       ]
     },
     {
-      "ticker": "ACHV",
-      "latest_price": 6.0,
-      "change_5d_percent": 31.578949019519264,
-      "rsi": 84.10852963903974,
+      "ticker": "ATPC",
+      "latest_price": 3.055000066757202,
+      "change_5d_percent": 46.87500859682408,
+      "rsi": 52.31607698463298,
+      "trend": "High-risk",
+      "relative_volume": 0.11170459875544919,
+      "current_volume": 276649.0,
+      "year_high": 107.0,
+      "percent_below_52w_high": 97.1448597506942,
+      "day_change": 0.27500009536743164,
+      "day_change_percent": 9.892089863222347,
+      "signal_score": {
+        "score": 4.0,
+        "label": "Moderate",
+        "components": {
+          "trend": 0,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Extended after a large 5-day move",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        },
+        {
+          "severity": "low",
+          "message": "Low relative volume"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AEVA",
+      "latest_price": 28.1299991607666,
+      "change_5d_percent": 44.627239369400165,
+      "rsi": 77.60171355885629,
       "trend": "Bullish",
-      "relative_volume": 1.3419451348625477,
-      "current_volume": 2829390.0,
-      "year_high": 6.150000095367432,
-      "percent_below_52w_high": 2.4390259031121184,
-      "day_change": 0.4099998474121094,
-      "day_change_percent": 7.334523009311546,
+      "relative_volume": 1.324595436988914,
+      "current_volume": 3338582.0,
+      "year_high": 38.79999923706055,
+      "percent_below_52w_high": 27.50000073737706,
+      "day_change": 2.809999465942383,
+      "day_change_percent": 11.097944312048266,
+      "signal_score": {
+        "score": 6.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 1,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 1.2x",
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "RSI overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AKAN",
+      "latest_price": 23.540000915527344,
+      "change_5d_percent": 44.417190290448254,
+      "rsi": 43.88324364980908,
+      "trend": "High-risk",
+      "relative_volume": 0.10612900572592991,
+      "current_volume": 322324.0,
+      "year_high": 209.23423767089844,
+      "percent_below_52w_high": 88.74945076983381,
+      "day_change": -3.5799999237060547,
+      "day_change_percent": -13.20058928068695,
+      "signal_score": {
+        "score": 3.0,
+        "label": "Weak",
+        "components": {
+          "trend": 0,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        },
+        {
+          "severity": "low",
+          "message": "Low relative volume"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AREB",
+      "latest_price": 0.05889999866485596,
+      "change_5d_percent": 43.65852936082925,
+      "rsi": 14.352624578490094,
+      "trend": "High-risk",
+      "relative_volume": 0.014261598637695655,
+      "current_volume": 124915.0,
+      "year_high": 86400.0,
+      "percent_below_52w_high": 99.99993182870524,
+      "day_change": 0.013899996876716614,
+      "day_change_percent": 30.8888807208453,
+      "signal_score": {
+        "score": 2.0,
+        "label": "Weak",
+        "components": {
+          "trend": 0,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": -1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Extended after a large 5-day move",
+          "RSI is extreme"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "RSI oversold"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        },
+        {
+          "severity": "low",
+          "message": "Low relative volume"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AGAE",
+      "latest_price": 0.6148999929428101,
+      "change_5d_percent": 42.66821371377047,
+      "rsi": 57.98794162788473,
+      "trend": "Bullish",
+      "relative_volume": 0.4767677677313479,
+      "current_volume": 1067319.0,
+      "year_high": 3.7899999618530273,
+      "percent_below_52w_high": 83.7757256165731,
+      "day_change": 0.02590000629425049,
+      "day_change_percent": 4.397284699720091,
+      "signal_score": {
+        "score": 6.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Extended after a large 5-day move",
+          "RSI in a balanced range"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "low",
+          "message": "Low relative volume"
+        }
+      ]
+    },
+    {
+      "ticker": "ASTI",
+      "latest_price": 5.658899784088135,
+      "change_5d_percent": 39.0393008700579,
+      "rsi": 66.36771679202711,
+      "trend": "Bullish",
+      "relative_volume": 2.2085378550471257,
+      "current_volume": 2557299.0,
+      "year_high": 9.869999885559082,
+      "percent_below_52w_high": 42.66565501821595,
+      "day_change": 0.29889965057373047,
+      "day_change_percent": 5.576485879259675,
+      "signal_score": {
+        "score": 7.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        }
+      ]
+    },
+    {
+      "ticker": "ASTS",
+      "latest_price": 119.74500274658203,
+      "change_5d_percent": 37.90740552968101,
+      "rsi": 82.58433042586078,
+      "trend": "Bullish",
+      "relative_volume": 2.0617770156497137,
+      "current_volume": 47010897.0,
+      "year_high": 129.88999938964844,
+      "percent_below_52w_high": 7.810452452642718,
+      "day_change": 13.885002136230469,
+      "day_change_percent": 13.116382067045556,
+      "signal_score": {
+        "score": 6.0,
+        "label": "Strong",
+        "components": {
+          "trend": 2,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": -1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move",
+          "RSI is extreme"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "high",
+          "message": "RSI extremely overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "ADIL",
+      "latest_price": 2.200000047683716,
+      "change_5d_percent": 36.64596448051887,
+      "rsi": 68.82352714307603,
+      "trend": "High-risk",
+      "relative_volume": 0.8242506651846649,
+      "current_volume": 175306.0,
+      "year_high": 19.0,
+      "percent_below_52w_high": 88.42105238061202,
+      "day_change": 0.12000012397766113,
+      "day_change_percent": 5.769236941309597,
+      "signal_score": {
+        "score": 3.0,
+        "label": "Weak",
+        "components": {
+          "trend": 0,
+          "volume": 0,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Below 200-day moving average"
+        }
+      ]
+    },
+    {
+      "ticker": "ACMR",
+      "latest_price": 86.38500213623047,
+      "change_5d_percent": 36.5770784762537,
+      "rsi": 91.04878412095829,
+      "trend": "Bullish",
+      "relative_volume": 1.9593387130835618,
+      "current_volume": 3377661.0,
+      "year_high": 86.5,
+      "percent_below_52w_high": 0.132945507248013,
+      "day_change": 13.035003662109375,
+      "day_change_percent": 17.770966507529383,
+      "signal_score": {
+        "score": 5.0,
+        "label": "Moderate",
+        "components": {
+          "trend": 2,
+          "volume": 1,
+          "momentum": -1,
+          "rsi": -1,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Bullish trend",
+          "Relative volume above 1.2x",
+          "Extended after a large 5-day move",
+          "RSI is extreme"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "high",
+          "message": "RSI extremely overbought"
+        },
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "AMPG",
+      "latest_price": 5.0030999183654785,
+      "change_5d_percent": 35.21891496994798,
+      "rsi": 83.49753483407065,
+      "trend": "Bullish",
+      "relative_volume": 1.7991527925981148,
+      "current_volume": 7761688.0,
+      "year_high": 5.645999908447266,
+      "percent_below_52w_high": 11.386822538199336,
+      "day_change": -0.03690004348754883,
+      "day_change_percent": -0.7321437255325297,
       "signal_score": {
         "score": 5.0,
         "label": "Moderate",
@@ -233,133 +946,88 @@
       ]
     },
     {
-      "ticker": "ACMR",
-      "latest_price": 63.06999969482422,
-      "change_5d_percent": 19.45075872379012,
-      "rsi": 64.2712657554204,
+      "ticker": "AEHR",
+      "latest_price": 109.80000305175781,
+      "change_5d_percent": 31.386865445397515,
+      "rsi": 59.78067817878077,
       "trend": "Bullish",
-      "relative_volume": 1.6515741356100213,
-      "current_volume": 2150489.0,
-      "year_high": 71.6500015258789,
-      "percent_below_52w_high": 11.974880179110281,
-      "day_change": -1.5999984741210938,
-      "day_change_percent": -2.47409698379954,
-      "signal_score": {
-        "score": 8.0,
-        "label": "Very Strong",
-        "components": {
-          "trend": 2,
-          "volume": 1,
-          "momentum": 0,
-          "rsi": 1,
-          "analyst": 0,
-          "earnings_risk": 0,
-          "reddit_attention": 0
-        },
-        "notes": [
-          "Bullish trend",
-          "Relative volume above 1.2x",
-          "RSI in a balanced range"
-        ]
-      },
-      "risk_flags": []
-    },
-    {
-      "ticker": "ACLS",
-      "latest_price": 161.69000244140625,
-      "change_5d_percent": 15.740877575903738,
-      "rsi": 64.13596081000551,
-      "trend": "Bullish",
-      "relative_volume": 0.8633692471106101,
-      "current_volume": 747185.0,
-      "year_high": 171.61000061035156,
-      "percent_below_52w_high": 5.780547831515441,
-      "day_change": -3.3899993896484375,
-      "day_change_percent": -2.0535494015306672,
-      "signal_score": {
-        "score": 7.0,
-        "label": "Strong",
-        "components": {
-          "trend": 2,
-          "volume": 0,
-          "momentum": 0,
-          "rsi": 1,
-          "analyst": 0,
-          "earnings_risk": 0,
-          "reddit_attention": 0
-        },
-        "notes": [
-          "Bullish trend",
-          "RSI in a balanced range"
-        ]
-      },
-      "risk_flags": []
-    },
-    {
-      "ticker": "ADEA",
-      "latest_price": 31.155000686645508,
-      "change_5d_percent": 11.967654384187233,
-      "rsi": 51.8935247409351,
-      "trend": "Bullish",
-      "relative_volume": 1.4702457520058627,
-      "current_volume": 2962352.0,
-      "year_high": 34.34000015258789,
-      "percent_below_52w_high": 9.274896481624967,
-      "day_change": -0.7049999237060547,
-      "day_change_percent": -2.212805744507722,
-      "signal_score": {
-        "score": 8.0,
-        "label": "Very Strong",
-        "components": {
-          "trend": 2,
-          "volume": 1,
-          "momentum": 0,
-          "rsi": 1,
-          "analyst": 0,
-          "earnings_risk": 0,
-          "reddit_attention": 0
-        },
-        "notes": [
-          "Bullish trend",
-          "Relative volume above 1.2x",
-          "RSI in a balanced range"
-        ]
-      },
-      "risk_flags": []
-    },
-    {
-      "ticker": "AARD",
-      "latest_price": 6.110000133514404,
-      "change_5d_percent": 11.700189540598327,
-      "rsi": 59.86394248890787,
-      "trend": "High-risk",
-      "relative_volume": 1.28273132901494,
-      "current_volume": 181877.0,
-      "year_high": 17.940000534057617,
-      "percent_below_52w_high": 65.94202925515486,
-      "day_change": 0.3900003433227539,
-      "day_change_percent": 6.818188070417514,
+      "relative_volume": 0.960670928566916,
+      "current_volume": 2675583.0,
+      "year_high": 111.56999969482422,
+      "percent_below_52w_high": 1.586444965409924,
+      "day_change": 14.780006408691406,
+      "day_change_percent": 15.554627374079056,
       "signal_score": {
         "score": 6.0,
         "label": "Strong",
         "components": {
-          "trend": 0,
-          "volume": 1,
-          "momentum": 0,
+          "trend": 2,
+          "volume": 0,
+          "momentum": -1,
           "rsi": 1,
           "analyst": 0,
           "earnings_risk": 0,
           "reddit_attention": 0
         },
         "notes": [
-          "Relative volume above 1.2x",
+          "Bullish trend",
+          "Extended after a large 5-day move",
           "RSI in a balanced range"
         ]
       },
       "risk_flags": [
         {
           "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
+        }
+      ]
+    },
+    {
+      "ticker": "ASPI",
+      "latest_price": 6.920000076293945,
+      "change_5d_percent": 31.18483319784529,
+      "rsi": 65.35835898367289,
+      "trend": "Mixed",
+      "relative_volume": 2.881160150284222,
+      "current_volume": 13165236.0,
+      "year_high": 14.489999771118164,
+      "percent_below_52w_high": 52.242924875077875,
+      "day_change": 1.369999885559082,
+      "day_change_percent": 24.68468177435654,
+      "signal_score": {
+        "score": 6.0,
+        "label": "Strong",
+        "components": {
+          "trend": 1,
+          "volume": 2,
+          "momentum": -1,
+          "rsi": 0,
+          "analyst": 0,
+          "earnings_risk": 0,
+          "reddit_attention": 0
+        },
+        "notes": [
+          "Mixed trend",
+          "Relative volume above 2.0x",
+          "Extended after a large 5-day move"
+        ]
+      },
+      "risk_flags": [
+        {
+          "severity": "medium",
+          "message": "Stock is extended after a large 5-day move"
+        },
+        {
+          "severity": "medium",
           "message": "Below 200-day moving average"
+        },
+        {
+          "severity": "medium",
+          "message": "Large gap or unusual move"
         }
       ]
     }

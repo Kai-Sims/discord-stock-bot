@@ -2,9 +2,23 @@
   "tickers": [
     "AAPL",
     "AMD",
+    "AMZN",
+    "AVGO",
+    "COIN",
+    "GOOGL",
+    "IWM",
+    "JPM",
+    "LLY",
+    "META",
+    "MSFT",
     "NVDA",
+    "PLTR",
     "QQQ",
+    "SMH",
+    "SOFI",
     "SPY",
-    "TSLA"
+    "TSLA",
+    "XLK",
+    "XOM"
   ]
 }

@@ -34,6 +34,21 @@ DEFAULT_BOT_SETTINGS = {
     "alert_frequency_minutes": 5,
     "min_alert_severity": "low",
     "timezone": "America/Los_Angeles",
+    "role_mentions_enabled": True,
+    "mention_critical_alerts": True,
+    "mention_high_alerts": False,
+    "mention_watchlist_alerts": False,
+    "mention_scanner_alerts": False,
+    "mention_options_alerts": True,
+    "mention_day_trader_alerts": True,
+    "mention_paper_trading": False,
+    "mention_pauls_trackers": True,
+    "mention_earnings_alerts": True,
+    "mention_wsb_alerts": True,
+    "mention_best_setups": False,
+    "mention_do_not_chase": True,
+    "mention_morning_briefing": False,
+    "mention_eod_summary": False,
 }
 
 

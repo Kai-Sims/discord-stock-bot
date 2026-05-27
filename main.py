@@ -162,6 +162,108 @@ for channel_list in CHANNEL_CATEGORIES.values():
 for category_name, channel_list in CHANNEL_CATEGORIES.items():
     if "Quarterly Reports" in category_name and "earnings-alerts" not in channel_list:
         channel_list.append("earnings-alerts")
+CHANNEL_CATEGORIES = {
+    "Stock Bot — Core": [
+        "core-info",
+        "alert-roles-info",
+        "bot-commands",
+        "bot-status",
+        "help-and-examples",
+    ],
+    "Stock Bot — Guide": [
+        "guide-info",
+        "how-to-read-alerts",
+        "emoji-legend",
+        "scanner-guide",
+        "risk-and-score-guide",
+        "paper-trading-guide",
+    ],
+    "Stock Bot — Watchlist": [
+        "watchlist-info",
+        "watchlist",
+        "stock-alerts",
+        "options-alerts",
+        "daily-highs",
+        "daily-lows",
+        "fifty-two-week-highs",
+        "fifty-two-week-lows",
+        "rsi-alerts",
+        "volume-spikes",
+        "news-alerts",
+    ],
+    "Stock Bot — Scanner": [
+        "scanner-info",
+        "stock-ideas",
+        "scanner-results",
+        "broad-scanner",
+        "custom-scans",
+    ],
+    "Stock Bot — Journal": [
+        "journal-info",
+        "trade-journal",
+        "daily-summaries",
+    ],
+    "Stock Bot — Briefings": [
+        "briefings-info",
+        "morning-briefing",
+        "market-briefing",
+    ],
+    "Stock Bot — Quarterly Reports": [
+        "earnings-info",
+        "watchlist-earnings",
+        "promising-earnings",
+        "earnings-alerts",
+    ],
+    "Stock Bot — WallStreetBets": [
+        "wsb-info",
+        "wsb-mentions",
+        "wsb-tracking",
+        "wsb-alerts",
+    ],
+    "Paul's Trackers": [
+        "pauls-info",
+        "dividend-highs",
+        "five-day-runners",
+    ],
+    "Stock Bot — Paper Trading": [
+        "paper-info",
+        "paper-trades",
+        "paper-portfolio",
+        "paper-pnl",
+    ],
+    "Stock Bot — Best Setups": [
+        "best-setups-info",
+        "best-setups",
+        "do-not-chase",
+        "setup-watch",
+    ],
+    "Stock Bot — Signal Performance": [
+        "signal-performance-info",
+        "signal-performance",
+        "signal-log",
+        "signal-review",
+    ],
+    "Stock Bot — Levels": [
+        "levels-info",
+        "support-resistance",
+        "levels-alerts",
+    ],
+    "Stock Bot — Options": [
+        "options-info",
+        "options-watch",
+        "unusual-options",
+        "options-risk",
+        "options-checks",
+    ],
+    "Stock Bot — Watchlist Groups": [
+        "groups-info",
+        "watchlist-groups",
+        "group-alerts",
+    ],
+}
+GUIDE_CATEGORY_NAME = "Stock Bot — Guide"
+INFO_CHANNELS = {category_name: channel_names[0] for category_name, channel_names in CHANNEL_CATEGORIES.items()}
+
 GUIDE_CHANNELS = {
     "how-to-read-alerts": "How to Read Stock Bot Alerts",
     "emoji-legend": "Emoji Legend",
@@ -170,6 +272,87 @@ GUIDE_CHANNELS = {
     "paper-trading-guide": "Paper Trading Guide",
 }
 GUIDE_MESSAGE_MARKER = "[STOCK_BOT_GUIDE_MESSAGE]"
+CATEGORY_INFO_MARKER = "[STOCK_BOT_CATEGORY_INFO]"
+ROLE_INFO_MARKER = "[STOCK_BOT_ROLE_INFO]"
+ALERT_ROLES = {
+    "Critical Alerts": {"description": "Mentioned for critical market alerts only.", "color": "red"},
+    "High Alerts": {"description": "Mentioned for high-severity alerts.", "color": "orange"},
+    "Watchlist Alerts": {"description": "Mentioned for watchlist stock alerts.", "color": "green"},
+    "Scanner Alerts": {"description": "Mentioned for scanner results and stock ideas.", "color": "blue"},
+    "Options Alerts": {"description": "Mentioned for options chain and unusual options alerts.", "color": "purple"},
+    "Day Trader": {"description": "Mentioned for intraday movement, volume spikes, daily highs/lows, and fast-moving setups.", "color": "yellow"},
+    "Paper Trading": {"description": "Mentioned for paper trade journal updates.", "color": "teal"},
+    "Paul's Trackers": {"description": "Mentioned for Paul's dividend highs and 5-day runner alerts.", "color": "gold"},
+    "Earnings Alerts": {"description": "Mentioned for earnings and quarterly report alerts.", "color": "orange"},
+    "WSB Alerts": {"description": "Mentioned for WallStreetBets attention alerts.", "color": "pink"},
+    "Best Setups": {"description": "Mentioned for best setups of the day.", "color": "green"},
+    "Do Not Chase": {"description": "Mentioned for extended stock warnings.", "color": "red"},
+    "Morning Briefing": {"description": "Mentioned for daily morning briefing.", "color": "blue"},
+    "End of Day Summary": {"description": "Mentioned for post-market recap.", "color": "gray"},
+}
+ROLE_SETTING_KEYS = {
+    "Critical Alerts": "mention_critical_alerts",
+    "High Alerts": "mention_high_alerts",
+    "Watchlist Alerts": "mention_watchlist_alerts",
+    "Scanner Alerts": "mention_scanner_alerts",
+    "Options Alerts": "mention_options_alerts",
+    "Day Trader": "mention_day_trader_alerts",
+    "Paper Trading": "mention_paper_trading",
+    "Paul's Trackers": "mention_pauls_trackers",
+    "Earnings Alerts": "mention_earnings_alerts",
+    "WSB Alerts": "mention_wsb_alerts",
+    "Best Setups": "mention_best_setups",
+    "Do Not Chase": "mention_do_not_chase",
+    "Morning Briefing": "mention_morning_briefing",
+    "End of Day Summary": "mention_eod_summary",
+}
+ROLE_ALIASES = {
+    "critical": "Critical Alerts",
+    "high": "High Alerts",
+    "watchlist": "Watchlist Alerts",
+    "scanner": "Scanner Alerts",
+    "options": "Options Alerts",
+    "daytrader": "Day Trader",
+    "day_trader": "Day Trader",
+    "papertrading": "Paper Trading",
+    "paper": "Paper Trading",
+    "pauls": "Paul's Trackers",
+    "paul": "Paul's Trackers",
+    "earnings": "Earnings Alerts",
+    "wsb": "WSB Alerts",
+    "bestsetups": "Best Setups",
+    "best": "Best Setups",
+    "donotchase": "Do Not Chase",
+    "chase": "Do Not Chase",
+    "morning": "Morning Briefing",
+    "eod": "End of Day Summary",
+}
+ROLE_SOURCE_DEBUG = {
+    "Watchlist Alerts": "stock_alert",
+    "Scanner Alerts": "scanner",
+    "Options Alerts": "options",
+    "Paper Trading": "paper",
+    "Paul's Trackers": "pauls",
+    "Earnings Alerts": "earnings",
+    "WSB Alerts": "wsb",
+    "Best Setups": "best_setups",
+    "Do Not Chase": "do_not_chase",
+    "Morning Briefing": "morning",
+    "End of Day Summary": "eod",
+}
+ROLE_COLORS = {
+    "red": discord.Color.red(),
+    "orange": discord.Color.orange(),
+    "green": discord.Color.green(),
+    "blue": discord.Color.blue(),
+    "purple": discord.Color.purple(),
+    "yellow": discord.Color.gold(),
+    "teal": discord.Color.teal(),
+    "gold": discord.Color.gold(),
+    "pink": discord.Color.magenta(),
+    "gray": discord.Color.light_grey(),
+}
+ROLE_ALLOWED_MENTIONS = discord.AllowedMentions(roles=True, everyone=False, users=False)
 WATCHLIST_FILE = data_path("watchlist.json")
 SCANNER_UNIVERSE_FILE = data_path("scanner_universe.json")
 US_STOCK_UNIVERSE_FILE = data_path("us_stock_universe.json")
@@ -285,6 +468,7 @@ last_earnings_alert_dates = {}
 earnings_calendar_failures = {}
 pauls_tracker_scan_times = {}
 guide_pin_permission_warning_printed = False
+category_info_pin_permission_warning_printed = False
 logged_no_fundamentals_tickers = set()
 KNOWN_ETF_OR_FUND_TICKERS = {
     "SPY", "QQQ", "IWM", "DIA", "VOO", "VTI", "XLK", "XLF", "XLE", "XLY",
@@ -3582,6 +3766,195 @@ def get_channel_by_name(guild, channel_name):
     return discord.utils.get(guild.text_channels, name=channel_name)
 
 
+def normalize_role_category(value):
+    if not value:
+        return None
+    if value in ALERT_ROLES:
+        return value
+    compact = re.sub(r"[\s_-]+", "", str(value).lower())
+    return ROLE_ALIASES.get(compact)
+
+
+def get_role_by_name(guild, role_name):
+    if guild is None or not role_name:
+        return None
+    return discord.utils.get(guild.roles, name=role_name)
+
+
+def bot_can_mention_roles(channel):
+    guild = getattr(channel, "guild", None)
+    if guild is None or guild.me is None:
+        return False
+    permissions = channel.permissions_for(guild.me)
+    return bool(getattr(permissions, "mention_everyone", False))
+
+
+def should_mention_role(role_key_or_name):
+    settings = read_json(data_path("bot_settings.json"), DEFAULT_BOT_SETTINGS)
+    if not isinstance(settings, dict):
+        settings = DEFAULT_BOT_SETTINGS
+    if not settings.get("role_mentions_enabled", True):
+        return False
+    role_name = normalize_role_category(role_key_or_name) or role_key_or_name
+    setting_key = ROLE_SETTING_KEYS.get(role_name, role_key_or_name)
+    return bool(settings.get(setting_key, DEFAULT_BOT_SETTINGS.get(setting_key, False)))
+
+
+def get_role_mention(guild, role_name, setting_key=None):
+    if not should_mention_role(setting_key or role_name):
+        return ""
+    role = get_role_by_name(guild, role_name)
+    return role.mention if role else ""
+
+
+def role_setting_enabled(role_name):
+    settings = read_json(data_path("bot_settings.json"), DEFAULT_BOT_SETTINGS)
+    if not isinstance(settings, dict):
+        settings = DEFAULT_BOT_SETTINGS
+    setting_key = ROLE_SETTING_KEYS.get(role_name)
+    return bool(settings.get(setting_key, DEFAULT_BOT_SETTINGS.get(setting_key, False)))
+
+
+def build_role_mentions_for_alert(guild, alert_context):
+    if guild is None:
+        return ""
+    context = alert_context or {}
+    role_names = []
+    severity = str(context.get("severity") or "").lower()
+    source = str(context.get("source") or "").lower()
+    alert_type = str(context.get("alert_type") or "").lower()
+
+    if severity == "critical":
+        role_names.append("Critical Alerts")
+    if severity == "high":
+        role_names.append("High Alerts")
+
+    source_roles = {
+        "critical": "Critical Alerts",
+        "high": "High Alerts",
+        "watchlist": "Watchlist Alerts",
+        "stock_alert": "Watchlist Alerts",
+        "scanner": "Scanner Alerts",
+        "options": "Options Alerts",
+        "daytrader": "Day Trader",
+        "day_trader": "Day Trader",
+        "pauls": "Paul's Trackers",
+        "earnings": "Earnings Alerts",
+        "wsb": "WSB Alerts",
+        "paper": "Paper Trading",
+        "papertrading": "Paper Trading",
+        "best_setups": "Best Setups",
+        "bestsetups": "Best Setups",
+        "do_not_chase": "Do Not Chase",
+        "donotchase": "Do Not Chase",
+        "morning": "Morning Briefing",
+        "eod": "End of Day Summary",
+    }
+    if source in source_roles:
+        role_names.append(source_roles[source])
+
+    day_trader_sources = {
+        "daily_high",
+        "daily_low",
+        "fifty_two_week_high",
+        "fifty_two_week_low",
+        "rsi_alert",
+        "volume_spike",
+        "news_alert",
+        "scanner",
+        "stock_ideas",
+        "earnings",
+        "briefing",
+        "morning",
+        "market_briefing",
+        "best_setups",
+    }
+    day_trader_terms = (
+        "daily high",
+        "daily low",
+        "52-week high",
+        "52 week high",
+        "fifty-two-week high",
+        "52-week low",
+        "52 week low",
+        "fifty-two-week low",
+        "rsi",
+        "volume spike",
+        "news",
+        "stock ideas",
+        "scanner",
+        "earnings",
+        "briefing",
+        "best setup",
+    )
+    if source in day_trader_sources or any(term in alert_type for term in day_trader_terms):
+        role_names.append("Day Trader")
+
+    mentions = []
+    seen = set()
+    for role_name in role_names:
+        if role_name in seen:
+            continue
+        seen.add(role_name)
+        mention = get_role_mention(guild, role_name)
+        if mention:
+            mentions.append(mention)
+    return " ".join(mentions)
+
+
+async def setup_alert_roles(guild):
+    if guild is None:
+        print("Error: Could not find the Discord server. Check GUILD_ID.")
+        return None
+
+    bot_member = guild.me or guild.get_member(bot.user.id)
+    permissions = bot_member.guild_permissions if bot_member else None
+    if permissions is None or not permissions.manage_roles:
+        print("Missing Manage Roles permission. Give the bot Manage Roles to create alert roles.")
+        return None
+
+    created_roles = []
+    existing_roles = []
+    for role_name, role_info in ALERT_ROLES.items():
+        existing_role = get_role_by_name(guild, role_name)
+        if existing_role:
+            print(f'Alert role already exists: "{role_name}"')
+            if not existing_role.mentionable:
+                try:
+                    await existing_role.edit(mentionable=True, reason="Stock bot alert role setup")
+                    print(f'Updated alert role mentionability: "{role_name}"')
+                except discord.Forbidden:
+                    print(
+                        f'Could not update mentionability for "{role_name}". Move the bot role above this role '
+                        "in Server Settings -> Roles, or manually enable 'Allow anyone to @mention this role'."
+                    )
+                except discord.HTTPException as error:
+                    print(f'Could not update mentionability for "{role_name}": {error}')
+            existing_roles.append(existing_role)
+            continue
+        try:
+            role = await guild.create_role(
+                name=role_name,
+                color=ROLE_COLORS.get(role_info.get("color"), discord.Color.default()),
+                mentionable=True,
+                reason="Stock bot alert role setup",
+            )
+            print(f'Created alert role: "{role_name}"')
+            created_roles.append(role)
+        except discord.Forbidden:
+            print(
+                "Missing Manage Roles permission. Give the bot Manage Roles to create alert roles. "
+                "Discord also requires the bot's highest role to be above the alert roles in the role hierarchy."
+            )
+            return None
+        except discord.HTTPException as error:
+            print(
+                f'Could not create alert role "{role_name}": {error}. '
+                "Discord requires the bot's highest role to be above roles it creates or manages."
+            )
+    return {"created_roles": created_roles, "existing_roles": existing_roles}
+
+
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -3760,6 +4133,442 @@ Paper trading is simulated only and does not place real trades.""",
     }
 
 
+def build_category_info_messages():
+    """Return automatic category info messages keyed by info channel name."""
+    return {
+        "core-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Core
+
+## What this section is for
+This is where users run commands, check bot status, and find general examples.
+`#alert-roles-info` explains optional Discord roles for alert pings.
+
+## Main commands
+`!help`
+`!quickstart`
+`!commands`
+`!about`
+`!examples`
+`!settings`
+`!alerts`
+`!rolesetup`
+`!roles`
+`!rolementions`
+`!ping`
+
+## What to look out for
+Missing API credentials, disabled loops, quiet mode, and market-hours-only mode can all change what the bot posts automatically.
+
+## Notes
+Research only — not financial advice.""",
+        "guide-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Guide
+
+## What this section is for
+This section teaches users how to read bot messages. Channels explain alerts, emojis, scanners, signal scores, risk flags, and paper trading.
+
+## Main commands
+`!guide`
+`!postguides`
+
+## What to look out for
+Guide messages are educational. They are not trading instructions.
+
+## Notes
+Research only — not financial advice.""",
+        "watchlist-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Watchlist
+
+## What this section is for
+This section tracks the default watchlist. Alerts include daily highs/lows, 52-week highs/lows, RSI, volume spikes, news, and earnings-related alerts.
+
+## Main commands
+`!watchlist`
+`!add AAPL`
+`!remove AAPL`
+`!check AAPL`
+`!alerts`
+
+## What to look out for
+Too many tickers can create noisy alerts and rate-limit problems. Green/red emojis show direction, not buy/sell signals. RSI overbought does not always mean sell, and RSI oversold does not always mean buy.
+
+## Notes
+Research only — not financial advice.""",
+        "scanner-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Scanner
+
+## What this section is for
+This section finds stocks outside the watchlist that match preset or custom criteria.
+
+## Main commands
+`!scan`
+`!scan momentum`
+`!scan breakouts`
+`!scan oversold`
+`!scan pullbacks`
+`!scan volume`
+`!scan custom rsi>70`
+`!scan custom rsi=45-65 above50ma=true above200ma=true`
+`!scan all custom relvol>1.5 price>10`
+`!scanhelp`
+
+## What to look out for
+Scanner results are research candidates only. Broad scans may take longer and hit data limits. High RSI can mean strength or overextension depending on context.
+
+## Notes
+Research only — not financial advice.""",
+        "journal-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Journal
+
+## What this section is for
+This section stores end-of-day summaries and daily tracking notes.
+
+## Main commands
+`!eodsummary`
+`!eodstatus`
+`!seteodtime 13 30`
+
+## What to look out for
+EOD summaries depend on delayed/free data. Use this section to review what happened, not to chase after-hours moves.
+
+## Notes
+Research only — not financial advice.""",
+        "briefings-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Briefings
+
+## What this section is for
+This section posts morning market briefings.
+
+## Main commands
+`!morningbriefing`
+`!morningstatus`
+`!setmorningtime 6 30`
+
+## What to look out for
+Morning data may be premarket or delayed. Treat it as a planning tool before market open.
+
+## Notes
+Research only — not financial advice.""",
+        "earnings-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Quarterly Reports
+
+## What this section is for
+This section tracks quarterly reports and earnings.
+
+## Main commands
+`!earnings`
+`!promisingearnings`
+`!earningsstatus`
+`!earningssettings`
+`!setearningslookahead 30`
+
+## What to look out for
+Earnings can cause large unpredictable moves. Analyst-supported candidates are not buy recommendations. Options around earnings can suffer IV crush. yfinance earnings/analyst data can be incomplete.
+
+## Notes
+Research only — not financial advice.""",
+        "wsb-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — WallStreetBets
+
+## What this section is for
+This section tracks WallStreetBets ticker mentions if Reddit API credentials are configured.
+
+## Main commands
+`!wsbstatus`
+`!wsbmentions`
+`!wsbtrack`
+`!wsbrefresh`
+`!wsbsettings`
+
+## What to look out for
+Reddit attention is not the same as quality. High mentions can mean hype, risk, or volatility. Avoid treating WSB spikes as automatic trade signals.
+
+## Notes
+Research only — not financial advice.""",
+        "pauls-info": """[STOCK_BOT_CATEGORY_INFO]
+# Paul's Trackers
+
+## What this section is for
+`#dividend-highs` finds stocks near all-time highs with dividend yield above the selected threshold. `#five-day-runners` finds stocks up at least the selected threshold over 5 trading days.
+
+## Main commands
+`!paulstrackers`
+`!dividendhighs`
+`!fivedayrunners`
+`!paulssettings`
+`!setpaulsdividend 5`
+`!setpaulsath 5`
+`!setpauls5day 10`
+`!paulsauto on/off`
+`!setpaulslimit 50`
+
+## What to look out for
+High dividend yield can sometimes signal risk. Big 5-day runners may already be extended. Automatic scans can hit rate limits if too broad.
+
+## Notes
+Research only — not financial advice.""",
+        "paper-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Paper Trading
+
+## What this section is for
+This section is for simulated paper trading only.
+
+## Main commands
+`!paperbuy AAPL 10 195.20 reason`
+`!papersell AAPL 10 205.00 reason`
+`!paperportfolio`
+`!paperpnl`
+`!paperjournal`
+`!paperclose AAPL 210.00 reason`
+`!paperclear CONFIRM`
+
+## What to look out for
+Paper trading does not execute real trades. Always write a reason so you can learn from results. P/L is simulated and may not include slippage, spreads, or fees.
+
+## Notes
+Research only — not financial advice.""",
+        "best-setups-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Best Setups
+
+## What this section is for
+This section ranks stronger research candidates from watchlists, scanners, WSB, Paul's Trackers, and other signals.
+
+## Main commands
+`!bestsetups`
+`!bestsetupsstatus`
+`!setbestsetupscore 7`
+`!setbestsetuplimit 10`
+`!donotchase`
+`!donotchasestatus`
+
+## What to look out for
+Best setup does not mean guaranteed winner. Do Not Chase warnings flag stocks that may be extended. Strong signal score with many risk flags means higher caution.
+
+## Notes
+Research only — not financial advice.""",
+        "signal-performance-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Signal Performance
+
+## What this section is for
+This section tracks how the bot's signals performed after being posted.
+
+## Main commands
+`!signals`
+`!signalperformance`
+`!signalperformance 30`
+`!signalreview AAPL`
+`!clearsignals CONFIRM`
+
+## What to look out for
+Past signal performance does not guarantee future results. Use this section to learn which alert types are useful and which are noisy.
+
+## Notes
+Research only — not financial advice.""",
+        "levels-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Levels
+
+## What this section is for
+This section tracks support and resistance levels.
+
+## Main commands
+`!levels AAPL`
+`!watchlevels`
+`!setleveldistance 1`
+
+## What to look out for
+Support/resistance levels are estimates, not exact lines. Breakouts can fail. Price near resistance can mean breakout potential or rejection risk. Price near support can mean bounce potential or breakdown risk.
+
+## Notes
+Research only — not financial advice.""",
+        "options-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Options
+
+## What this section is for
+This section is for options research.
+
+## Main commands
+`!options AAPL`
+`!options AAPL 2026-06-19`
+`!unusualoptions AAPL`
+`!optionshelp`
+`!optionssettings`
+`!setoptionsvolume 10`
+`!setoptionsoi 100`
+`!setoptionsspread 20`
+`!setoptionsdte 14 60`
+
+## What to look out for
+Options can lose 100% of premium. Wide bid/ask spreads are risky. Earnings can cause IV crush. High open interest/volume does not mean a trade is good. The bot does not execute trades.
+
+## Notes
+Research only — not financial advice.""",
+        "groups-info": """[STOCK_BOT_CATEGORY_INFO]
+# Stock Bot — Watchlist Groups
+
+## What this section is for
+This section manages multiple watchlist groups.
+
+## Main commands
+`!groups`
+`!groupcreate semiconductors`
+`!groupadd semiconductors NVDA`
+`!groupremove semiconductors NVDA`
+`!groupshow semiconductors`
+`!groupcheck semiconductors`
+`!groupscan semiconductors momentum`
+`!groupalerts semiconductors on`
+
+## What to look out for
+The same ticker in multiple groups can create duplicate context. Keep groups focused so alerts stay useful.
+
+## Notes
+Research only — not financial advice.""",
+    }
+
+
+def build_role_info_message():
+    return """[STOCK_BOT_ROLE_INFO]
+# Stock Bot Alert Roles
+
+Users can assign roles to receive pings for specific bot alerts.
+Server admins may need to manually assign roles unless self-role support is added later.
+Role pings can be turned on/off by bot settings.
+Role pings only notify users who have that Discord role assigned.
+The bot sends actual Discord role mentions using role IDs, like <@&123456789>.
+Role mentions are placed above alert messages in message content, not only inside embeds.
+Day Trader is pinged for daily highs/lows, 52-week highs/lows, RSI alerts, volume spikes, news alerts, stock ideas/scanner results, earnings alerts, briefings, and best setups.
+
+Roles:
+- Critical Alerts - critical alerts only
+- High Alerts - high severity alerts
+- Watchlist Alerts - default watchlist alerts
+- Scanner Alerts - scanner and stock idea results
+- Options Alerts - options chain and unusual options alerts
+- Day Trader - intraday highs/lows, volume spikes, fast movers
+- Paper Trading - simulated trade updates
+- Paul's Trackers - Paul's dividend highs and 5-day runners
+- Earnings Alerts - quarterly reports and earnings reminders
+- WSB Alerts - Reddit attention alerts
+- Best Setups - daily best setup candidates
+- Do Not Chase - extended stock warnings
+- Morning Briefing - daily briefing
+- End of Day Summary - post-market recap
+
+Commands:
+!rolesetup
+!roles
+!rolementions
+!rolementions on
+!rolementions off
+!mentionrole options on
+!mentionrole critical on
+!testrole critical
+!testroleping critical
+!roledebug critical
+!fixrolementions
+!testdaytraderpings
+!rolesmessage
+
+Watch out for:
+- Too many role pings can become noisy.
+- Keep only the roles you care about enabled.
+- If pings do not work, check that the role exists.
+- Check that users have the role assigned.
+- Check that role mentions are enabled in bot settings.
+- Check that the role is mentionable, or run !fixrolementions.
+- Check that the bot can send messages in that channel.
+- Check that users have not muted or suppressed the server/channel.
+- Role alerts are research signals, not financial advice."""
+
+
+async def post_or_update_marked_message(channel, content, marker, pin_reason, warning_message, warning_flag_name):
+    """Post or update one marked bot message in a channel."""
+    global guide_pin_permission_warning_printed, category_info_pin_permission_warning_printed
+
+    existing_message = None
+    try:
+        async for message in channel.pins():
+            if message.author == bot.user and marker in (message.content or ""):
+                existing_message = message
+                break
+    except (discord.Forbidden, discord.HTTPException) as error:
+        print(f"Could not read pinned messages in #{channel.name}: {error}")
+
+    try:
+        async for message in channel.history(limit=50):
+            if existing_message:
+                break
+            if message.author == bot.user and marker in (message.content or ""):
+                existing_message = message
+                break
+    except (discord.Forbidden, discord.HTTPException) as error:
+        print(f"Could not search message history in #{channel.name}: {error}")
+
+    try:
+        if existing_message:
+            await existing_message.edit(content=content)
+            posted_message = existing_message
+            print(f"Updated automatic info message in #{channel.name}.")
+        else:
+            posted_message = await channel.send(content)
+            print(f"Posted automatic info message in #{channel.name}.")
+    except (discord.Forbidden, discord.HTTPException) as error:
+        print(f"Could not post automatic info message in #{channel.name}: {error}")
+        return
+
+    if not posted_message.pinned:
+        try:
+            await posted_message.pin(reason=pin_reason)
+            print(f"Pinned automatic info message in #{channel.name}.")
+        except discord.Forbidden:
+            if warning_flag_name == "guide" and not guide_pin_permission_warning_printed:
+                print(warning_message)
+                guide_pin_permission_warning_printed = True
+            if warning_flag_name == "category_info" and not category_info_pin_permission_warning_printed:
+                print(warning_message)
+                category_info_pin_permission_warning_printed = True
+        except discord.HTTPException as error:
+            print(f"Automatic info message posted but could not be pinned: {error}")
+
+
+async def post_or_update_category_info_messages(guild):
+    """Post or update one pinned category info message in each info channel."""
+    if guild is None:
+        return
+
+    for channel_name, info_message in build_category_info_messages().items():
+        channel = get_channel_by_name(guild, channel_name)
+        if channel is None:
+            print(f"Category info channel #{channel_name} is missing.")
+            continue
+
+        await post_or_update_marked_message(
+            channel,
+            info_message,
+            CATEGORY_INFO_MARKER,
+            "Stock bot category info message",
+            "Category info message posted but could not be pinned. Give the bot Manage Messages permission to allow pinning.",
+            "category_info",
+        )
+
+
+async def post_or_update_role_info_message(guild):
+    if guild is None:
+        return
+    channel = get_channel_by_name(guild, "alert-roles-info")
+    if channel is None:
+        print("Role info channel #alert-roles-info is missing.")
+        return
+    await post_or_update_marked_message(
+        channel,
+        build_role_info_message(),
+        ROLE_INFO_MARKER,
+        "Stock bot alert roles info message",
+        "Role info message posted but could not be pinned. Give the bot Manage Messages permission to allow pinning.",
+        "category_info",
+    )
+
+
 async def post_or_update_guide_messages(guild):
     """Post or update one pinned guide message in each guide channel."""
     global guide_pin_permission_warning_printed
@@ -3775,7 +4584,7 @@ async def post_or_update_guide_messages(guild):
 
         existing_message = None
         try:
-            for message in await channel.pins():
+            async for message in channel.pins():
                 if message.author == bot.user and GUIDE_MESSAGE_MARKER in (message.content or ""):
                     existing_message = message
                     break
@@ -3816,32 +4625,97 @@ async def post_or_update_guide_messages(guild):
                 print(f"Guide message posted but could not be pinned: {error}")
 
 
-async def send_long_message(destination, message):
+async def send_alert_message(channel, message=None, embed=None, role_mentions="", allowed_role_mentions=True):
+    """Send alert text/embed with role mentions in content and safe mention rules."""
+    if role_mentions and not bot_can_mention_roles(channel):
+        print(
+            f"Warning: #{getattr(channel, 'name', 'unknown')} may not ping roles because "
+            "the bot lacks Mention Everyone/All Roles permission in that channel."
+        )
+    allowed_mentions = discord.AllowedMentions(
+        roles=bool(allowed_role_mentions),
+        users=False,
+        everyone=False,
+    )
+
+    if embed is not None:
+        content = role_mentions or (message if message else None)
+        await channel.send(content=content, embed=embed, allowed_mentions=allowed_mentions)
+        return
+
+    content = message or ""
+    if role_mentions:
+        content = f"{role_mentions}\n{content}" if content else role_mentions
+
+    await channel.send(content, allowed_mentions=allowed_mentions)
+
+
+async def send_long_message(destination, message, role_mentions=""):
     """Send long Discord messages in chunks without cutting entries awkwardly."""
-    if len(message) <= 1900:
-        await destination.send(message)
+    if len((role_mentions + "\n" if role_mentions else "") + message) <= 1900:
+        await send_alert_message(destination, message, role_mentions=role_mentions)
         return
 
     chunk = ""
+    first_chunk = True
     paragraphs = message.split("\n\n")
     for paragraph in paragraphs:
         addition = paragraph if not chunk else f"\n\n{paragraph}"
-        if len(chunk) + len(addition) > 1900:
+        max_length = 1900 - (len(role_mentions) + 1 if first_chunk and role_mentions else 0)
+        if len(chunk) + len(addition) > max_length:
             if chunk:
-                await destination.send(chunk)
+                await send_alert_message(destination, chunk, role_mentions=role_mentions if first_chunk else "")
+                first_chunk = False
                 chunk = paragraph
             else:
                 for start in range(0, len(paragraph), 1900):
-                    await destination.send(paragraph[start:start + 1900])
+                    await send_alert_message(
+                        destination,
+                        paragraph[start:start + 1900],
+                        role_mentions=role_mentions if first_chunk else "",
+                    )
+                    first_chunk = False
                 chunk = ""
         else:
             chunk += addition
 
     if chunk:
-        await destination.send(chunk)
+        await send_alert_message(destination, chunk, role_mentions=role_mentions if first_chunk else "")
 
 
-async def send_stock_alert(guild, channel_name, message, severity="low"):
+async def send_stock_alert(guild, channel_name, message, severity="low", alert_context=None):
+    inferred_severity = {
+        "daily-highs": "medium",
+        "daily-lows": "medium",
+        "fifty-two-week-highs": "medium",
+        "fifty-two-week-lows": "medium",
+        "rsi-alerts": "medium",
+        "volume-spikes": "high",
+        "levels-alerts": "medium",
+    }
+    inferred_alert_type = {
+        "daily-highs": "Daily High",
+        "daily-lows": "Daily Low",
+        "fifty-two-week-highs": "52-Week High",
+        "fifty-two-week-lows": "52-Week Low",
+        "rsi-alerts": "RSI Alert",
+        "volume-spikes": "Volume Spike",
+        "levels-alerts": "Support/Resistance",
+        "stock-alerts": "Watchlist Alert",
+    }
+    inferred_source = {
+        "daily-highs": "daily_high",
+        "daily-lows": "daily_low",
+        "fifty-two-week-highs": "fifty_two_week_high",
+        "fifty-two-week-lows": "fifty_two_week_low",
+        "rsi-alerts": "rsi_alert",
+        "volume-spikes": "volume_spike",
+        "news-alerts": "news_alert",
+        "stock-alerts": "stock_alert",
+    }
+    if severity == "low" and channel_name in inferred_severity:
+        severity = inferred_severity[channel_name]
+
     if QUIET_MODE and severity != "critical":
         print(f"Quiet mode suppressed {severity} alert for #{channel_name}.")
         return
@@ -3860,7 +4734,16 @@ async def send_stock_alert(guild, channel_name, message, severity="low"):
     if "financial advice" not in message.lower():
         message = f"{message}\n\nAlerts are for research only and are not financial advice."
 
-    await channel.send(f"{SEVERITY_EMOJI.get(severity, '')} {severity.title()} Alert\n{message}")
+    context = {
+        "source": inferred_source.get(channel_name, "stock_alert"),
+        "severity": severity,
+        "alert_type": inferred_alert_type.get(channel_name, channel_name),
+    }
+    if alert_context:
+        context.update(alert_context)
+    role_mentions = build_role_mentions_for_alert(guild, context)
+    content = f"{SEVERITY_EMOJI.get(severity, '')} {severity.title()} Alert\n{message}"
+    await send_alert_message(channel, content, role_mentions=role_mentions)
 
 
 def should_send_alert(ticker, alert_type):
@@ -4012,7 +4895,8 @@ async def daily_scanner_loop():
             print("Daily scanner could not find #stock-ideas.")
             return
 
-        await channel.send(message)
+        role_mentions = build_role_mentions_for_alert(guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+        await send_long_message(channel, message, role_mentions)
     except Exception as error:
         print(f"Daily scanner loop failed safely: {error}")
 
@@ -4089,7 +4973,8 @@ async def eod_summary_loop():
             return
 
         summary = await asyncio.to_thread(build_eod_summary)
-        await send_long_message(channel, summary)
+        role_mentions = build_role_mentions_for_alert(guild, {"source": "eod", "severity": "low", "alert_type": "End of Day Summary"})
+        await send_long_message(channel, summary, role_mentions)
         last_eod_summary_date = market_now().date().isoformat()
         print(f"EOD summary sent for {last_eod_summary_date}.")
     except Exception as error:
@@ -4119,7 +5004,8 @@ async def morning_briefing_loop():
             return
 
         summary = await asyncio.to_thread(build_morning_briefing)
-        await send_long_message(channel, summary)
+        role_mentions = build_role_mentions_for_alert(guild, {"source": "morning", "severity": "medium", "alert_type": "Morning Briefing"})
+        await send_long_message(channel, summary, role_mentions)
         last_morning_briefing_date = market_now().date().isoformat()
         print(f"Morning briefing sent for {last_morning_briefing_date}.")
     except Exception as error:
@@ -4141,7 +5027,8 @@ async def best_setups_loop():
             print("Best setups loop could not find #best-setups.")
             return
         results = await asyncio.to_thread(build_best_setups_of_day)
-        await send_long_message(channel, format_best_setups_message(results))
+        role_mentions = build_role_mentions_for_alert(guild, {"source": "best_setups", "severity": "medium", "alert_type": "Best Setups"})
+        await send_long_message(channel, format_best_setups_message(results), role_mentions)
         last_best_setups_date = market_now().date().isoformat()
         print(f"Best setups posted for {last_best_setups_date}.")
     except Exception as error:
@@ -4163,7 +5050,9 @@ async def do_not_chase_loop():
             print("Do-not-chase loop could not find #do-not-chase.")
             return
         results = await asyncio.to_thread(build_do_not_chase_results)
-        await send_long_message(channel, format_do_not_chase_message(results))
+        role_mentions = build_role_mentions_for_alert(guild, {"source": "do_not_chase", "severity": "high", "alert_type": "Do Not Chase"})
+        print(f"Do Not Chase role_mentions={role_mentions if role_mentions else 'NONE'}")
+        await send_long_message(channel, format_do_not_chase_message(results), role_mentions)
         last_do_not_chase_date = market_now().date().isoformat()
         print(f"Do-not-chase watch posted for {last_do_not_chase_date}.")
     except Exception as error:
@@ -4225,9 +5114,11 @@ async def earnings_weekly_loop():
 
     try:
         if watchlist_channel and watchlist_summary:
-            await send_long_message(watchlist_channel, watchlist_summary)
+            role_mentions = build_role_mentions_for_alert(guild, {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"})
+            await send_long_message(watchlist_channel, watchlist_summary, role_mentions)
         if promising_channel and promising_summary:
-            await send_long_message(promising_channel, promising_summary)
+            role_mentions = build_role_mentions_for_alert(guild, {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"})
+            await send_long_message(promising_channel, promising_summary, role_mentions)
 
         last_earnings_weekly_summary_date = earnings_now().date().isoformat()
         print(f"Earnings weekly summaries sent for {last_earnings_weekly_summary_date}.")
@@ -4269,11 +5160,17 @@ async def earnings_alert_loop():
         else:
             timing = f"within {days_until} days"
 
-        await channel.send(
+        role_mentions = build_role_mentions_for_alert(
+            guild,
+            {"source": "earnings", "severity": "high" if days_until <= 1 else "medium", "alert_type": "Earnings Alert"},
+        )
+        await send_alert_message(
+            channel,
             f"{get_signal_emoji('Earnings')} Earnings Alert — {ticker}\n"
             f"{ticker} has an upcoming quarterly report {timing}.\n"
             f"{EMOJI_EARNINGS} Earnings Date: {earnings_date}\n\n"
-            f"{EARNINGS_DISCLAIMER}"
+            f"{EARNINGS_DISCLAIMER}",
+            role_mentions=role_mentions,
         )
         last_earnings_alert_dates[alert_key] = today_text
 
@@ -4335,7 +5232,9 @@ async def wsb_tracker_loop():
                         [],
                         reasons,
                     )
-                    await send_long_message(alerts_channel, format_wsb_alert(item, reasons))
+                    severity = "critical" if (item.get("mention_count") or 0) >= 10 and (item.get("relative_volume") or 0) >= 2 else "high"
+                    role_mentions = build_role_mentions_for_alert(guild, {"source": "wsb", "severity": severity, "alert_type": "WSB Attention"})
+                    await send_long_message(alerts_channel, format_wsb_alert(item, reasons), role_mentions)
                 except Exception as error:
                     print(f"WSB alert send failed safely: {error}")
     else:
@@ -4364,7 +5263,8 @@ async def pauls_tracker_loop():
 
     if dividend_channel:
         try:
-            await send_long_message(dividend_channel, build_dividend_highs_message(data["dividend_highs"]))
+            role_mentions = build_role_mentions_for_alert(guild, {"source": "pauls", "severity": "medium", "alert_type": "Paul's Trackers"})
+            await send_long_message(dividend_channel, build_dividend_highs_message(data["dividend_highs"]), role_mentions)
         except Exception as error:
             print(f"Paul's dividend tracker send failed safely: {error}")
     else:
@@ -4372,7 +5272,8 @@ async def pauls_tracker_loop():
 
     if runners_channel:
         try:
-            await send_long_message(runners_channel, build_five_day_runners_message(data["five_day_runners"]))
+            role_mentions = build_role_mentions_for_alert(guild, {"source": "pauls", "severity": "medium", "alert_type": "Paul's Trackers"})
+            await send_long_message(runners_channel, build_five_day_runners_message(data["five_day_runners"]), role_mentions)
         except Exception as error:
             print(f"Paul's 5-day tracker send failed safely: {error}")
     else:
@@ -4464,6 +5365,8 @@ async def on_ready():
 
     try:
         await setup_channels(guild)
+        await post_or_update_category_info_messages(guild)
+        await post_or_update_role_info_message(guild)
         await post_or_update_guide_messages(guild)
     except discord.Forbidden:
         print(
@@ -4566,11 +5469,14 @@ async def setup_command(ctx):
         await ctx.send("Channel setup could not run. Check the bot terminal.")
         return
 
+    await post_or_update_category_info_messages(ctx.guild)
+    await post_or_update_role_info_message(ctx.guild)
     await post_or_update_guide_messages(ctx.guild)
     await ctx.send(
         "Server organization complete. Stock bot channels are now grouped by Core, "
         "Watchlist, Scanner, Journal, Briefings, Quarterly Reports, WallStreetBets, "
-        "Paul's Trackers, Paper Trading, and Guide."
+        "Paul's Trackers, Paper Trading, Guide, Best Setups, Signal Performance, "
+        "Levels, Options, and Watchlist Groups."
     )
 
 
@@ -4606,6 +5512,314 @@ async def postguides_command(ctx):
     await ctx.send("Guide messages updated in the Stock Bot — Guide section.")
 
 
+@bot.command(name="postinfo")
+@commands.guild_only()
+async def postinfo_command(ctx):
+    """Manually post or update automatic category info messages."""
+    await post_or_update_category_info_messages(ctx.guild)
+    await post_or_update_role_info_message(ctx.guild)
+    await ctx.send("Category info messages updated.")
+
+
+@bot.command(name="infochannels")
+@commands.guild_only()
+async def infochannels_command(ctx):
+    """List all category info channels."""
+    lines = ["Info Channels:"]
+    for category_name, info_channel_name in INFO_CHANNELS.items():
+        channel = get_channel_by_name(ctx.guild, info_channel_name)
+        channel_text = channel.mention if channel else f"#{info_channel_name} (missing)"
+        lines.append(f"{category_name}: {channel_text}")
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="rolesetup")
+@commands.guild_only()
+async def rolesetup_command(ctx):
+    """Create or verify stock bot alert roles."""
+    result = await setup_alert_roles(ctx.guild)
+    if result is None:
+        await ctx.send(
+            "Missing Manage Roles permission. Give the bot Manage Roles to create alert roles. "
+            "The bot role must also be above the alert roles in Discord's role hierarchy."
+        )
+        return
+    await post_or_update_role_info_message(ctx.guild)
+    await ctx.send("Alert roles created/verified. Users can now assign themselves roles if your server permissions allow it.")
+
+
+@bot.command(name="fixrolementions")
+@commands.guild_only()
+async def fixrolementions_command(ctx):
+    """Try to make stock bot alert roles mentionable."""
+    bot_member = ctx.guild.me or ctx.guild.get_member(bot.user.id)
+    permissions = bot_member.guild_permissions if bot_member else None
+    if permissions is None or not permissions.manage_roles:
+        await ctx.send("Missing Manage Roles permission. Give the bot Manage Roles to update alert roles.")
+        return
+
+    updated = []
+    already_ok = []
+    missing = []
+    failed = []
+
+    for role_name in ALERT_ROLES:
+        role = get_role_by_name(ctx.guild, role_name)
+        if role is None:
+            missing.append(role_name)
+            continue
+        if role.mentionable:
+            already_ok.append(role_name)
+            continue
+        try:
+            await role.edit(mentionable=True, reason="Stock bot alert role mentionability repair")
+            updated.append(role_name)
+        except (discord.Forbidden, discord.HTTPException):
+            failed.append(role_name)
+
+    lines = ["Alert Role Mentionability Repair"]
+    lines.append(f"Updated: {', '.join(updated) if updated else 'None'}")
+    lines.append(f"Already mentionable: {', '.join(already_ok) if already_ok else 'None'}")
+    lines.append(f"Missing roles: {', '.join(missing) if missing else 'None'}")
+    lines.append(f"Failed: {', '.join(failed) if failed else 'None'}")
+    if failed:
+        lines.extend([
+            "",
+            "Move the bot role above this role in Server Settings -> Roles, or manually enable 'Allow anyone to @mention this role'.",
+        ])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="roles")
+@commands.guild_only()
+async def roles_command(ctx):
+    """List stock bot alert roles."""
+    lines = ["Stock Bot Alert Roles"]
+    for role_name, role_info in ALERT_ROLES.items():
+        role = get_role_by_name(ctx.guild, role_name)
+        status = "created" if role else "missing"
+        lines.append(f"- {role_name} ({status}): {role_info['description']}")
+    lines.extend([
+        "",
+        "Use `!rolesetup` to create missing roles.",
+        "The bot uses actual Discord role mentions like `<@&role_id>` when alerts are posted.",
+        "Users must have a role assigned to receive that ping. If nobody has the role, nobody is notified.",
+        "Some users may suppress role notifications in personal Discord settings.",
+        "Role alerts are research signals, not financial advice.",
+    ])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="rolementions")
+@commands.guild_only()
+async def rolementions_command(ctx, mode=None):
+    """Show or toggle role mention settings."""
+    if mode in {"on", "off"}:
+        enabled = mode == "on"
+        set_setting("role_mentions_enabled", enabled)
+        await ctx.send(f"Role mentions are now {'enabled' if enabled else 'disabled'}.")
+        return
+    if mode is not None:
+        await ctx.send("Use `!rolementions`, `!rolementions on`, or `!rolementions off`.")
+        return
+
+    settings = load_bot_settings()
+    lines = [
+        "Role Mention Settings",
+        f"Global role mentions: {'on' if settings.get('role_mentions_enabled', True) else 'off'}",
+        "",
+    ]
+    for role_name in ALERT_ROLES:
+        setting_key = ROLE_SETTING_KEYS[role_name]
+        lines.append(f"- {role_name}: {'on' if settings.get(setting_key, False) else 'off'}")
+    lines.extend([
+        "",
+        "Role pings use actual Discord role mentions. Users must have the role assigned to receive pings.",
+        "If nobody has the role, nobody will be notified. Some users may suppress role notifications in Discord.",
+    ])
+    await send_long_message(ctx, "\n".join(lines))
+
+
+@bot.command(name="mentionrole")
+@commands.guild_only()
+async def mentionrole_command(ctx, role_category=None, mode=None):
+    """Toggle one alert role mention category."""
+    role_name = normalize_role_category(role_category)
+    if role_name is None or mode not in {"on", "off"}:
+        await ctx.send(
+            "Use `!mentionrole options on` or `!mentionrole critical off`.\n"
+            "Supported aliases: critical, high, watchlist, scanner, options, daytrader, "
+            "papertrading, pauls, earnings, wsb, bestsetups, donotchase, morning, eod."
+        )
+        return
+    setting_key = ROLE_SETTING_KEYS[role_name]
+    set_setting(setting_key, mode == "on")
+    await ctx.send(f"{role_name} mentions are now {mode}.")
+
+
+@bot.command(name="testrole")
+@commands.guild_only()
+async def testrole_command(ctx, role_category=None):
+    """Send a test ping for one alert role."""
+    role_name = normalize_role_category(role_category)
+    if role_name is None:
+        await ctx.send("Use `!testrole critical`, `!testrole options`, or another supported role alias.")
+        return
+    mention = get_role_mention(ctx.guild, role_name)
+    if not mention:
+        await ctx.send(
+            f"No ping sent for {role_name}. Make sure role mentions are enabled, that role's setting is on, and the role exists."
+        )
+        return
+    await send_alert_message(
+        ctx,
+        f"Test ping for @{role_name}.",
+        role_mentions=mention,
+    )
+    role = get_role_by_name(ctx.guild, role_name)
+    if role and not role.mentionable and not bot_can_mention_roles(ctx.channel):
+        await ctx.send(
+            "The role exists, but Discord may not notify users because the role is not mentionable. "
+            "Turn on 'Allow anyone to @mention this role' for the role or give the bot permission to mention roles."
+        )
+
+
+@bot.command(name="testroleping")
+@commands.guild_only()
+async def testroleping_command(ctx, role_category=None):
+    """Send a direct role ping using role.mention for diagnostics."""
+    role_name = normalize_role_category(role_category)
+    if role_name is None:
+        await ctx.send("Use `!testroleping critical`, `!testroleping options`, or another supported role alias.")
+        return
+    role = get_role_by_name(ctx.guild, role_name)
+    if role is None:
+        await ctx.send(f"Role `{role_name}` does not exist. Run `!rolesetup` first.")
+        return
+    if not role.mentionable and not bot_can_mention_roles(ctx.channel):
+        await ctx.send(
+            "The role exists, but Discord may not notify users because the role is not mentionable. "
+            "Turn on 'Allow anyone to @mention this role' for the role or give the bot permission to mention roles."
+        )
+    await ctx.send(
+        f"{role.mention} Test ping for {role.name} alerts.",
+        allowed_mentions=discord.AllowedMentions(roles=True, users=False, everyone=False),
+    )
+
+
+@bot.command(name="roledebug")
+@commands.guild_only()
+async def roledebug_command(ctx, role_category=None):
+    """Show role mention diagnostics for one role category."""
+    role_name = normalize_role_category(role_category)
+    if role_name is None:
+        await ctx.send("Use `!roledebug critical`, `!roledebug options`, or another supported role alias.")
+        return
+    role = get_role_by_name(ctx.guild, role_name)
+    settings = read_json(data_path("bot_settings.json"), DEFAULT_BOT_SETTINGS)
+    if not isinstance(settings, dict):
+        settings = DEFAULT_BOT_SETTINGS
+    setting_key = ROLE_SETTING_KEYS.get(role_name)
+    alert_context = {
+        "source": ROLE_SOURCE_DEBUG.get(role_name, ""),
+        "severity": "critical" if role_name == "Critical Alerts" else "high" if role_name == "High Alerts" else "medium",
+        "alert_type": role_name,
+    }
+    if role_name == "Day Trader":
+        alert_context["alert_type"] = "Daily High"
+    built_mentions = build_role_mentions_for_alert(ctx.guild, alert_context)
+    day_trader_checks = []
+    if role_name == "Day Trader":
+        day_trader_contexts = [
+            ("Daily High", {"source": "daily_high", "severity": "medium", "alert_type": "Daily High"}),
+            ("RSI Alert", {"source": "rsi_alert", "severity": "medium", "alert_type": "RSI Alert"}),
+            ("Volume Spike", {"source": "volume_spike", "severity": "high", "alert_type": "Volume Spike"}),
+            ("Stock Ideas", {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"}),
+            ("Earnings Alert", {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"}),
+            ("Morning Briefing", {"source": "morning", "severity": "medium", "alert_type": "Morning Briefing"}),
+            ("Best Setups", {"source": "best_setups", "severity": "medium", "alert_type": "Best Setups"}),
+        ]
+        for label, context in day_trader_contexts:
+            mentions = build_role_mentions_for_alert(ctx.guild, context)
+            day_trader_checks.append(f"- {label}: {'includes Day Trader' if role and role.mention in mentions else 'missing Day Trader'} ({mentions or 'NONE'})")
+    lines = [
+        f"Role Debug — {role_name}",
+        f"Resolved role name: {role_name}",
+        f"Role exists: {'yes' if role else 'no'}",
+        f"Role ID: {role.id if role else 'N/A'}",
+        f"role.mention string: {role.mention if role else 'N/A'}",
+        f"role.mentionable: {role.mentionable if role else 'N/A'}",
+        f"Bot can mention everyone/all roles in this channel: {bot_can_mention_roles(ctx.channel)}",
+        f"Global role mentions enabled: {settings.get('role_mentions_enabled', True)}",
+        f"Specific role setting enabled: {settings.get(setting_key, False)}",
+        f"build_role_mentions_for_alert returned: {built_mentions or 'NONE'}",
+    ]
+    if day_trader_checks:
+        lines.extend(["", "Day Trader context checks:"])
+        lines.extend(day_trader_checks)
+    lines.extend([
+        "",
+        "If the role still does not ping, check that the role exists and users actually have that role.",
+        "Also check channel send permissions and whether users muted/suppressed the server or channel.",
+    ])
+    await ctx.send(
+        "\n".join(lines),
+        allowed_mentions=discord.AllowedMentions(roles=False, users=False, everyone=False),
+    )
+
+
+@bot.command(name="testdaytraderpings")
+@commands.guild_only()
+async def testdaytraderpings_command(ctx):
+    """Send sample Day Trader role pings for active market contexts."""
+    role = get_role_by_name(ctx.guild, "Day Trader")
+    if role is None:
+        await ctx.send("Role `Day Trader` does not exist. Run `!rolesetup` first.")
+        return
+
+    contexts = [
+        ("Daily High", {"source": "daily_high", "severity": "medium", "alert_type": "Daily High"}),
+        ("RSI Alert", {"source": "rsi_alert", "severity": "medium", "alert_type": "RSI Alert"}),
+        ("Volume Spike", {"source": "volume_spike", "severity": "high", "alert_type": "Volume Spike"}),
+        ("Stock Ideas", {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"}),
+        ("Earnings Alert", {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"}),
+        ("Morning Briefing", {"source": "morning", "severity": "medium", "alert_type": "Morning Briefing"}),
+        ("Best Setups", {"source": "best_setups", "severity": "medium", "alert_type": "Best Setups"}),
+    ]
+
+    if not role.mentionable and not bot_can_mention_roles(ctx.channel):
+        await ctx.send(
+            "The Day Trader role exists, but Discord may not notify users because the role is not mentionable. "
+            "Turn on 'Allow anyone to @mention this role' or run `!fixrolementions` if the bot role is high enough."
+        )
+
+    for label, context in contexts:
+        role_mentions = build_role_mentions_for_alert(ctx.guild, context)
+        await send_alert_message(
+            ctx,
+            f"Test Day Trader ping for {label}.",
+            role_mentions=role_mentions,
+        )
+
+
+@bot.command(name="rolesmessage")
+@commands.guild_only()
+async def rolesmessage_command(ctx):
+    """Post a simple self-role instruction message."""
+    lines = [
+        "Choose which bot alerts you want to receive by asking an admin for one of these roles:",
+        "",
+    ]
+    for role_name, role_info in ALERT_ROLES.items():
+        lines.append(f"- {role_name} - {role_info['description']}")
+    lines.extend([
+        "",
+        "Role pings can be turned on/off by bot settings.",
+        "Role alerts are research signals, not financial advice.",
+    ])
+    await send_long_message(ctx, "\n".join(lines))
+
+
 @bot.command(name="guide")
 @commands.guild_only()
 async def guide_command(ctx):
@@ -4626,11 +5840,13 @@ async def ping_command(ctx):
 def command_help_text():
     return (
         "Stock bot commands:\n"
-        "Channels are organized by Core, Watchlist, Scanner, Journal, Briefings, Quarterly Reports, Paul's Trackers, Paper Trading, and WallStreetBets.\n"
+        "Channels are organized by Core, Guide, Watchlist, Scanner, Journal, Briefings, Quarterly Reports, WallStreetBets, Paul's Trackers, Paper Trading, Best Setups, Signal Performance, Levels, Options, and Watchlist Groups.\n"
         "!setup - Create the stock bot channel structure\n"
         "!channels - List stock bot channels\n"
         "!guide - Show guide channels\n"
         "!postguides - Repost/update automatic guide messages\n"
+        "!postinfo - Post/update all category info messages\n"
+        "!infochannels - List info channels\n"
         "!quickstart - Show first steps for using the bot\n"
         "!examples - Show example commands\n"
         "!ping - Check whether the bot is online\n"
@@ -4640,6 +5856,16 @@ def command_help_text():
         "!check AAPL - Check one ticker\n"
         "!alerts - Show alert loop status\n"
         "!settings - Show persistent bot settings\n"
+        "!rolesetup - Create/verify alert roles\n"
+        "!roles - List alert roles\n"
+        "!rolementions on/off - Toggle all role pings\n"
+        "!mentionrole options on - Toggle one role category\n"
+        "!testrole critical - Test one role ping\n"
+        "!testroleping critical - Send a direct role mention test\n"
+        "!roledebug critical - Show role mention diagnostics\n"
+        "!fixrolementions - Try to make alert roles mentionable\n"
+        "!testdaytraderpings - Test active market Day Trader pings\n"
+        "!rolesmessage - Post role assignment instructions\n"
         "!quietmode on/off - Suppress non-critical alerts\n"
         "!markethoursonly on/off - Restrict stock alerts to regular market hours\n"
         "!alertfrequency 5 - Save alert loop frequency\n"
@@ -4770,7 +5996,8 @@ async def quickstart_command(ctx):
         "10. Track simulated trades with `!paperbuy AAPL 10 195.20 reason`.\n"
         "11. Review levels with `!levels AAPL`.\n"
         "12. Review groups with `!groups`.\n"
-        "13. Use `!help` or `!commands` anytime."
+        "13. Create optional alert roles with `!rolesetup` if the bot has Manage Roles.\n"
+        "14. Use `!help` or `!commands` anytime."
     )
 
 
@@ -4793,6 +6020,14 @@ async def examples_command(ctx):
         "`!donotchase`\n"
         "`!options AAPL`\n"
         "`!groups`\n"
+        "`!rolesetup`\n"
+        "`!rolementions`\n"
+        "`!mentionrole options on`\n"
+        "`!testrole critical`\n"
+        "`!testroleping critical`\n"
+        "`!roledebug critical`\n"
+        "`!fixrolementions`\n"
+        "`!testdaytraderpings`\n"
         "`!groupadd ai NVDA`\n"
         "`!paperbuy AAPL 10 195.20 breakout setup`\n"
         "`!paperportfolio`\n"
@@ -4807,7 +6042,7 @@ async def about_command(ctx):
     await ctx.send(
         "This is one Discord stock research bot with watchlists, scanners, custom scans, "
         "morning briefings, post-market recaps, paper trade journaling, signal scores, "
-        "risk flags, and WallStreetBets mention tracking.\n\n"
+        "risk flags, optional Discord alert role pings, and WallStreetBets mention tracking.\n\n"
         "It also includes a quarterly report tracker for watchlist earnings and "
         "analyst-supported research candidates, plus Paul's Trackers for dividend highs "
         "and 5-day runners. The bot does not place trades.\n\n"
@@ -4954,7 +6189,8 @@ async def settings_command(ctx):
         f"Best setups time: {settings.get('best_setups_time')}\n"
         f"Best setups min score: {settings.get('best_setups_min_score')}\n"
         f"Levels alert distance: {settings.get('levels_alert_distance_percent')}%\n"
-        f"Options filters: volume {settings.get('options_min_volume')}, OI {settings.get('options_min_open_interest')}, spread {settings.get('options_max_spread_percent')}%"
+        f"Options filters: volume {settings.get('options_min_volume')}, OI {settings.get('options_min_open_interest')}, spread {settings.get('options_max_spread_percent')}%\n"
+        f"Role mentions enabled: {settings.get('role_mentions_enabled')}"
     )
 
 
@@ -5029,7 +6265,8 @@ async def morningbriefing_command(ctx):
     """Manually generate the morning briefing."""
     await ctx.send("Building the morning briefing. This may take a moment...")
     summary = await asyncio.to_thread(build_morning_briefing)
-    await send_long_message(ctx, summary)
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "morning", "severity": "medium", "alert_type": "Morning Briefing"})
+    await send_long_message(ctx, summary, role_mentions)
 
 
 @bot.command(name="morningstatus")
@@ -5072,7 +6309,8 @@ async def eodsummary_command(ctx):
     """Manually generate and post the EOD summary in the current channel."""
     await ctx.send("Building end-of-day watchlist summary. This may take a moment...")
     summary = await asyncio.to_thread(build_eod_summary)
-    await send_long_message(ctx, summary)
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "eod", "severity": "low", "alert_type": "End of Day Summary"})
+    await send_long_message(ctx, summary, role_mentions)
 
 
 @bot.command(name="eodstatus")
@@ -5127,7 +6365,8 @@ async def earnings_command(ctx):
     """Show upcoming quarterly reports for watchlist stocks."""
     await ctx.send("Building watchlist quarterly reports summary. This may take a moment...")
     summary = await asyncio.to_thread(build_watchlist_earnings_summary)
-    await send_long_message(ctx, summary)
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"})
+    await send_long_message(ctx, summary, role_mentions)
 
 
 @bot.command(name="earningswatch")
@@ -5136,7 +6375,8 @@ async def earningswatch_command(ctx):
     """Show upcoming quarterly reports for watchlist stocks."""
     await ctx.send("Building watchlist quarterly reports summary. This may take a moment...")
     summary = await asyncio.to_thread(build_watchlist_earnings_summary)
-    await send_long_message(ctx, summary)
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"})
+    await send_long_message(ctx, summary, role_mentions)
 
 
 @bot.command(name="promisingearnings")
@@ -5145,7 +6385,8 @@ async def promisingearnings_command(ctx):
     """Show analyst-supported earnings research candidates."""
     await ctx.send("Building analyst-supported earnings watch. This may take a few minutes...")
     summary = await asyncio.to_thread(build_promising_earnings_summary)
-    await send_long_message(ctx, summary)
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "earnings", "severity": "medium", "alert_type": "Earnings Alert"})
+    await send_long_message(ctx, summary, role_mentions)
 
 
 @bot.command(name="earningsstatus")
@@ -5261,8 +6502,9 @@ async def paulstrackers_command(ctx):
     """Run both Paul's Tracker scans."""
     await ctx.send("Running Paul's Trackers. This may take a few minutes...")
     data = await asyncio.to_thread(run_pauls_tracker_scans)
-    await send_long_message(ctx, build_dividend_highs_message(data["dividend_highs"]))
-    await send_long_message(ctx, build_five_day_runners_message(data["five_day_runners"]))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "pauls", "severity": "medium", "alert_type": "Paul's Trackers"})
+    await send_long_message(ctx, build_dividend_highs_message(data["dividend_highs"]), role_mentions)
+    await send_long_message(ctx, build_five_day_runners_message(data["five_day_runners"]), role_mentions)
 
 
 @bot.command(name="dividendhighs")
@@ -5273,7 +6515,8 @@ async def dividendhighs_command(ctx):
     await ctx.send("Running Paul's dividend highs tracker. This may take a few minutes...")
     tickers, _source = get_pauls_tracker_universe()
     results = await asyncio.to_thread(scan_dividend_highs, tickers)
-    await send_long_message(ctx, build_dividend_highs_message(results))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "pauls", "severity": "medium", "alert_type": "Paul's Trackers"})
+    await send_long_message(ctx, build_dividend_highs_message(results), role_mentions)
 
 
 @bot.command(name="fivedayrunners")
@@ -5284,7 +6527,8 @@ async def fivedayrunners_command(ctx):
     await ctx.send("Running Paul's 5-day runners tracker. This may take a few minutes...")
     tickers, _source = get_pauls_tracker_universe()
     results = await asyncio.to_thread(scan_five_day_runners, tickers)
-    await send_long_message(ctx, build_five_day_runners_message(results))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "pauls", "severity": "medium", "alert_type": "Paul's Trackers"})
+    await send_long_message(ctx, build_five_day_runners_message(results), role_mentions)
 
 
 async def pauls_tracker_cooldown_error(ctx, error):
@@ -5481,7 +6725,8 @@ async def clearsignals_command(ctx, confirm=None):
 async def bestsetups_command(ctx):
     await ctx.send("Building best setups of the day. This may take a moment...")
     results = await asyncio.to_thread(build_best_setups_of_day)
-    await send_long_message(ctx, format_best_setups_message(results))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "best_setups", "severity": "medium", "alert_type": "Best Setups"})
+    await send_long_message(ctx, format_best_setups_message(results), role_mentions)
 
 
 @bot.command(name="bestsetupsstatus")
@@ -5557,7 +6802,9 @@ async def setbestsetuplimit_command(ctx, number=None):
 async def donotchase_command(ctx):
     await ctx.send("Scanning for do-not-chase risk reminders...")
     results = await asyncio.to_thread(build_do_not_chase_results)
-    await send_long_message(ctx, format_do_not_chase_message(results))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "do_not_chase", "severity": "high", "alert_type": "Do Not Chase"})
+    print(f"Do Not Chase role_mentions={role_mentions if role_mentions else 'NONE'}")
+    await send_long_message(ctx, format_do_not_chase_message(results), role_mentions)
 
 
 @bot.command(name="donotchasestatus")
@@ -5720,7 +6967,8 @@ async def scan_command(ctx, *args):
                 f"{SCANNER_DISCLAIMER}"
             )
             scan_data = await asyncio.to_thread(build_custom_scanner_results, parsed_filters, True)
-            await send_long_message(ctx, format_custom_scanner_results(scan_data, parsed_filters, broad=True))
+            role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+            await send_long_message(ctx, format_custom_scanner_results(scan_data, parsed_filters, broad=True), role_mentions)
             return
 
         last_scan_time = last_scan_times.get(ctx.author.id, 0)
@@ -5734,7 +6982,8 @@ async def scan_command(ctx, *args):
             f"{SCANNER_DISCLAIMER}"
         )
         scan_data = await asyncio.to_thread(build_custom_scanner_results, parsed_filters, False)
-        await send_long_message(ctx, format_custom_scanner_results(scan_data, parsed_filters, broad=False))
+        role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+        await send_long_message(ctx, format_custom_scanner_results(scan_data, parsed_filters, broad=False), role_mentions)
         return
 
     if scan_type not in VALID_SCAN_TYPES:
@@ -5771,7 +7020,8 @@ async def scan_command(ctx, *args):
             f"{SCANNER_DISCLAIMER}"
         )
         results = await asyncio.to_thread(build_scanner_results, scan_type, True)
-        await send_long_message(ctx, format_scanner_results(results, scan_type, broad=True))
+        role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+        await send_long_message(ctx, format_scanner_results(results, scan_type, broad=True), role_mentions)
         return
 
     last_scan_time = last_scan_times.get(ctx.author.id, 0)
@@ -5786,7 +7036,8 @@ async def scan_command(ctx, *args):
     )
 
     results = await asyncio.to_thread(build_scanner_results, scan_type)
-    await send_long_message(ctx, format_scanner_results(results, scan_type))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+    await send_long_message(ctx, format_scanner_results(results, scan_type), role_mentions)
 
 
 @bot.command(name="scannerlist")
@@ -5968,7 +7219,8 @@ async def options_command(ctx, ticker=None, expiration=None):
         return
     await ctx.send(f"Checking options data for {ticker}. This may take a moment...")
     data = await asyncio.to_thread(analyze_options_chain, ticker, expiration)
-    await send_long_message(ctx, format_options_message(data))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "options", "severity": "medium", "alert_type": "Options"})
+    await send_long_message(ctx, format_options_message(data), role_mentions)
 
 
 @bot.command(name="unusualoptions")
@@ -5980,7 +7232,8 @@ async def unusualoptions_command(ctx, ticker=None):
         await ctx.send("Use `!unusualoptions AAPL`.\n\nOptions data is for research only and is not financial advice.")
         return
     await ctx.send(f"Scanning unusual options activity for {ticker}.")
-    await send_long_message(ctx, await asyncio.to_thread(format_unusual_options_message, ticker))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "options", "severity": "high", "alert_type": "Unusual Options"})
+    await send_long_message(ctx, await asyncio.to_thread(format_unusual_options_message, ticker), role_mentions)
 
 
 @bot.command(name="optionshelp")
@@ -6192,13 +7445,15 @@ async def groupscan_command(ctx, group=None, scan_type="momentum", *args):
             await ctx.send(parsed["errors"][0])
             return
         results = await asyncio.to_thread(group_scan_results, tickers, "custom", parsed)
-        await send_long_message(ctx, format_custom_scanner_results({"results": results, "scanned_count": len(tickers), "match_count": len(results), "filters_text": " ".join(args)}, parsed, broad=False))
+        role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+        await send_long_message(ctx, format_custom_scanner_results({"results": results, "scanned_count": len(tickers), "match_count": len(results), "filters_text": " ".join(args)}, parsed, broad=False), role_mentions)
         return
     if scan_type not in VALID_SCAN_TYPES:
         await ctx.send("Unknown scan type.")
         return
     results = await asyncio.to_thread(group_scan_results, tickers, scan_type, None)
-    await send_long_message(ctx, format_scanner_results(results, scan_type))
+    role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "scanner", "severity": "medium", "alert_type": "Stock Ideas"})
+    await send_long_message(ctx, format_scanner_results(results, scan_type), role_mentions)
 
 
 @bot.command(name="groupalerts")
@@ -6325,7 +7580,8 @@ async def wsbclear_command(ctx):
 async def post_paper_trade_to_channel(ctx, message):
     channel = get_channel_by_name(ctx.guild, "paper-trades")
     if channel:
-        await send_long_message(channel, message)
+        role_mentions = build_role_mentions_for_alert(ctx.guild, {"source": "paper", "severity": "low", "alert_type": "Paper Trading"})
+        await send_long_message(channel, message, role_mentions)
 
 
 @bot.command(name="paperbuy")

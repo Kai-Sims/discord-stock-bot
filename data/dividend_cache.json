@@ -1,73 +1,73 @@
 {
   "A:YIELD": {
-    "value": 92.0,
-    "last_checked": "2026-05-12T11:38:41",
+    "value": 89.0,
+    "last_checked": "2026-05-26T08:19:08",
     "status": "ok"
   },
   "A:ATH": {
     "value": 179.57000732421875,
-    "last_checked": "2026-05-12T11:38:41",
+    "last_checked": "2026-05-26T08:19:09",
     "status": "ok"
   },
   "AA:YIELD": {
-    "value": 61.0,
-    "last_checked": "2026-05-12T11:38:42",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:08",
+    "status": "missing"
   },
   "AA:ATH": {
     "value": 117.1943130493164,
-    "last_checked": "2026-05-12T11:38:43",
+    "last_checked": "2026-05-15T12:18:38",
     "status": "ok"
   },
   "AAL:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:46",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:14",
+    "status": "missing"
   },
   "AAOI:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:47",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:18",
+    "status": "missing"
   },
   "AAON:YIELD": {
-    "value": 28.000000000000004,
-    "last_checked": "2026-05-12T11:38:48",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:20",
+    "status": "missing"
   },
   "AAON:ATH": {
     "value": 149.0,
-    "last_checked": "2026-05-12T11:38:49",
+    "last_checked": "2026-05-22T08:38:40",
     "status": "ok"
   },
   "AAP:YIELD": {
-    "value": 1.93,
-    "last_checked": "2026-05-12T11:38:49",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:21",
+    "status": "missing"
   },
   "AAPL:YIELD": {
-    "value": 37.0,
-    "last_checked": "2026-05-12T11:38:50",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:23",
+    "status": "missing"
   },
   "AAPL:ATH": {
-    "value": 294.89990234375,
-    "last_checked": "2026-05-12T11:38:51",
+    "value": 303.20001220703125,
+    "last_checked": "2026-05-15T12:18:48",
     "status": "ok"
   },
   "AAUC:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:53",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:36",
+    "status": "missing"
   },
   "ABAT:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:53",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:37",
+    "status": "missing"
   },
   "ABBV:YIELD": {
-    "value": 3.41,
-    "last_checked": "2026-05-12T11:38:54",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:39",
+    "status": "missing"
   },
   "ABCB:YIELD": {
     "value": 94.0,
@@ -80,19 +80,19 @@
     "status": "ok"
   },
   "ABCL:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:56",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:41",
+    "status": "missing"
   },
   "ABEO:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:38:57",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:42",
+    "status": "missing"
   },
   "ABEV:YIELD": {
-    "value": 8.42,
-    "last_checked": "2026-05-12T11:38:57",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:43",
+    "status": "missing"
   },
   "ABEV:ATH": {
     "value": 9.295999526977539,
@@ -106,137 +106,137 @@
   },
   "ABNB:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:00",
+    "last_checked": "2026-05-26T08:20:12",
     "status": "ok"
   },
   "ABR:YIELD": {
-    "value": 16.07,
-    "last_checked": "2026-05-12T11:39:01",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:48",
+    "status": "missing"
   },
   "ABR:ATH": {
     "value": 34.45000076293945,
-    "last_checked": "2026-05-12T11:39:01",
+    "last_checked": "2026-05-15T12:19:02",
     "status": "ok"
   },
   "ABSI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:02",
+    "last_checked": "2026-05-26T08:20:18",
     "status": "ok"
   },
   "ABT:YIELD": {
-    "value": 3.05,
-    "last_checked": "2026-05-12T11:39:03",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:50",
+    "status": "missing"
   },
   "ABTC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:04",
+    "last_checked": "2026-05-26T08:20:22",
     "status": "ok"
   },
   "ABTS:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:04",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:53",
+    "status": "missing"
   },
   "ABUS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:05",
+    "last_checked": "2026-05-26T08:20:26",
     "status": "ok"
   },
   "ABVE:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:06",
+    "last_checked": "2026-05-26T08:20:30",
     "status": "ok"
   },
   "ABVX:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:07",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:19:56",
+    "status": "missing"
   },
   "ABX:YIELD": {
-    "value": 2.17,
-    "last_checked": "2026-05-12T11:39:07",
+    "value": 2.21,
+    "last_checked": "2026-05-26T08:20:34",
     "status": "ok"
   },
   "ACAD:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:09",
+    "last_checked": "2026-05-26T08:20:39",
     "status": "ok"
   },
   "ACB:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:10",
+    "last_checked": "2026-05-26T08:20:41",
     "status": "ok"
   },
   "ACCO:YIELD": {
-    "value": 7.65,
-    "last_checked": "2026-05-12T11:39:11",
+    "value": 7.85,
+    "last_checked": "2026-05-26T08:20:44",
     "status": "ok"
   },
   "ACCO:ATH": {
     "value": 28.579999923706055,
-    "last_checked": "2026-05-12T11:39:11",
+    "last_checked": "2026-05-26T08:20:44",
     "status": "ok"
   },
   "ACDC:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:13",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:05",
+    "status": "missing"
   },
   "ACGL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:15",
+    "last_checked": "2026-05-26T08:20:53",
     "status": "ok"
   },
   "ACH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:16",
+    "last_checked": "2026-05-26T08:20:55",
     "status": "ok"
   },
   "ACHC:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:16",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:11",
+    "status": "missing"
   },
   "ACHR:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:17",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:12",
+    "status": "missing"
   },
   "ACHV:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:18",
+    "last_checked": "2026-05-26T08:21:00",
     "status": "ok"
   },
   "ACI:YIELD": {
-    "value": 4.27,
-    "last_checked": "2026-05-12T11:39:19",
+    "value": 4.19,
+    "last_checked": "2026-05-26T08:21:03",
     "status": "ok"
   },
   "ACIW:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:20",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:17",
+    "status": "missing"
   },
   "ACLS:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:21",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:18",
+    "status": "missing"
   },
   "ACM:YIELD": {
-    "value": 1.43,
-    "last_checked": "2026-05-12T11:39:22",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:19",
+    "status": "missing"
   },
   "ACMR:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:22",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:20",
+    "status": "missing"
   },
   "ACN:YIELD": {
-    "value": 3.78,
-    "last_checked": "2026-05-12T11:39:23",
+    "value": 3.64,
+    "last_checked": "2026-05-26T08:21:16",
     "status": "ok"
   },
   "ACP:YIELD": {
@@ -250,278 +250,278 @@
     "status": "ok"
   },
   "ACRS:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:28",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:28",
+    "status": "missing"
   },
   "ACRV:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:29",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:29",
+    "status": "missing"
   },
   "ACVA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:32",
+    "last_checked": "2026-05-26T08:21:34",
     "status": "ok"
   },
   "ADAM:YIELD": {
-    "value": 10.28,
-    "last_checked": "2026-05-12T11:39:35",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:38",
+    "status": "missing"
   },
   "ADAM:ATH": {
     "value": 453.6000061035156,
-    "last_checked": "2026-05-12T11:39:35",
+    "last_checked": "2026-05-22T08:40:30",
     "status": "ok"
   },
   "ADBE:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:36",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:39",
+    "status": "missing"
   },
   "ADC:YIELD": {
-    "value": 4.19,
-    "last_checked": "2026-05-12T11:39:36",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:40",
+    "status": "missing"
   },
   "ADCT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:37",
+    "last_checked": "2026-05-26T08:21:46",
     "status": "ok"
   },
   "ADEA:YIELD": {
-    "value": 63.0,
-    "last_checked": "2026-05-12T11:39:38",
+    "value": 74.0,
+    "last_checked": "2026-05-26T08:21:48",
     "status": "ok"
   },
   "ADEA:ATH": {
     "value": 34.34000015258789,
-    "last_checked": "2026-05-12T11:39:38",
+    "last_checked": "2026-05-26T08:21:49",
     "status": "ok"
   },
   "ADI:YIELD": {
-    "value": 96.0,
-    "last_checked": "2026-05-12T11:39:39",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:44",
+    "status": "missing"
   },
   "ADI:ATH": {
-    "value": 422.8800048828125,
-    "last_checked": "2026-05-12T11:39:40",
+    "value": 435.7200012207031,
+    "last_checked": "2026-05-20T11:30:01",
     "status": "ok"
   },
   "ADM:YIELD": {
-    "value": 2.61,
-    "last_checked": "2026-05-12T11:39:41",
+    "value": 2.68,
+    "last_checked": "2026-05-26T08:21:55",
     "status": "ok"
   },
   "ADMA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:42",
+    "last_checked": "2026-05-26T08:21:57",
     "status": "ok"
   },
   "ADNT:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:42",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:48",
+    "status": "missing"
   },
   "ADP:YIELD": {
-    "value": 3.21,
-    "last_checked": "2026-05-12T11:39:43",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:49",
+    "status": "missing"
   },
   "ADPT:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:44",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:50",
+    "status": "missing"
   },
   "ADSK:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:45",
+    "last_checked": "2026-05-26T08:22:08",
     "status": "ok"
   },
   "ADT:YIELD": {
-    "value": 3.24,
-    "last_checked": "2026-05-12T11:39:46",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:20:53",
+    "status": "missing"
   },
   "ADTN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:47",
+    "last_checked": "2026-05-26T08:22:12",
     "status": "ok"
   },
   "ADTX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:39:47",
+    "last_checked": "2026-05-26T08:22:15",
     "status": "ok"
   },
   "AEE:YIELD": {
-    "value": 2.73,
-    "last_checked": "2026-05-12T11:39:53",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:04",
+    "status": "missing"
   },
   "AEG:YIELD": {
-    "value": 5.56,
-    "last_checked": "2026-05-12T11:39:54",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:06",
+    "status": "missing"
   },
   "AEG:ATH": {
     "value": 62.560096740722656,
-    "last_checked": "2026-05-12T11:39:55",
+    "last_checked": "2026-05-22T08:41:09",
     "status": "ok"
   },
   "AEHL:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:56",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:07",
+    "status": "missing"
   },
   "AEHR:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:39:56",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:08",
+    "status": "missing"
   },
   "AEIS:YIELD": {
-    "value": 11.0,
-    "last_checked": "2026-05-12T11:39:58",
+    "value": 12.0,
+    "last_checked": "2026-05-26T08:22:38",
     "status": "ok"
   },
   "AEIS:ATH": {
     "value": 397.44000244140625,
-    "last_checked": "2026-05-12T11:39:58",
+    "last_checked": "2026-05-26T08:22:38",
     "status": "ok"
   },
   "AEM:YIELD": {
-    "value": 91.0,
-    "last_checked": "2026-05-12T11:39:59",
+    "value": 1.02,
+    "last_checked": "2026-05-26T08:22:40",
     "status": "ok"
   },
   "AEM:ATH": {
     "value": 255.24000549316406,
-    "last_checked": "2026-05-12T11:39:59",
+    "last_checked": "2026-05-15T13:15:15",
     "status": "ok"
   },
   "AEO:YIELD": {
-    "value": 3.22,
-    "last_checked": "2026-05-12T11:40:01",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:14",
+    "status": "missing"
   },
   "AEP:YIELD": {
-    "value": 2.91,
-    "last_checked": "2026-05-12T11:40:02",
+    "value": 2.89,
+    "last_checked": "2026-05-26T08:22:49",
     "status": "ok"
   },
   "AER:YIELD": {
-    "value": 1.09,
-    "last_checked": "2026-05-12T11:40:03",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:17",
+    "status": "missing"
   },
   "AES:YIELD": {
-    "value": 4.9,
-    "last_checked": "2026-05-12T11:40:05",
+    "value": 4.79,
+    "last_checked": "2026-05-26T08:22:55",
     "status": "ok"
   },
   "AESI:YIELD": {
-    "value": 5.31,
-    "last_checked": "2026-05-12T11:40:06",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:21:20",
+    "status": "missing"
   },
   "AESI:ATH": {
     "value": 26.860000610351562,
-    "last_checked": "2026-05-12T11:40:06",
+    "last_checked": "2026-05-22T08:41:30",
     "status": "ok"
   },
   "AEVA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:06",
+    "last_checked": "2026-05-26T08:22:57",
     "status": "ok"
   },
   "AFL:YIELD": {
-    "value": 2.11,
-    "last_checked": "2026-05-12T11:40:11",
+    "value": 2.07,
+    "last_checked": "2026-05-26T08:23:05",
     "status": "ok"
   },
   "AFRM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:12",
+    "last_checked": "2026-05-26T08:23:07",
     "status": "ok"
   },
   "AG:YIELD": {
-    "value": 10.0,
-    "last_checked": "2026-05-12T11:40:14",
+    "value": 18.0,
+    "last_checked": "2026-05-26T08:23:09",
     "status": "ok"
   },
   "AG:ATH": {
     "value": 32.040000915527344,
-    "last_checked": "2026-05-12T11:40:14",
+    "last_checked": "2026-05-26T08:23:09",
     "status": "ok"
   },
   "AGAE:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:15",
+    "last_checked": "2026-05-26T08:23:10",
     "status": "ok"
   },
   "AGBK:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:15",
+    "last_checked": "2026-05-26T08:23:11",
     "status": "ok"
   },
   "AGCO:YIELD": {
-    "value": 1.01,
-    "last_checked": "2026-05-12T11:40:16",
+    "value": 1.06,
+    "last_checked": "2026-05-26T08:23:14",
     "status": "ok"
   },
   "AGEN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:18",
+    "last_checked": "2026-05-26T08:23:16",
     "status": "ok"
   },
   "AGH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:19",
+    "last_checked": "2026-05-20T11:31:05",
     "status": "ok"
   },
   "AGI:YIELD": {
-    "value": 26.0,
-    "last_checked": "2026-05-12T11:40:19",
+    "value": 30.0,
+    "last_checked": "2026-05-26T08:23:18",
     "status": "ok"
   },
   "AGI:ATH": {
     "value": 55.40999984741211,
-    "last_checked": "2026-05-12T11:40:20",
+    "last_checked": "2026-05-26T08:23:19",
     "status": "ok"
   },
   "AGIO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:21",
+    "last_checked": "2026-05-26T08:23:21",
     "status": "ok"
   },
   "AGL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:21",
+    "last_checked": "2026-05-26T08:23:23",
     "status": "ok"
   },
   "AGNC:YIELD": {
-    "value": 13.31,
-    "last_checked": "2026-05-12T11:40:25",
+    "value": 14.12,
+    "last_checked": "2026-05-26T08:23:27",
     "status": "ok"
   },
   "AGNC:ATH": {
     "value": 36.77000045776367,
-    "last_checked": "2026-05-12T11:40:25",
+    "last_checked": "2026-05-26T08:23:27",
     "status": "ok"
   },
   "AGNT:YIELD": {
-    "value": 3.31,
-    "last_checked": "2026-05-12T11:40:26",
+    "value": 3.95,
+    "last_checked": "2026-05-26T08:23:29",
     "status": "ok"
   },
   "AGPU:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:27",
+    "last_checked": "2026-05-20T11:31:17",
     "status": "ok"
   },
   "AGRO:YIELD": {
-    "value": 2.2,
-    "last_checked": "2026-05-12T11:40:28",
+    "value": 2.31,
+    "last_checked": "2026-05-26T08:23:32",
     "status": "ok"
   },
   "AGRZ:YIELD": {
@@ -531,222 +531,222 @@
   },
   "AHCO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:30",
+    "last_checked": "2026-05-26T08:23:36",
     "status": "ok"
   },
   "AHMA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:31",
+    "last_checked": "2026-05-26T08:23:38",
     "status": "ok"
   },
   "AHR:YIELD": {
-    "value": 1.98,
-    "last_checked": "2026-05-12T11:40:32",
+    "value": 1.99,
+    "last_checked": "2026-05-26T08:23:39",
     "status": "ok"
   },
   "AHRT:YIELD": {
-    "value": 8.64,
-    "last_checked": "2026-05-12T11:40:33",
+    "value": 8.09,
+    "last_checked": "2026-05-26T08:23:41",
     "status": "ok"
   },
   "AHRT:ATH": {
     "value": 19.43000030517578,
-    "last_checked": "2026-05-12T11:40:33",
+    "last_checked": "2026-05-26T08:23:41",
     "status": "ok"
   },
   "AI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:34",
+    "last_checked": "2026-05-26T08:23:43",
     "status": "ok"
   },
   "AIFC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:36",
+    "last_checked": "2026-05-26T08:23:47",
     "status": "ok"
   },
   "AIFF:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:37",
+    "last_checked": "2026-05-15T13:16:13",
     "status": "ok"
   },
   "AIG:YIELD": {
-    "value": 2.63,
-    "last_checked": "2026-05-12T11:40:38",
+    "value": 2.6,
+    "last_checked": "2026-05-26T08:23:50",
     "status": "ok"
   },
   "AIIO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:40",
+    "last_checked": "2026-05-26T08:23:55",
     "status": "ok"
   },
   "AIOS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:42",
+    "last_checked": "2026-05-26T08:23:58",
     "status": "ok"
   },
   "AIOT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:43",
+    "last_checked": "2026-05-26T08:23:59",
     "status": "ok"
   },
   "AIP:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:44",
+    "last_checked": "2026-05-26T08:24:00",
     "status": "ok"
   },
   "AIRS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:48",
+    "last_checked": "2026-05-26T08:24:10",
     "status": "ok"
   },
   "AISP:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:49",
+    "last_checked": "2026-05-26T09:21:29",
     "status": "ok"
   },
   "AIV:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:50",
+    "last_checked": "2026-05-26T08:24:14",
     "status": "ok"
   },
   "AIXI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:52",
+    "last_checked": "2026-05-26T08:24:16",
     "status": "ok"
   },
   "AJG:YIELD": {
-    "value": 1.41,
-    "last_checked": "2026-05-12T11:40:53",
+    "value": 1.37,
+    "last_checked": "2026-05-26T08:24:18",
     "status": "ok"
   },
   "AKAM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:54",
+    "last_checked": "2026-05-26T08:24:20",
     "status": "ok"
   },
   "AKAN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:55",
+    "last_checked": "2026-05-26T08:24:21",
     "status": "ok"
   },
   "AKBA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:56",
+    "last_checked": "2026-05-26T08:24:22",
     "status": "ok"
   },
   "AKR:YIELD": {
-    "value": 3.67,
-    "last_checked": "2026-05-12T11:40:58",
+    "value": 3.64,
+    "last_checked": "2026-05-26T08:24:25",
     "status": "ok"
   },
   "ALAB:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:40:59",
+    "last_checked": "2026-05-26T08:24:28",
     "status": "ok"
   },
   "ALB:YIELD": {
-    "value": 77.0,
-    "last_checked": "2026-05-12T11:41:01",
+    "value": 94.0,
+    "last_checked": "2026-05-26T08:24:30",
     "status": "ok"
   },
   "ALB:ATH": {
     "value": 334.54998779296875,
-    "last_checked": "2026-05-12T11:41:01",
+    "last_checked": "2026-05-26T08:24:31",
     "status": "ok"
   },
   "ALBT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:02",
+    "last_checked": "2026-05-15T13:16:48",
     "status": "ok"
   },
   "ALC:YIELD": {
-    "value": 57.99999999999999,
-    "last_checked": "2026-05-12T11:41:03",
+    "value": 53.0,
+    "last_checked": "2026-05-26T08:24:33",
     "status": "ok"
   },
   "ALC:ATH": {
     "value": 101.0999984741211,
-    "last_checked": "2026-05-12T11:41:03",
+    "last_checked": "2026-05-26T08:24:33",
     "status": "ok"
   },
   "ALDX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:05",
+    "last_checked": "2026-05-26T08:24:37",
     "status": "ok"
   },
   "ALGM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:08",
+    "last_checked": "2026-05-26T08:24:41",
     "status": "ok"
   },
   "ALGN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:08",
+    "last_checked": "2026-05-26T08:24:42",
     "status": "ok"
   },
   "ALGT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:09",
+    "last_checked": "2026-05-26T08:24:44",
     "status": "ok"
   },
   "ALH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:10",
+    "last_checked": "2026-05-26T08:24:45",
     "status": "ok"
   },
   "ALHC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:11",
+    "last_checked": "2026-05-26T08:24:47",
     "status": "ok"
   },
   "ALIT:YIELD": {
     "value": 16.84,
-    "last_checked": "2026-05-12T11:41:12",
+    "last_checked": "2026-05-26T08:24:48",
     "status": "ok"
   },
   "ALIT:ATH": {
     "value": 14.510000228881836,
-    "last_checked": "2026-05-12T11:41:12",
+    "last_checked": "2026-05-26T08:24:49",
     "status": "ok"
   },
   "ALK:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:13",
+    "last_checked": "2026-05-26T08:24:50",
     "status": "ok"
   },
   "ALKS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:14",
+    "last_checked": "2026-05-26T08:24:51",
     "status": "ok"
   },
   "ALKT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:15",
+    "last_checked": "2026-05-26T08:24:52",
     "status": "ok"
   },
   "ALL:YIELD": {
-    "value": 2.02,
-    "last_checked": "2026-05-12T11:41:15",
+    "value": 1.99,
+    "last_checked": "2026-05-26T08:24:54",
     "status": "ok"
   },
   "ALLE:YIELD": {
-    "value": 1.6,
-    "last_checked": "2026-05-12T11:41:16",
+    "value": 1.63,
+    "last_checked": "2026-05-26T08:24:55",
     "status": "ok"
   },
   "ALLO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:17",
+    "last_checked": "2026-05-26T08:24:57",
     "status": "ok"
   },
   "ALLY:YIELD": {
-    "value": 2.81,
-    "last_checked": "2026-05-12T11:41:19",
+    "value": 2.83,
+    "last_checked": "2026-05-26T08:25:00",
     "status": "ok"
   },
   "ALM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:20",
+    "last_checked": "2026-05-26T08:25:01",
     "status": "ok"
   },
   "ALMR:YIELD": {
@@ -756,267 +756,267 @@
   },
   "ALMS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:21",
+    "last_checked": "2026-05-26T08:25:03",
     "status": "ok"
   },
   "ALMU:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:22",
+    "last_checked": "2026-05-26T08:25:04",
     "status": "ok"
   },
   "ALNY:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:23",
+    "last_checked": "2026-05-26T08:25:06",
     "status": "ok"
   },
   "ALOY:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:24",
+    "last_checked": "2026-05-26T08:25:08",
     "status": "ok"
   },
   "ALP:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:25",
+    "last_checked": "2026-05-26T08:25:10",
     "status": "ok"
   },
   "ALSN:YIELD": {
-    "value": 94.0,
-    "last_checked": "2026-05-12T11:41:28",
+    "value": 1.06,
+    "last_checked": "2026-05-26T08:25:13",
     "status": "ok"
   },
   "ALSN:ATH": {
     "value": 137.6199951171875,
-    "last_checked": "2026-05-12T11:41:28",
+    "last_checked": "2026-05-15T13:17:25",
     "status": "ok"
   },
   "ALT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:29",
+    "last_checked": "2026-05-26T08:25:15",
     "status": "ok"
   },
   "ALTO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:30",
+    "last_checked": "2026-05-26T08:25:17",
     "status": "ok"
   },
   "ALV:YIELD": {
-    "value": 2.87,
-    "last_checked": "2026-05-12T11:41:32",
+    "value": 2.82,
+    "last_checked": "2026-05-26T08:25:19",
     "status": "ok"
   },
   "ALXO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:34",
+    "last_checked": "2026-05-26T08:25:22",
     "status": "ok"
   },
   "AM:YIELD": {
-    "value": 4.2233694,
-    "last_checked": "2026-05-12T11:41:35",
+    "value": 4.06,
+    "last_checked": "2026-05-26T08:25:24",
     "status": "ok"
   },
   "AMAT:YIELD": {
-    "value": 48.0,
-    "last_checked": "2026-05-12T11:41:36",
+    "value": 49.0,
+    "last_checked": "2026-05-26T08:25:26",
     "status": "ok"
   },
   "AMAT:ATH": {
-    "value": 448.45001220703125,
-    "last_checked": "2026-05-12T11:41:37",
+    "value": 455.82501220703125,
+    "last_checked": "2026-05-26T08:25:26",
     "status": "ok"
   },
   "AMBA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:38",
+    "last_checked": "2026-05-26T08:25:28",
     "status": "ok"
   },
   "AMBP:YIELD": {
-    "value": 10.08,
-    "last_checked": "2026-05-12T11:41:39",
+    "value": 9.9,
+    "last_checked": "2026-05-26T08:25:30",
     "status": "ok"
   },
   "AMBP:ATH": {
     "value": 12.430000305175781,
-    "last_checked": "2026-05-12T11:41:39",
+    "last_checked": "2026-05-26T08:25:30",
     "status": "ok"
   },
   "AMBQ:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:40",
+    "last_checked": "2026-05-26T08:25:32",
     "status": "ok"
   },
   "AMC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:41",
+    "last_checked": "2026-05-26T08:25:34",
     "status": "ok"
   },
   "AMCR:YIELD": {
-    "value": 6.47,
-    "last_checked": "2026-05-12T11:41:42",
+    "value": 6.77,
+    "last_checked": "2026-05-26T08:25:36",
     "status": "ok"
   },
   "AMCR:ATH": {
     "value": 68.05000305175781,
-    "last_checked": "2026-05-12T11:41:43",
+    "last_checked": "2026-05-26T08:25:36",
     "status": "ok"
   },
   "AMCX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:43",
+    "last_checked": "2026-05-26T08:25:37",
     "status": "ok"
   },
   "AMD:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:44",
+    "last_checked": "2026-05-26T08:25:39",
     "status": "ok"
   },
   "AME:YIELD": {
-    "value": 59.0,
-    "last_checked": "2026-05-12T11:41:45",
+    "value": 61.0,
+    "last_checked": "2026-05-26T08:25:40",
     "status": "ok"
   },
   "AME:ATH": {
     "value": 243.17999267578125,
-    "last_checked": "2026-05-12T11:41:45",
+    "last_checked": "2026-05-26T08:25:41",
     "status": "ok"
   },
   "AMGN:YIELD": {
-    "value": 3.06,
-    "last_checked": "2026-05-12T11:41:46",
+    "value": 2.97,
+    "last_checked": "2026-05-26T08:25:43",
     "status": "ok"
   },
   "AMH:YIELD": {
-    "value": 3.84,
-    "last_checked": "2026-05-12T11:41:47",
+    "value": 4.09,
+    "last_checked": "2026-05-26T08:25:44",
     "status": "ok"
   },
   "AMKR:YIELD": {
-    "value": 43.0,
-    "last_checked": "2026-05-12T11:41:48",
+    "value": 51.0,
+    "last_checked": "2026-05-26T08:25:46",
     "status": "ok"
   },
   "AMKR:ATH": {
     "value": 79.2300033569336,
-    "last_checked": "2026-05-12T11:41:49",
+    "last_checked": "2026-05-26T08:25:46",
     "status": "ok"
   },
   "AMLX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:49",
+    "last_checked": "2026-05-26T08:25:48",
     "status": "ok"
   },
   "AMN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:50",
+    "last_checked": "2026-05-26T08:25:49",
     "status": "ok"
   },
   "AMOD:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:51",
+    "last_checked": "2026-05-26T08:25:51",
     "status": "ok"
   },
   "AMP:YIELD": {
-    "value": 1.47,
-    "last_checked": "2026-05-12T11:41:52",
+    "value": 1.5,
+    "last_checked": "2026-05-26T08:25:52",
     "status": "ok"
   },
   "AMPG:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:41:52",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:23:54",
+    "status": "missing"
   },
   "AMPH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:53",
+    "last_checked": "2026-05-26T08:25:55",
     "status": "ok"
   },
   "AMPL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:54",
+    "last_checked": "2026-05-26T08:25:56",
     "status": "ok"
   },
   "AMPX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:55",
+    "last_checked": "2026-05-26T08:25:57",
     "status": "ok"
   },
   "AMPY:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:55",
+    "last_checked": "2026-05-26T08:25:58",
     "status": "ok"
   },
   "AMRX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:41:58",
+    "last_checked": "2026-05-26T08:26:02",
     "status": "ok"
   },
   "AMRZ:YIELD": {
     "value": 22.0,
-    "last_checked": "2026-05-12T11:41:59",
+    "last_checked": "2026-05-26T08:26:03",
     "status": "ok"
   },
   "AMRZ:ATH": {
     "value": 65.94000244140625,
-    "last_checked": "2026-05-12T11:41:59",
+    "last_checked": "2026-05-26T08:26:03",
     "status": "ok"
   },
   "AMSC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:00",
+    "last_checked": "2026-05-26T08:26:05",
     "status": "ok"
   },
   "AMST:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:01",
+    "last_checked": "2026-05-26T08:26:07",
     "status": "ok"
   },
   "AMT:YIELD": {
-    "value": 3.88,
-    "last_checked": "2026-05-12T11:42:02",
+    "value": 3.8,
+    "last_checked": "2026-05-26T08:26:08",
     "status": "ok"
   },
   "AMTM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:04",
+    "last_checked": "2026-05-26T08:26:11",
     "status": "ok"
   },
   "AMTX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:05",
+    "last_checked": "2026-05-26T08:26:12",
     "status": "ok"
   },
   "AMZE:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:07",
+    "last_checked": "2026-05-26T08:26:16",
     "status": "ok"
   },
   "AMZN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:08",
+    "last_checked": "2026-05-26T08:26:17",
     "status": "ok"
   },
   "ANAB:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:09",
+    "last_checked": "2026-05-26T08:26:19",
     "status": "ok"
   },
   "ANET:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:11",
+    "last_checked": "2026-05-26T08:26:22",
     "status": "ok"
   },
   "ANF:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:12",
+    "last_checked": "2026-05-26T08:26:23",
     "status": "ok"
   },
   "ANGI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:13",
+    "last_checked": "2026-05-26T08:26:25",
     "status": "ok"
   },
   "ANGX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:14",
+    "last_checked": "2026-05-26T08:26:27",
     "status": "ok"
   },
   "ANL:YIELD": {
@@ -1026,542 +1026,627 @@
   },
   "ANNA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:17",
+    "last_checked": "2026-05-26T08:26:31",
     "status": "ok"
   },
   "ANNX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:18",
+    "last_checked": "2026-05-26T08:26:32",
     "status": "ok"
   },
   "ANVS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:21",
+    "last_checked": "2026-05-26T08:26:37",
     "status": "ok"
   },
   "AON:YIELD": {
-    "value": 1.05,
-    "last_checked": "2026-05-12T11:42:24",
+    "value": 1.01,
+    "last_checked": "2026-05-26T08:26:41",
     "status": "ok"
   },
   "AORT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:25",
+    "last_checked": "2026-05-26T08:26:42",
     "status": "ok"
   },
   "AOS:YIELD": {
-    "value": 2.43,
-    "last_checked": "2026-05-12T11:42:26",
+    "value": 2.48,
+    "last_checked": "2026-05-26T08:26:44",
     "status": "ok"
   },
   "AOSL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:26",
+    "last_checked": "2026-05-26T08:26:45",
     "status": "ok"
   },
   "APA:YIELD": {
-    "value": 2.72,
-    "last_checked": "2026-05-12T11:42:28",
+    "value": 2.58,
+    "last_checked": "2026-05-26T08:26:48",
     "status": "ok"
   },
   "APAM:YIELD": {
-    "value": 9.01,
-    "last_checked": "2026-05-12T11:42:30",
+    "value": 8.97,
+    "last_checked": "2026-05-26T08:26:50",
     "status": "ok"
   },
   "APAM:ATH": {
     "value": 71.86000061035156,
-    "last_checked": "2026-05-12T11:42:30",
+    "last_checked": "2026-05-26T08:26:50",
     "status": "ok"
   },
   "APD:YIELD": {
-    "value": 2.38,
-    "last_checked": "2026-05-12T11:42:31",
+    "value": 2.5,
+    "last_checked": "2026-05-26T08:26:52",
     "status": "ok"
   },
   "APG:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:32",
+    "last_checked": "2026-05-26T08:26:54",
     "status": "ok"
   },
   "APGE:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:33",
+    "last_checked": "2026-05-26T08:26:55",
     "status": "ok"
   },
   "APH:YIELD": {
-    "value": 82.0,
-    "last_checked": "2026-05-12T11:42:34",
+    "value": 76.0,
+    "last_checked": "2026-05-26T08:26:57",
     "status": "ok"
   },
   "APH:ATH": {
     "value": 167.0399932861328,
-    "last_checked": "2026-05-12T11:42:34",
+    "last_checked": "2026-05-26T08:26:57",
     "status": "ok"
   },
   "APLD:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:36",
+    "last_checked": "2026-05-26T08:26:59",
     "status": "ok"
   },
   "APLE:YIELD": {
-    "value": 6.96,
-    "last_checked": "2026-05-12T11:42:36",
+    "value": 6.63,
+    "last_checked": "2026-05-26T08:27:00",
     "status": "ok"
   },
   "APLE:ATH": {
     "value": 20.969999313354492,
-    "last_checked": "2026-05-12T11:42:37",
+    "last_checked": "2026-05-26T08:27:01",
     "status": "ok"
   },
   "APLS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:38",
+    "last_checked": "2026-05-15T13:19:06",
     "status": "ok"
   },
   "APO:YIELD": {
-    "value": 1.72,
-    "last_checked": "2026-05-12T11:42:39",
+    "value": 1.75,
+    "last_checked": "2026-05-26T08:27:04",
     "status": "ok"
   },
   "APP:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:41",
+    "last_checked": "2026-05-26T08:27:06",
     "status": "ok"
   },
   "APPN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:42",
+    "last_checked": "2026-05-26T08:27:08",
     "status": "ok"
   },
   "APPS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:43",
+    "last_checked": "2026-05-26T08:27:10",
     "status": "ok"
   },
   "APTV:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:44",
+    "last_checked": "2026-05-26T08:27:13",
     "status": "ok"
   },
   "AQN:YIELD": {
     "value": 4.36,
-    "last_checked": "2026-05-12T11:42:49",
+    "last_checked": "2026-05-26T08:27:19",
     "status": "ok"
   },
   "AQST:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:50",
+    "last_checked": "2026-05-26T08:27:20",
     "status": "ok"
   },
   "AR:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:51",
+    "last_checked": "2026-05-26T08:27:22",
     "status": "ok"
   },
   "ARAI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:51",
+    "last_checked": "2026-05-26T08:27:23",
     "status": "ok"
   },
   "ARAY:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:52",
+    "last_checked": "2026-05-26T08:27:24",
     "status": "ok"
   },
   "ARBE:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:42:53",
+    "last_checked": "2026-05-26T08:27:26",
     "status": "ok"
   },
   "ARCC:YIELD": {
-    "value": 10.278372500000001,
-    "last_checked": "2026-05-12T11:42:55",
+    "value": 10.33,
+    "last_checked": "2026-05-26T08:27:29",
     "status": "ok"
   },
   "ARCC:ATH": {
     "value": 23.84000015258789,
-    "last_checked": "2026-05-12T11:42:56",
+    "last_checked": "2026-05-26T08:27:29",
     "status": "ok"
   },
   "ARCO:YIELD": {
-    "value": 3.24,
-    "last_checked": "2026-05-12T11:42:57",
+    "value": 3.2,
+    "last_checked": "2026-05-26T08:27:31",
     "status": "ok"
   },
   "ARDX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:00",
+    "last_checked": "2026-05-26T08:27:34",
     "status": "ok"
   },
   "ARE:YIELD": {
-    "value": 8.87,
-    "last_checked": "2026-05-12T11:43:00",
+    "value": 8.43,
+    "last_checked": "2026-05-26T08:27:36",
     "status": "ok"
   },
   "ARE:ATH": {
     "value": 224.9499969482422,
-    "last_checked": "2026-05-12T11:43:01",
+    "last_checked": "2026-05-26T08:27:36",
     "status": "ok"
   },
   "AREB:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:02",
+    "last_checked": "2026-05-26T08:27:37",
     "status": "ok"
   },
   "AREC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:02",
+    "last_checked": "2026-05-26T08:27:39",
     "status": "ok"
   },
   "ARES:YIELD": {
-    "value": 4.33,
-    "last_checked": "2026-05-12T11:43:04",
+    "value": 4.34,
+    "last_checked": "2026-05-26T08:27:41",
     "status": "ok"
   },
   "ARHS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:05",
+    "last_checked": "2026-05-26T08:27:43",
     "status": "ok"
   },
   "ARI:YIELD": {
-    "value": 9.12,
-    "last_checked": "2026-05-12T11:43:06",
+    "value": 9.14,
+    "last_checked": "2026-05-26T08:27:44",
     "status": "ok"
   },
   "ARI:ATH": {
     "value": 19.920000076293945,
-    "last_checked": "2026-05-12T11:43:06",
+    "last_checked": "2026-05-26T08:27:45",
     "status": "ok"
   },
   "ARIS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:06",
+    "last_checked": "2026-05-26T08:27:46",
     "status": "ok"
   },
   "ARKO:YIELD": {
-    "value": 1.77,
-    "last_checked": "2026-05-12T11:43:07",
+    "value": 1.57,
+    "last_checked": "2026-05-26T08:27:47",
     "status": "ok"
   },
   "ARLO:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:09",
+    "last_checked": "2026-05-26T08:27:50",
     "status": "ok"
   },
   "ARM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:10",
+    "last_checked": "2026-05-26T08:27:51",
     "status": "ok"
   },
   "ARMK:YIELD": {
-    "value": 1.08,
-    "last_checked": "2026-05-12T11:43:11",
+    "value": 94.0,
+    "last_checked": "2026-05-26T08:27:53",
     "status": "ok"
   },
   "AROC:YIELD": {
-    "value": 2.3568100000000003,
-    "last_checked": "2026-05-12T11:43:12",
+    "value": 2.36,
+    "last_checked": "2026-05-26T08:27:55",
     "status": "ok"
   },
   "ARQT:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:15",
+    "last_checked": "2026-05-26T08:27:59",
     "status": "ok"
   },
   "ARR:YIELD": {
-    "value": 16.25,
-    "last_checked": "2026-05-12T11:43:15",
+    "value": 17.38,
+    "last_checked": "2026-05-26T08:28:01",
     "status": "ok"
   },
   "ARR:ATH": {
     "value": 398.79998779296875,
-    "last_checked": "2026-05-12T11:43:16",
+    "last_checked": "2026-05-26T08:28:01",
     "status": "ok"
   },
   "ARRY:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:17",
+    "last_checked": "2026-05-26T08:28:03",
     "status": "ok"
   },
   "ARTL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:18",
+    "last_checked": "2026-05-26T08:28:05",
     "status": "ok"
   },
   "ARTV:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:19",
+    "last_checked": "2026-05-26T08:28:07",
     "status": "ok"
   },
   "ARVN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:21",
+    "last_checked": "2026-05-26T08:28:09",
     "status": "ok"
   },
   "ARW:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:21",
+    "last_checked": "2026-05-26T08:28:10",
     "status": "ok"
   },
   "ARWR:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:22",
+    "last_checked": "2026-05-26T08:28:12",
     "status": "ok"
   },
   "ARX:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:23",
+    "last_checked": "2026-05-26T08:28:13",
     "status": "ok"
   },
   "ARXS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:24",
+    "last_checked": "2026-05-26T08:28:14",
     "status": "ok"
   },
   "AS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:25",
+    "last_checked": "2026-05-26T08:28:16",
     "status": "ok"
   },
   "ASAN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:26",
+    "last_checked": "2026-05-26T08:28:18",
     "status": "ok"
   },
   "ASB:YIELD": {
-    "value": 3.4,
-    "last_checked": "2026-05-12T11:43:27",
+    "value": 3.39,
+    "last_checked": "2026-05-26T08:28:19",
     "status": "ok"
   },
   "ASBP:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:28",
+    "last_checked": "2026-05-26T08:28:20",
     "status": "ok"
   },
   "ASC:YIELD": {
-    "value": 3.4,
-    "last_checked": "2026-05-12T11:43:28",
+    "value": 3.45,
+    "last_checked": "2026-05-26T08:28:22",
     "status": "ok"
   },
   "ASH:YIELD": {
-    "value": 3.08,
-    "last_checked": "2026-05-12T11:43:30",
+    "value": 2.91,
+    "last_checked": "2026-05-26T08:28:25",
     "status": "ok"
   },
   "ASM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:33",
+    "last_checked": "2026-05-26T08:28:28",
     "status": "ok"
   },
   "ASML:YIELD": {
-    "value": 56.00000000000001,
-    "last_checked": "2026-05-12T11:43:34",
+    "value": 54.0,
+    "last_checked": "2026-05-26T08:28:30",
     "status": "ok"
   },
   "ASML:ATH": {
-    "value": 1595.31005859375,
-    "last_checked": "2026-05-12T11:43:34",
+    "value": 1653.530029296875,
+    "last_checked": "2026-05-26T08:28:30",
     "status": "ok"
   },
   "ASND:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:35",
+    "last_checked": "2026-05-26T08:28:32",
     "status": "ok"
   },
   "ASO:YIELD": {
-    "value": 1.16,
-    "last_checked": "2026-05-12T11:43:36",
+    "value": 1.14,
+    "last_checked": "2026-05-26T08:28:33",
     "status": "ok"
   },
   "ASPI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:37",
+    "last_checked": "2026-05-26T08:28:35",
     "status": "ok"
   },
   "ASPN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:38",
+    "last_checked": "2026-05-26T08:28:36",
     "status": "ok"
   },
   "ASST:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:41",
+    "last_checked": "2026-05-26T08:28:40",
     "status": "ok"
   },
   "ASTH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:43",
+    "last_checked": "2026-05-15T13:20:44",
     "status": "ok"
   },
   "ASTI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:44",
+    "last_checked": "2026-05-26T08:28:44",
     "status": "ok"
   },
   "ASTL:YIELD": {
-    "value": 2.6653696,
-    "last_checked": "2026-05-12T11:43:44",
+    "value": 1.3742071999999999,
+    "last_checked": "2026-05-26T08:28:45",
     "status": "ok"
   },
   "ASTS:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:45",
+    "last_checked": "2026-05-26T08:28:46",
     "status": "ok"
   },
   "ASX:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:43:47",
+    "value": 1.02,
+    "last_checked": "2026-05-26T08:28:49",
     "status": "ok"
   },
   "ATAI:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:48",
+    "last_checked": "2026-05-26T08:28:50",
     "status": "ok"
   },
   "ATAT:YIELD": {
-    "value": 2.02,
-    "last_checked": "2026-05-12T11:43:49",
+    "value": 1.6,
+    "last_checked": "2026-05-26T08:28:52",
     "status": "ok"
   },
   "ATCH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:49",
+    "last_checked": "2026-05-26T08:28:53",
     "status": "ok"
   },
   "ATEC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:51",
+    "last_checked": "2026-05-26T08:28:55",
     "status": "ok"
   },
   "ATEN:YIELD": {
-    "value": 86.0,
-    "last_checked": "2026-05-12T11:43:52",
+    "value": 82.0,
+    "last_checked": "2026-05-26T08:28:56",
     "status": "ok"
   },
   "ATEN:ATH": {
-    "value": 28.59000015258789,
-    "last_checked": "2026-05-12T11:43:52",
+    "value": 30.049999237060547,
+    "last_checked": "2026-05-26T08:28:56",
     "status": "ok"
   },
   "ATER:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:43:53",
+    "last_checked": "2026-05-26T08:28:58",
     "status": "ok"
   },
   "ATHM:YIELD": {
-    "value": 9.34,
-    "last_checked": "2026-05-12T11:43:55",
+    "value": 10.79,
+    "last_checked": "2026-05-26T08:29:01",
     "status": "ok"
   },
   "ATHM:ATH": {
     "value": 147.6699981689453,
-    "last_checked": "2026-05-12T11:43:55",
+    "last_checked": "2026-05-26T08:29:01",
     "status": "ok"
   },
   "ATI:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:43:57",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:26:42",
+    "status": "missing"
   },
   "ATKR:YIELD": {
-    "value": 1.77,
-    "last_checked": "2026-05-12T11:43:58",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:26:44",
+    "status": "missing"
   },
   "ATLN:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:00",
+    "last_checked": "2026-05-26T08:29:09",
     "status": "ok"
   },
   "ATLX:YIELD": {
-    "value": 0.0,
-    "last_checked": "2026-05-12T11:44:01",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:26:48",
+    "status": "missing"
   },
   "ATMU:YIELD": {
-    "value": 39.0,
-    "last_checked": "2026-05-12T11:44:02",
-    "status": "ok"
+    "value": null,
+    "last_checked": "2026-05-26T13:26:50",
+    "status": "missing"
   },
   "ATMU:ATH": {
     "value": 66.5,
-    "last_checked": "2026-05-12T11:44:03",
+    "last_checked": "2026-05-22T08:50:07",
     "status": "ok"
   },
   "ATO:YIELD": {
-    "value": 2.2,
-    "last_checked": "2026-05-12T11:44:05",
+    "value": 2.25,
+    "last_checked": "2026-05-26T08:29:20",
     "status": "ok"
   },
   "ATOM:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:05",
+    "last_checked": "2026-05-26T08:29:21",
     "status": "ok"
   },
   "ATR:YIELD": {
-    "value": 1.58,
-    "last_checked": "2026-05-12T11:44:07",
+    "value": 1.63,
+    "last_checked": "2026-05-26T08:29:25",
     "status": "ok"
   },
   "ATRA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:08",
+    "last_checked": "2026-05-26T08:29:26",
     "status": "ok"
   },
   "ATRC:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:09",
+    "last_checked": "2026-05-26T08:29:28",
     "status": "ok"
   },
   "ATYR:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:11",
+    "last_checked": "2026-05-26T08:29:32",
     "status": "ok"
   },
   "AU:YIELD": {
-    "value": 4.25,
-    "last_checked": "2026-05-12T11:44:12",
+    "value": 5.08,
+    "last_checked": "2026-05-26T08:29:34",
     "status": "ok"
   },
   "AUB:YIELD": {
-    "value": 3.92,
-    "last_checked": "2026-05-12T11:44:13",
+    "value": 3.86,
+    "last_checked": "2026-05-26T08:29:35",
     "status": "ok"
   },
   "AUGO:YIELD": {
-    "value": 2.74,
-    "last_checked": "2026-05-12T11:44:15",
+    "value": 3.1,
+    "last_checked": "2026-05-26T08:29:39",
     "status": "ok"
   },
   "AUPH:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:17",
+    "last_checked": "2026-05-26T08:29:42",
     "status": "ok"
   },
   "AUR:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:18",
+    "last_checked": "2026-05-26T08:29:44",
     "status": "ok"
   },
   "AURA:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:19",
+    "last_checked": "2026-05-26T08:29:45",
     "status": "ok"
   },
   "AUTL:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:21",
+    "last_checked": "2026-05-26T08:29:48",
     "status": "ok"
   },
   "AUUD:YIELD": {
     "value": 0.0,
-    "last_checked": "2026-05-12T11:44:21",
+    "last_checked": "2026-05-26T08:29:49",
     "status": "ok"
   },
   "AVA:YIELD": {
-    "value": 4.83,
-    "last_checked": "2026-05-12T11:44:22",
+    "value": 4.74,
+    "last_checked": "2026-05-26T08:29:51",
+    "status": "ok"
+  },
+  "AIRJ:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:24:07",
+    "status": "ok"
+  },
+  "ALEC:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:24:38",
+    "status": "ok"
+  },
+  "AMBO:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:25:29",
+    "status": "ok"
+  },
+  "AMRC:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:26:00",
+    "status": "ok"
+  },
+  "ARMK:ATH": {
+    "value": 53.56999969482422,
+    "last_checked": "2026-05-26T08:27:53",
+    "status": "ok"
+  },
+  "ATRO:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:29:29",
+    "status": "ok"
+  },
+  "AMIX:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:25:45",
+    "status": "ok"
+  },
+  "AU:ATH": {
+    "value": 129.13999938964844,
+    "last_checked": "2026-05-26T08:29:34",
+    "status": "ok"
+  },
+  "AIZ:YIELD": {
+    "value": 1.31,
+    "last_checked": "2026-05-20T12:30:02",
+    "status": "ok"
+  },
+  "AIB:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:23:44",
+    "status": "ok"
+  },
+  "AKTX:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:24:27",
+    "status": "ok"
+  },
+  "ARQQ:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:27:58",
+    "status": "ok"
+  },
+  "ATPC:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:29:23",
+    "status": "ok"
+  },
+  "AIDX:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T08:23:46",
+    "status": "ok"
+  },
+  "AEMD:YIELD": {
+    "value": null,
+    "last_checked": "2026-05-26T13:21:12",
+    "status": "missing"
+  },
+  "AIRO:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T11:22:08",
+    "status": "ok"
+  },
+  "AIMD:YIELD": {
+    "value": 0.0,
+    "last_checked": "2026-05-26T13:22:14",
     "status": "ok"
   }
 }

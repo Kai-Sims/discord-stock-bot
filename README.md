@@ -787,6 +787,8 @@ WSB tracking is for research only and is not financial advice.
 
 Run `!setup` to create and organize the bot channels. If a channel already exists in the wrong category, the bot moves it to the correct category.
 
+Each category now has a dedicated info channel as the first channel. The bot automatically posts or updates a marked info message in those channels during setup, so users can understand each section without typing commands.
+
 ```text
 Stock Bot — Core
 - bot-commands
@@ -850,18 +852,83 @@ Stock Bot — Guide
 - paper-trading-guide
 ```
 
+Info channels are created at the top of each category:
+
+```text
+Stock Bot — Core: core-info
+Stock Bot — Guide: guide-info
+Stock Bot — Watchlist: watchlist-info
+Stock Bot — Scanner: scanner-info
+Stock Bot — Journal: journal-info
+Stock Bot — Briefings: briefings-info
+Stock Bot — Quarterly Reports: earnings-info
+Stock Bot — WallStreetBets: wsb-info
+Paul's Trackers: pauls-info
+Stock Bot — Paper Trading: paper-info
+Stock Bot — Best Setups: best-setups-info
+Stock Bot — Signal Performance: signal-performance-info
+Stock Bot — Levels: levels-info
+Stock Bot — Options: options-info
+Stock Bot — Watchlist Groups: groups-info
+```
+
 ## Automatic Guide Messages
 
-Run `!setup` to create the Stock Bot Guide section. The bot posts one marked and pinned guide message in each guide channel, then updates that same message later instead of duplicating it.
+Run `!setup` to create the Stock Bot Guide section and category info channels. The bot posts one marked and pinned guide or info message in each channel, then updates that same message later instead of duplicating it.
 
 ```text
 !guide
 !postguides
+!infochannels
+!postinfo
 ```
 
 `!guide` lists the guide channels. `!postguides` manually reposts or updates the automatic guide messages.
 
+`!infochannels` lists all category info channels. `!postinfo` manually reposts or updates all category info messages.
+
 Guide channels explain how to read alerts, emoji, scanner results, signal scores, risk flags, and paper trading. These guides do not include secrets and do not place trades.
+
+Category info messages explain what each bot section is for, which commands belong to it, how to read messages there, and what to watch out for. They are research-only notes and are not financial advice.
+
+## Discord Alert Roles
+
+The bot can create optional Discord roles for alert pings. Role mentions are controlled by settings so the server can avoid noisy pings. By default, only the higher-signal categories are enabled, such as Critical Alerts, Options Alerts, Paul's Trackers, Earnings Alerts, WSB Alerts, and Do Not Chase.
+
+The Core section also includes `#alert-roles-info`, where the bot posts a marked role guide message.
+
+```text
+!rolesetup
+!roles
+!rolementions
+!rolementions on
+!rolementions off
+!mentionrole options on
+!mentionrole critical on
+!mentionrole daytrader off
+!testrole critical
+!testroleping critical
+!roledebug critical
+!fixrolementions
+!testdaytraderpings
+!rolesmessage
+```
+
+`!rolesetup` creates or verifies the alert roles. The bot needs Manage Roles permission, and the bot's role must be above the alert roles in Discord's role hierarchy.
+
+Server admins may need to assign roles manually unless you add a separate self-role system later.
+
+The bot pings roles with actual Discord role mention IDs such as `<@&123456789>` through `role.mention`. Role mentions are placed above alert messages in message content, and sends use `AllowedMentions(roles=True, users=False, everyone=False)`.
+
+Role pings only notify users who have that role. If nobody has the role, nobody will be notified. Some users may also suppress role notifications in their personal Discord settings.
+
+Use `!testroleping critical` to send a real test ping and `!roledebug critical` to see the resolved role name, role ID, mention string, global mention setting, and specific role setting.
+
+If a role exists but still does not notify users, run `!fixrolementions` or manually enable "Allow anyone to @mention this role" for that role. The bot role must be above the alert roles in Server Settings -> Roles to update mentionability.
+
+Day Trader pings are enabled by default and are used for daily highs/lows, 52-week highs/lows, RSI alerts, volume spikes, news alerts, stock ideas/scanner results, earnings alerts, briefings, and best setups. Use `!testdaytraderpings` to verify each active-market context.
+
+Role alerts are research signals only and are not financial advice.
 
 ## Persistent Settings
 

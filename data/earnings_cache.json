@@ -1,88 +1,88 @@
 {
   "AAPL": {
     "earnings_date": "2026-07-30",
-    "last_checked": "2026-05-11T17:09:46",
+    "last_checked": "2026-05-26T08:19:04",
     "status": "ok"
   },
   "AMD": {
     "earnings_date": "2026-08-04",
-    "last_checked": "2026-05-11T17:09:46",
+    "last_checked": "2026-05-26T08:19:04",
     "status": "ok"
   },
   "NVDA": {
-    "earnings_date": "2026-05-20",
-    "last_checked": "2026-05-11T17:09:46",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:41",
+    "status": "missing"
   },
   "QQQ": {
     "earnings_date": null,
-    "last_checked": "2026-05-12T15:31:33",
+    "last_checked": "2026-05-26T08:19:41",
     "status": "etf"
   },
   "SPY": {
     "earnings_date": null,
-    "last_checked": "2026-05-12T15:31:33",
+    "last_checked": "2026-05-26T08:19:42",
     "status": "etf"
   },
   "TSLA": {
-    "earnings_date": "2026-07-22",
-    "last_checked": "2026-05-11T17:09:46",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:42",
+    "status": "missing"
   },
   "ADBE": {
     "earnings_date": "2026-06-11",
-    "last_checked": "2026-05-11T17:09:48",
+    "last_checked": "2026-05-20T12:32:12",
     "status": "ok"
   },
   "AMZN": {
     "earnings_date": "2026-07-30",
-    "last_checked": "2026-05-11T17:09:49",
+    "last_checked": "2026-05-26T08:19:04",
     "status": "ok"
   },
   "AVGO": {
     "earnings_date": "2026-06-03",
-    "last_checked": "2026-05-11T17:09:49",
+    "last_checked": "2026-05-26T08:19:04",
     "status": "ok"
   },
   "BA": {
     "earnings_date": "2026-07-28",
-    "last_checked": "2026-05-11T17:09:50",
+    "last_checked": "2026-05-20T12:32:17",
     "status": "ok"
   },
   "BAC": {
-    "earnings_date": "2026-07-14",
-    "last_checked": "2026-05-11T17:09:51",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:18",
+    "status": "missing"
   },
   "CAT": {
     "earnings_date": "2026-08-04",
-    "last_checked": "2026-05-11T17:09:51",
+    "last_checked": "2026-05-20T12:32:18",
     "status": "ok"
   },
   "COIN": {
     "earnings_date": "2026-07-30",
-    "last_checked": "2026-05-11T17:09:52",
+    "last_checked": "2026-05-26T08:19:05",
     "status": "ok"
   },
   "COST": {
     "earnings_date": "2026-05-28",
-    "last_checked": "2026-05-11T17:09:52",
+    "last_checked": "2026-05-20T12:32:20",
     "status": "ok"
   },
   "CRM": {
-    "earnings_date": "2026-05-27",
-    "last_checked": "2026-05-11T17:09:53",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:23",
+    "status": "missing"
   },
   "CVX": {
-    "earnings_date": "2026-07-31",
-    "last_checked": "2026-05-11T17:09:53",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:24",
+    "status": "missing"
   },
   "DE": {
-    "earnings_date": "2026-05-21",
-    "last_checked": "2026-05-11T17:09:54",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:25",
+    "status": "missing"
   },
   "DIA": {
     "earnings_date": null,
@@ -90,139 +90,139 @@
     "status": "missing"
   },
   "DIS": {
-    "earnings_date": "2026-08-05",
-    "last_checked": "2026-05-11T17:09:55",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:26",
+    "status": "missing"
   },
   "GE": {
-    "earnings_date": "2026-07-16",
-    "last_checked": "2026-05-11T17:09:56",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:27",
+    "status": "missing"
   },
   "GOOGL": {
-    "earnings_date": "2026-07-23",
-    "last_checked": "2026-05-11T17:09:57",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:39",
+    "status": "missing"
   },
   "HD": {
-    "earnings_date": "2026-05-19",
-    "last_checked": "2026-05-11T17:09:57",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:29",
+    "status": "missing"
   },
   "HOOD": {
-    "earnings_date": "2026-07-29",
-    "last_checked": "2026-05-11T17:09:58",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:30",
+    "status": "missing"
   },
   "INTC": {
-    "earnings_date": "2026-07-23",
-    "last_checked": "2026-05-11T17:09:59",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:31",
+    "status": "missing"
   },
   "IWM": {
     "earnings_date": null,
-    "last_checked": "2026-05-11T21:21:58",
-    "status": "missing"
+    "last_checked": "2026-05-26T08:19:39",
+    "status": "etf"
   },
   "JPM": {
-    "earnings_date": "2026-07-14",
-    "last_checked": "2026-05-11T17:10:00",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:40",
+    "status": "missing"
   },
   "LCID": {
-    "earnings_date": "2026-08-04",
-    "last_checked": "2026-05-11T17:10:00",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:32",
+    "status": "missing"
   },
   "MA": {
-    "earnings_date": "2026-07-30",
-    "last_checked": "2026-05-11T17:10:01",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:33",
+    "status": "missing"
   },
   "META": {
     "earnings_date": "2026-07-29",
-    "last_checked": "2026-05-11T17:10:01",
+    "last_checked": "2026-05-26T08:19:40",
     "status": "ok"
   },
   "MSFT": {
-    "earnings_date": "2026-07-29",
-    "last_checked": "2026-05-11T17:10:02",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:41",
+    "status": "missing"
   },
   "MU": {
     "earnings_date": "2026-06-24",
-    "last_checked": "2026-05-11T17:10:03",
+    "last_checked": "2026-05-20T12:32:36",
     "status": "ok"
   },
   "NFLX": {
     "earnings_date": "2026-07-16",
-    "last_checked": "2026-05-11T17:10:03",
+    "last_checked": "2026-05-20T12:32:36",
     "status": "ok"
   },
   "NKE": {
     "earnings_date": "2026-06-25",
-    "last_checked": "2026-05-11T17:10:04",
+    "last_checked": "2026-05-20T12:32:37",
     "status": "ok"
   },
   "ORCL": {
     "earnings_date": "2026-06-10",
-    "last_checked": "2026-05-11T17:10:05",
+    "last_checked": "2026-05-20T12:32:40",
     "status": "ok"
   },
   "OXY": {
     "earnings_date": "2026-08-05",
-    "last_checked": "2026-05-11T17:10:06",
+    "last_checked": "2026-05-20T12:32:41",
     "status": "ok"
   },
   "PLTR": {
     "earnings_date": "2026-08-03",
-    "last_checked": "2026-05-11T17:10:06",
+    "last_checked": "2026-05-26T08:19:08",
     "status": "ok"
   },
   "PYPL": {
     "earnings_date": "2026-07-28",
-    "last_checked": "2026-05-11T17:10:07",
+    "last_checked": "2026-05-20T12:32:43",
     "status": "ok"
   },
   "QCOM": {
     "earnings_date": "2026-07-29",
-    "last_checked": "2026-05-11T17:10:07",
+    "last_checked": "2026-05-20T12:32:44",
     "status": "ok"
   },
   "RIVN": {
     "earnings_date": "2026-04-30",
-    "last_checked": "2026-05-11T17:10:08",
+    "last_checked": "2026-05-20T12:32:45",
     "status": "ok"
   },
   "SHOP": {
     "earnings_date": "2026-08-05",
-    "last_checked": "2026-05-11T17:10:09",
+    "last_checked": "2026-05-20T12:32:46",
     "status": "ok"
   },
   "SMH": {
     "earnings_date": null,
-    "last_checked": "2026-05-11T21:22:09",
-    "status": "missing"
+    "last_checked": "2026-05-26T08:19:41",
+    "status": "etf"
   },
   "SOFI": {
-    "earnings_date": "2026-07-28",
-    "last_checked": "2026-05-11T17:10:10",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:42",
+    "status": "missing"
   },
   "UBER": {
-    "earnings_date": "2026-08-05",
-    "last_checked": "2026-05-11T17:10:12",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:48",
+    "status": "missing"
   },
   "V": {
-    "earnings_date": "2026-07-28",
-    "last_checked": "2026-05-11T17:10:12",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:49",
+    "status": "missing"
   },
   "WMT": {
-    "earnings_date": "2026-05-21",
-    "last_checked": "2026-05-11T17:10:13",
-    "status": "ok"
+    "earnings_date": null,
+    "last_checked": "2026-05-20T12:32:50",
+    "status": "missing"
   },
   "XLE": {
     "earnings_date": null,
@@ -236,12 +236,17 @@
   },
   "XLK": {
     "earnings_date": null,
-    "last_checked": "2026-05-11T21:22:15",
-    "status": "missing"
+    "last_checked": "2026-05-26T08:19:42",
+    "status": "etf"
   },
   "XOM": {
     "earnings_date": "2026-07-31",
-    "last_checked": "2026-05-11T17:10:16",
+    "last_checked": "2026-05-26T08:19:42",
     "status": "ok"
+  },
+  "LLY": {
+    "earnings_date": null,
+    "last_checked": "2026-05-26T08:19:40",
+    "status": "missing"
   }
 }
